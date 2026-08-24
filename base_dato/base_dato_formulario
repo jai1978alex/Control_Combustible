@@ -1,0 +1,48 @@
+CREATE DATABASE IF NOT EXISTS base_dato_formulario CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE base_dato_formulario;
+
+CREATE TABLE IF NOT EXISTS usuarios (
+ id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50) NOT NULL UNIQUE, email VARCHAR(100) UNIQUE,
+ password VARCHAR(255) NOT NULL, rol ENUM('admin','operador') NOT NULL DEFAULT 'operador',
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ estado ENUM('activo','inactivo') NOT NULL DEFAULT 'activo',
+ debe_cambiar_password TINYINT(1) NOT NULL DEFAULT 0,
+ INDEX idx_estado_rol(estado,rol)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS operador_cargador (
+ id INT AUTO_INCREMENT PRIMARY KEY, nombres VARCHAR(100) NOT NULL, apellido_paterno VARCHAR(100) NOT NULL, apellido_materno VARCHAR(100) NOT NULL,
+ rut VARCHAR(12) NOT NULL, turno CHAR(1) NOT NULL, codigo VARCHAR(50) NOT NULL, ubicacion VARCHAR(100) NOT NULL, patente VARCHAR(10) NOT NULL,
+ horometro DECIMAL(10,2) NOT NULL, litros DECIMAL(10,2) NOT NULL, remanente DECIMAL(10,2) NOT NULL DEFAULT 0, observacion TEXT,
+ eliminado_at DATETIME NULL, eliminado_por INT NULL,
+ usuario_id INT NULL, fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP, INDEX idx_cargador_rut_fecha(rut,fecha_registro), INDEX idx_cargador_usuario(usuario_id), INDEX idx_cargador_eliminado(eliminado_at),
+ CONSTRAINT fk_cargador_usuario FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS operador (
+ id INT AUTO_INCREMENT PRIMARY KEY, nombres VARCHAR(100) NOT NULL, apellido_paterno VARCHAR(100) NOT NULL, apellido_materno VARCHAR(100) NOT NULL,
+ rut VARCHAR(12) NOT NULL, turno CHAR(1) NOT NULL, ubicacion VARCHAR(100) NOT NULL, codigo_maquinaria VARCHAR(50) NOT NULL, patente VARCHAR(10) NOT NULL,
+ equipo VARCHAR(100) NOT NULL, horometro DECIMAL(10,2) NULL, kilometro DECIMAL(10,2) NULL, litros DECIMAL(10,2) NOT NULL, consumo DECIMAL(10,2) NOT NULL DEFAULT 0,
+ observacion TEXT, eliminado_at DATETIME NULL, eliminado_por INT NULL, usuario_id INT NULL, fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP, INDEX idx_operador_rut_fecha(rut,fecha_registro), INDEX idx_operador_usuario(usuario_id), INDEX idx_operador_eliminado(eliminado_at),
+ CONSTRAINT fk_operador_usuario FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS recuperacion_password (
+ id INT AUTO_INCREMENT PRIMARY KEY, usuario_id INT NOT NULL, token_hash CHAR(64) NOT NULL UNIQUE, usado TINYINT(1) NOT NULL DEFAULT 0,
+ fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP, expira_en DATETIME NOT NULL, INDEX idx_reset_usuario(usuario_id),
+ CONSTRAINT fk_reset_usuario FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS auditoria (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY, usuario_id INT NULL, accion VARCHAR(80) NOT NULL, tabla_afectada VARCHAR(80) NULL, registro_id INT NULL,
+ detalle TEXT NULL, ip VARCHAR(45) NOT NULL, user_agent VARCHAR(500) NULL, fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ INDEX idx_auditoria_fecha(fecha_registro), INDEX idx_auditoria_usuario(usuario_id), INDEX idx_auditoria_accion(accion),
+ CONSTRAINT fk_auditoria_usuario FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- El usuario de la aplicación NO debe ser root. Ejecutar con una cuenta administrativa de MySQL y cambiar la contraseña por una larga y aleatoria.
+-- CREATE USER 'control_combustible_app'@'localhost' IDENTIFIED BY 'CAMBIAR_PASSWORD_DB_SEGURA';
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON base_dato_formulario.* TO 'control_combustible_app'@'localhost';
+-- FLUSH PRIVILEGES;
+
+-- Cree el primer administrador usando un hash generado con password_hash(), nunca una contraseña en texto plano.

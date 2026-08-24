@@ -1,0 +1,175 @@
+/* ========================================= */
+/* MODAL CONFIRMACION */
+/* ========================================= */
+
+.modal-confirmacion {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 99999;
+}
+
+
+
+/* ========================================= */
+/* CAJA MODAL */
+/* ========================================= */
+
+.modal-box {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    animation: modalAnim 0.25s ease;
+}
+
+
+
+/* ========================================= */
+/* TITULO */
+/* ========================================= */
+
+.modal-box h2 {
+    margin: 0 0 25px;
+    text-align: center;
+    color: #1e293b;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+
+/* ========================================= */
+/* ITEMS */
+/* ========================================= */
+
+.confirmacion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    background: #f8fafc;
+    /*padding: 12px 15px;*/
+    border-radius: 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.confirmacion-item strong {
+    color: #0f172a;
+    text-transform: capitalize;
+}
+
+.confirmacion-item span {
+    color: #334155;
+    text-align: right;
+    word-break: break-word;
+}
+
+
+
+/* ========================================= */
+/* BOTONES */
+/* ========================================= */
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-modal {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+
+
+/* CANCELAR */
+
+.btn-cancelar {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-cancelar:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+
+
+/* CONFIRMAR */
+
+.btn-confirmar {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-confirmar:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+}
+
+
+
+/* ========================================= */
+/* ANIMACION */
+/* ========================================= */
+
+@keyframes modalAnim {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+/* ========================================= */
+/* RESPONSIVE */
+/* ========================================= */
+
+@media (max-width: 600px) {
+    .modal-box {
+        padding: 20px;
+    }
+
+    .modal-box h2 {
+        font-size: 22px;
+    }
+
+    .confirmacion-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .confirmacion-item span {
+        text-align: left;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .btn-modal {
+        width: 100%;
+    }
+}

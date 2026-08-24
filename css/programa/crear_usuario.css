@@ -1,0 +1,188 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#f1f5f9;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+/* =========================
+   CONTENEDOR
+========================= */
+
+.container{
+    width:100%;
+    max-width:550px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   TITULO
+========================= */
+
+h1{
+    text-align:center;
+    margin-bottom:35px;
+    color:#0f172a;
+    font-size:32px;
+    font-weight:700;
+}
+
+/* =========================
+   FORMULARIO
+========================= */
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+/* =========================
+   GRUPOS
+========================= */
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+/* =========================
+   LABELS
+========================= */
+
+label{
+    margin-bottom:8px;
+    font-weight:600;
+    color:#334155;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    font-size:15px;
+    transition:0.3s;
+    background:#fff;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,0.15);
+}
+
+/* =========================
+   BOTON
+========================= */
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:15px;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s ease;
+}
+
+button:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+}
+
+/* =========================
+   VOLVER
+========================= */
+
+.back{
+    margin-top:25px;
+    text-align:center;
+}
+
+.back a{
+    text-decoration:none;
+    color:#2563eb;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.back a:hover{
+    color:#1d4ed8;
+}
+
+/* =========================
+   ALERTAS
+========================= */
+
+.success{
+    background:#dcfce7;
+    color:#166534;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:20px;
+    text-align:center;
+    font-weight:600;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:20px;
+    text-align:center;
+    font-weight:600;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:600px){
+
+    .card{
+        padding:25px;
+    }
+
+    h1{
+        font-size:26px;
+    }
+
+}
+.password-error{color:#dc2626;min-height:1.2em;display:block;}

@@ -1,0 +1,117 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7fb;
+    color: #1e293b;
+    padding: 30px;
+}
+a { text-decoration: none; }
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+h1 { font-size: 34px; color: #0f172a; margin-bottom: 8px; }
+.admin-header p { color: #64748b; }
+h2 {
+    margin: 28px 0 16px;
+    font-size: 25px;
+    color: #1e293b;
+    border-left: 6px solid #2563eb;
+    padding-left: 12px;
+}
+.acciones { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn {
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    display: inline-block;
+    border: 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+.btn-crear, .btn-buscar { background: #2563eb; color: white; }
+.btn-crear:hover, .btn-buscar:hover { background: #1d4ed8; }
+.btn-logout { background: #dc2626; color: white; }
+.btn-logout:hover { background: #b91c1c; }
+.btn-limpiar { background: #64748b; color: white; }
+.btn-print { background: #0f766e; color: white; padding: 8px 10px; border-radius: 8px; font-weight: 700; white-space: nowrap; }
+.btn-print:hover { background: #115e59; }
+.busqueda-card {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.07);
+    margin-bottom: 20px;
+}
+.busqueda-form { display: flex; align-items: end; gap: 10px; flex-wrap: wrap; }
+.busqueda-form label { width: 100%; font-weight: 700; color: #334155; }
+.busqueda-form input {
+    min-width: 280px;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 15px;
+}
+.ayuda-busqueda { margin-top: 10px; color: #64748b; font-size: 13px; }
+.resumen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 20px 0; }
+.resumen-card { color: white; padding: 20px; border-radius: 14px; box-shadow: 0 5px 18px rgba(0,0,0,.12); }
+.resumen-card span { display: block; font-weight: 600; opacity: .9; }
+.resumen-card strong { display: block; font-size: 28px; margin-top: 5px; }
+.resumen-card.azul { background: linear-gradient(135deg, #2563eb, #1e3a8a); }
+.resumen-card.verde { background: linear-gradient(135deg, #16a34a, #166534); }
+hr { border: 0; border-top: 1px solid #dbe3ee; margin: 28px 0; }
+.tabla-contenedor { width: 100%; overflow-x: auto; background: white; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,.07); }
+table { width: 100%; min-width: 900px; border-collapse: collapse; }
+table thead { background: #2563eb; color: white; }
+th { padding: 12px; text-align: left; font-size: 13px; white-space: nowrap; }
+td { padding: 11px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; vertical-align: top; }
+tr:hover td { background: #f8fafc; }
+.tabla-registros { min-width: 1850px; }
+.acciones-registro { text-align: center; }
+.btn-delete { color: #dc2626; font-weight: 600; }
+.tu-usuario { color: #64748b; }
+.sin-registros { text-align: center; color: #64748b; padding: 25px; }
+@media (max-width: 900px) {
+    body { padding: 18px; }
+    .admin-header { flex-direction: column; }
+    .resumen { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+    .mensaje-admin {
+        top: 78px;
+        left: 18px;
+        right: 18px;
+        max-width: none;
+    }
+}
+
+@media print {
+    body { padding: 0; background: white; }
+    .admin-header .acciones, .busqueda-card { display: none; }
+    .tabla-contenedor { box-shadow: none; }
+}
+
+.logout-inline{display:inline}
+
+
+.acciones-registro{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;white-space:nowrap;width:max-content;min-width:max-content;margin:0 auto}
+.tabla-registros td:last-child{white-space:nowrap;min-width:190px}
+.form-eliminar-registro{display:inline;margin:0}
+.btn-delete-registro{border:0;background:#dc2626;color:#fff;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap}
+.btn-delete-registro:hover{background:#b91c1c}
+.mensaje-admin{position:fixed;top:90px;right:20px;z-index:9999;padding:14px 18px;border-radius:10px;color:#fff;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,.18);max-width:420px;opacity:1;transform:translateY(0);transition:opacity .4s ease,transform .4s ease}.mensaje-admin-oculto{opacity:0;transform:translateY(-10px);pointer-events:none}
+.mensaje-admin.success{background:#16a34a}.mensaje-admin.error{background:#dc2626}
+.temp-password-flash{background:#0f766e;line-height:1.5}
+.temp-password-flash code{display:inline-block;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:6px;font-size:15px;letter-spacing:.5px;margin:4px 0}
+.temp-password-flash small{display:block;font-weight:400;opacity:.9;margin-top:4px}
+.btn-reset-password{background:#0369a1;color:#fff}
+.btn-reset-password:hover{background:#075985}
+.btn-exportar{margin-left:12px;font-size:13px;vertical-align:middle;padding:6px 12px}
+h2{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.paginador{display:flex;align-items:center;justify-content:center;gap:16px;margin:16px 0 6px;flex-wrap:wrap}
+.paginador-info{color:#64748b;font-size:14px;font-weight:600}
+
+.btn-edit{background:#2563eb!important;color:#fff!important;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;}

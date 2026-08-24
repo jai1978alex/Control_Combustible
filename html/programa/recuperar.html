@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar contraseña</title>
+
+    <!-- IMPORTANTE -->
+     <link rel="stylesheet" href="../../css/programa/recuperar.css">
+</head>
+
+    <body class="acceso-page">
+        <div class="acceso-container">
+            <div class="acceso-card">
+
+                <div class="acceso-header">
+                    <div class="logo-box">
+                        <span class="logo-texto">EMEX</span>
+                    </div>
+                    <h1 class="acceso-titulo">Recuperar contraseña</h1>
+                    <p class="acceso-subtitulo">Ingrese su correo electrónico</p>
+                </div>
+
+                <form id="recuperarForm" class="acceso-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input
+                            type="email"
+                            id="email"
+                            class="form-input"
+                            placeholder="Ingrese su correo"
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" class="btn-acceso">
+                        Recuperar contraseña
+                    </button>
+                </form>
+
+                <div class="acceso-footer">
+                    <a href="/control_combustible/index.php">← Volver al acceso</a>
+                </div>
+
+            </div>
+        </div>
+
+        <script src="../../js/programa/recuperar.js"></script>
+    </body>
+
+</html>
