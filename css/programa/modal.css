@@ -1,175 +1,177 @@
-/* ========================================= */
-/* MODAL CONFIRMACION */
-/* ========================================= */
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA 
+*/
 
-.modal-confirmacion {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    z-index: 99999;
-}
-
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez modal.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
 
 
-/* ========================================= */
-/* CAJA MODAL */
-/* ========================================= */
+/* TÍTULO: MODAL DE CONFIRMACIÓN */
 
-.modal-box {
-    width: 100%;
-    max-width: 500px;
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-    animation: modalAnim 0.25s ease;
-}
-
-
-
-/* ========================================= */
-/* TITULO */
-/* ========================================= */
-
-.modal-box h2 {
-    margin: 0 0 25px;
-    text-align: center;
-    color: #1e293b;
-    font-size: 28px;
-    font-weight: 700;
-}
-
-
-
-/* ========================================= */
-/* ITEMS */
-/* ========================================= */
-
-.confirmacion-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    background: #f8fafc;
-    /*padding: 12px 15px;*/
-    border-radius: 12px;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.confirmacion-item strong {
-    color: #0f172a;
-    text-transform: capitalize;
-}
-
-.confirmacion-item span {
-    color: #334155;
-    text-align: right;
-    word-break: break-word;
-}
-
-
-
-/* ========================================= */
-/* BOTONES */
-/* ========================================= */
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-top: 25px;
-}
-
-.btn-modal {
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: 0.25s ease;
-}
-
-
-
-/* CANCELAR */
-
-.btn-cancelar {
-    background: #ef4444;
-    color: white;
-}
-
-.btn-cancelar:hover {
-    background: #dc2626;
-    transform: translateY(-1px);
-}
-
-
-
-/* CONFIRMAR */
-
-.btn-confirmar {
-    background: #16a34a;
-    color: white;
-}
-
-.btn-confirmar:hover {
-    background: #15803d;
-    transform: translateY(-1px);
-}
-
-
-
-/* ========================================= */
-/* ANIMACION */
-/* ========================================= */
-
-@keyframes modalAnim {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
+    /* Mantiene la ventana en el mismo lugar aunque se mueva la página */
+    .modal-confirmacion {
+        position: fixed;                   
+        inset: 0;                          /* Hace que la ventana ocupe toda la pantalla */
+        background: rgba(0, 0, 0, 0.6);  /* Coloca un fondo oscuro y transparente detrás de la ventana */
+        display: none;                     /* Mantiene la ventana oculta hasta que se necesite mostrar */
+        justify-content: center;           /* Centra la ventana de izquierda a derecha */
+        align-items: center;               /* Centra la ventana de arriba hacia abajo */
+        padding: 20px;                     /* Deja espacio entre la ventana y los bordes de la pantalla */
+        z-index: 99999;                    /* Hace que la ventana aparezca por encima de los demás elementos */
     }
 
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+/* TÍTULO: CAJA DE LA VENTANA */
 
-
-
-/* ========================================= */
-/* RESPONSIVE */
-/* ========================================= */
-
-@media (max-width: 600px) {
+    /* Permite que la caja use todo el ancho disponible */
     .modal-box {
-        padding: 20px;
+        width: 100%;                       
+        max-width: 500px;                  /* Evita que la caja sea más ancha de 500 píxeles */
+        background: #ffffff;             /* Coloca el fondo de la caja en color blanco */
+        border-radius: 20px;               /* Hace que las esquinas de la caja sean redondeadas */
+        padding: 30px;                     /* Deja espacio entre el contenido y los bordes de la caja */
+        box-shadow: 0 20px 50px rgba(0,0,0,0.25); /* Agrega una sombra alrededor de la caja */
+        animation: modalAnim 0.25s ease;   /* Hace que la caja aparezca con una pequeña animación */
     }
+
+/*  TÍTULO: TÍTULO DE LA VENTANA */
 
     .modal-box h2 {
-        font-size: 22px;
+        margin: 0 0 25px;                  /* Quita el espacio de arriba y deja espacio debajo del título */
+        text-align: center;                /* Coloca el título en el centro */
+        color: #1e293b;                  /* Define el color del título */
+        font-size: 28px;                   /* Define el tamaño de las letras del título */
+        font-weight: 700;                  /* Hace que el título se vea más grueso */
     }
 
+/*  TÍTULO: DATOS QUE SE MUESTRAN */
+
     .confirmacion-item {
-        flex-direction: column;
-        align-items: flex-start;
+        display: flex;                     /* Coloca los datos en una misma línea */
+        justify-content: space-between;    /* Separa el nombre del dato y su contenido */
+        align-items: center;               /* Alinea los datos en el centro */
+        gap: 15px;                         /* Deja espacio entre los elementos */
+        background: #f8fafc;             /* Coloca un fondo gris muy claro */
+        padding: 12px 15px;                /* Esta línea está desactivada y no aplica espacio adicional */
+        border-radius: 12px;               /* Hace que las esquinas sean redondeadas */
+        margin-bottom: 10px;               /* Deja espacio debajo de cada dato */
+        font-size: 14px;                   /* Define el tamaño de las letras */
+    }
+
+    .confirmacion-item strong {
+        color: #0f172a;                   /* Define el color del nombre del dato */
+        text-transform: capitalize;         /* Hace que la primera letra de cada palabra aparezca en mayúscula */
     }
 
     .confirmacion-item span {
-        text-align: left;
+        color: #334155;                    /* Define el color del contenido del dato */
+        text-align: right;                   /* Coloca el contenido hacia la derecha */
+        word-break: break-word;              /* Permite separar palabras largas para evitar que se salgan de la caja */
     }
 
+/*  TÍTULO: BOTONES DE LA VENTANA */
+
     .modal-actions {
-        flex-direction: column;
+        display: flex;                       /* Coloca los botones en una misma fila */
+        justify-content: flex-end;           /* Coloca los botones hacia el lado derecho */
+        gap: 15px;                           /* Deja espacio entre los botones */
+        margin-top: 25px;                    /* Deja espacio entre los datos y los botones */
     }
 
     .btn-modal {
-        width: 100%;
+        border: none;                        /* Quita el borde de los botones */
+        padding: 12px 20px;                  /* Deja espacio dentro de los botones */
+        border-radius: 10px;                 /* Hace que las esquinas de los botones sean redondeadas */
+        cursor: pointer;                     /* Cambia el cursor para indicar que se puede presionar */
+        font-size: 14px;                     /* Define el tamaño de las letras de los botones */
+        font-weight: 600;                    /* Hace que el texto del botón se vea más marcado */
+        transition: 0.25s ease;              /* Hace que los cambios del botón sean más suaves */
     }
-}
+
+/*  TÍTULO: BOTÓN CANCELAR */
+
+    .btn-cancelar {
+        background: #ef4444;                /* Coloca el botón en color rojo */
+        color: white;                       /* Coloca las letras del botón en color blanco */
+    }
+
+    .btn-cancelar:hover {
+        background: #dc2626;                /* Cambia a un rojo más oscuro cuando se pasa el mouse */
+        transform: translateY(-1px); /* Mueve ligeramente el botón hacia arriba */
+    }
+
+/*  TÍTULO: BOTÓN CONFIRMAR */
+
+    .btn-confirmar {
+        background: #16a34a;                /* Coloca el botón en color verde */
+        color: white;                       /* Coloca las letras del botón en color blanco */
+    }
+
+    .btn-confirmar:hover {
+        background: #15803d;                /* Cambia a un verde más oscuro cuando se pasa el mouse */
+        transform: translateY(-1px);          /* Mueve ligeramente el botón hacia arriba */
+    }
+
+/*  TÍTULO: ANIMACIÓN DE LA VENTANA */
+
+    @keyframes modalAnim {
+        from {
+            opacity: 0;                       /* Comienza la ventana completamente transparente */
+            transform: scale(0.9);            /* Comienza la ventana un poco más pequeña */
+        }
+
+        to {
+            opacity: 1;                       /* Termina mostrando la ventana completamente */
+            transform: scale(1);              /* Termina mostrando la ventana en su tamaño normal */
+        }
+    }
+
+/*  TÍTULO: AJUSTE PARA PANTALLAS PEQUEÑAS */
+
+    @media (max-width: 600px) {
+        .modal-box {
+            padding: 20px;                    /* Reduce el espacio interior de la caja en pantallas pequeñas */
+        }
+
+        .modal-box h2 {
+            font-size: 22px;                  /* Reduce el tamaño del título en pantallas pequeñas */
+        }
+
+        .confirmacion-item {
+            flex-direction: column;           /* Coloca el nombre y el dato uno debajo del otro */
+            align-items: flex-start;          /* Alinea los datos hacia el lado izquierdo */
+        }
+
+        .confirmacion-item span {
+            text-align: left;                 /* Coloca el contenido hacia el lado izquierdo */
+        }
+
+        .modal-actions {
+            flex-direction: column;           /* Coloca los botones uno debajo del otro */
+        }
+
+        .btn-modal {
+            width: 100%;                      /* Hace que los botones ocupen todo el ancho disponible */
+        }
+    }
+
+
+    /* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez modal.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA
+*/  

@@ -1,47 +1,147 @@
-* { box-sizing: border-box; }
-body {
-    margin: 0;
-    padding: 30px;
-    background: #f1f5f9;
-    color: #0f172a;
-    font-family: Arial, Helvetica, sans-serif;
-}
-.hoja {
-    max-width: 900px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 35px;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(15, 23, 42, .12);
-}
-.cabecera {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    align-items: flex-start;
-    border-bottom: 2px solid #1e3a8a;
-    padding-bottom: 20px;
-    margin-bottom: 25px;
-}
-h1 { margin: 0 0 6px; font-size: 26px; }
-.cabecera p { margin: 0; color: #64748b; }
-.rut-principal { font-size: 18px; padding: 12px 16px; background: #eff6ff; border-radius: 10px; }
-section { margin-bottom: 30px; }
-h2 { font-size: 20px; color: #1e3a8a; border-left: 5px solid #2563eb; padding-left: 10px; }
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 10px 12px; border: 1px solid #cbd5e1; text-align: left; vertical-align: top; }
-th { width: 34%; background: #f8fafc; }
-.acciones-impresion { display: flex; justify-content: center; gap: 12px; margin-top: 25px; }
-.acciones-impresion button { border: 0; border-radius: 10px; padding: 12px 20px; cursor: pointer; background: #2563eb; color: white; font-weight: 700; }
-.acciones-impresion .secundario { background: #64748b; }
-@media (max-width: 650px) {
-    body { padding: 10px; }
-    .hoja { padding: 20px; }
-    .cabecera { flex-direction: column; }
-}
-@media print {
-    body { padding: 0; background: white; }
-    .hoja { max-width: none; padding: 0; box-shadow: none; border-radius: 0; }
-    .acciones-impresion { display: none; }
-    section { break-inside: avoid; }
-}
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez imprimir_registro.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+
+
+/* TÍTULO: CONFIGURACIÓN GENERAL */
+
+    * { box-sizing: border-box; }  /* Hace que los tamaños de los elementos se calculen de una forma más ordenada */
+
+/* TÍTULO: CUERPO DE LA PÁGINA */
+
+    body {
+        margin: 0;                 /* Quita el espacio que queda alrededor de la página */
+        padding: 30px;             /* Deja un espacio entre el contenido y los bordes */
+        background: #f1f5f9;     /* Coloca un fondo de color gris muy claro */
+        color: #0f172a;          /* Define el color principal de las letras */
+        font-family: Arial, Helvetica, sans-serif; /* Define el tipo de letra que se usará */
+    }
+
+/* TÍTULO: HOJA PRINCIPAL */
+
+    .hoja {
+        max-width: 900px;         /* Define que la hoja no sea más ancha de 900 píxeles */
+        margin: 0 auto;           /* Centra la hoja en la pantalla */
+        background: #fff;       /* Coloca el fondo de la hoja en color blanco */
+        padding: 35px;            /* Deja espacio entre el contenido y los bordes de la hoja */
+        border-radius: 16px;      /* Hace que las esquinas de la hoja sean redondeadas */
+        box-shadow: 0 8px 30px rgba(15, 23, 42, .12); /* Agrega una sombra alrededor de la hoja */
+    }
+
+/* TÍTULO: PARTE SUPERIOR DE LA HOJA */
+
+    .cabecera {
+        display: flex;            /* Coloca los elementos de la cabecera en una misma fila */
+        justify-content: space-between; /* Separa los elementos dejando espacio entre ellos */
+        gap: 20px;                /* Deja 20 píxeles de espacio entre los elementos */
+        align-items: flex-start;  /* Alinea los elementos comenzando desde la parte superior */
+        border-bottom: 2px solid #1e3a8a; /* Coloca una línea azul debajo de la cabecera */
+        padding-bottom: 20px;     /* Deja espacio entre la cabecera y la línea inferior */
+        margin-bottom: 25px;      /* Deja espacio después de la cabecera */
+    }
+
+
+/* TÍTULO: TÍTULO PRINCIPAL */
+
+    /* Quita espacios innecesarios y define el tamaño del título */
+    h1 { margin: 0 0 6px; font-size: 26px; }  
+
+
+/* TÍTULO: TEXTO DE LA CABECERA */
+
+    /* Quita el espacio del texto y lo muestra en color gris */
+    .cabecera p { margin: 0; color: #64748b; } 
+
+
+/* TÍTULO: RUT PRINCIPAL */
+ 
+    /* Ajusta el tamaño, espacio, fondo y forma del RUT */
+    .rut-principal { font-size: 18px; padding: 12px 16px; background: #eff6ff; border-radius: 10px; } 
+
+/*  TÍTULO: ESPACIO ENTRE LAS SECCIONES */
+
+    /* Deja espacio debajo de cada sección */  
+    section { margin-bottom: 30px; } 
+
+/*  TÍTULO: TÍTULOS DE LAS SECCIONES */
+
+    /* Define el tamaño y color del título y agrega una línea azul a la izquierda */
+    h2 { font-size: 20px; color: #1e3a8a; border-left: 5px solid #2563eb; padding-left: 10px; } 
+
+/*  TÍTULO: TABLA */
+
+    /* Hace que la tabla ocupe todo el ancho y junta sus bordes */ 
+    table { width: 100%; border-collapse: collapse; } 
+
+/*  TÍTULO: ESPACIO Y BORDES DE LA TABLA */
+
+    /* Agrega espacio, bordes y alinea el contenido de las celdas */
+    th, td { padding: 10px 12px; border: 1px solid #cbd5e1; text-align: left; vertical-align: top; } 
+
+
+/*  TÍTULO: ENCABEZADOS DE LA TABLA */
+
+    /* Define el ancho de los encabezados y les coloca un fondo gris muy claro */
+    th { width: 34%; background: #f8fafc; } 
+
+/*  TÍTULO: BOTONES DE IMPRESIÓN */
+
+    /* Coloca los botones juntos, centrados y con espacio entre ellos */ 
+    .acciones-impresion { display: flex; justify-content: center; gap: 12px; margin-top: 25px; } 
+
+/*  TÍTULO: BOTONES PRINCIPALES */
+
+    /* Da forma, tamaño, color y apariencia a los botones */
+    .acciones-impresion button { border: 0; border-radius: 10px; padding: 12px 20px; cursor: pointer; background: #2563eb; color: white; font-weight: 700; } 
+
+
+/*  TÍTULO: BOTÓN SECUNDARIO */
+
+    /* Cambia el botón secundario a color gris */
+    .acciones-impresion .secundario { background: #64748b; } 
+
+
+/*  TÍTULO: ADAPTACIÓN PARA PANTALLAS PEQUEÑAS */
+
+    @media (max-width: 650px) {
+        body { padding: 10px; }   /* Reduce el espacio de los bordes cuando la pantalla es pequeña */
+        .hoja { padding: 20px; }  /* Reduce el espacio interior de la hoja */
+        .cabecera { flex-direction: column; } /* Coloca los elementos de la cabecera uno debajo del otro */
+    }
+
+/*  TÍTULO: CONFIGURACIÓN PARA IMPRIMIR */
+
+    @media print {
+        body { padding: 0; background: white; } /* Quita el espacio y deja el fondo blanco al imprimir */
+        .hoja { max-width: none; padding: 0; box-shadow: none; border-radius: 0; } /* Quita límites, espacios, sombra y bordes redondeados al imprimir */
+        .acciones-impresion { display: none; } /* Oculta los botones cuando se va a imprimir */
+        section { break-inside: avoid; } /* Evita que una sección quede cortada entre dos páginas */
+    }
+
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez imprimir_registro.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA
+*/    

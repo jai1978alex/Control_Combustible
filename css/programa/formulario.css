@@ -19,38 +19,38 @@ JAJA
 
     /* Crea la caja principal donde estará el formulario */
     .form-card{
-        background:#ffffff;     /* Coloca el fondo en color blanco */
-        border-radius:22px;       /* Redondea las esquinas */
-        padding:35px;             /* Deja espacio entre el contenido y los bordes */
+        background:#ffffff;          /* Coloca el fondo en color blanco */
+        border-radius:22px;            /* Redondea las esquinas */
+        padding:35px;                  /* Deja espacio entre el contenido y los bordes */
         box-shadow:0 12px 35px rgba(0,0,0,.10);/* Agrega una sombra suave */
-        margin-bottom:35px;       /* Deja espacio debajo de la caja */
-        border:1px solid #dbeafe;/* Agrega un borde de color azul claro */
+        margin-bottom:35px;            /* Deja espacio debajo de la caja */
+        border:1px solid #dbeafe;    /* Agrega un borde de color azul claro */
     }
 
 /* TÍTULO: TÍTULOS DEL FORMULARIO */
 
     /* Da formato al título principal */
     .form-titulo{
-        font-size:30px;           /* Define el tamaño del título */
-        font-weight:800;          /* Hace que el título se vea más grueso */
-        margin-bottom:25px;       /* Deja espacio debajo del título */
-        text-align:center;        /* Centra el texto */
-        padding-bottom:15px;      /* Deja espacio debajo del texto */
-        border-bottom:3px solid;  /* Agrega una línea debajo del título */
+        font-size:30px;               /* Define el tamaño del título */
+        font-weight:800;              /* Hace que el título se vea más grueso */
+        margin-bottom:25px;           /* Deja espacio debajo del título */
+        text-align:center;            /* Centra el texto */
+        padding-bottom:15px;          /* Deja espacio debajo del texto */
+        border-bottom:3px solid;      /* Agrega una línea debajo del título */
     }
 
 
     /* Define el aspecto del título azul */
     .form-titulo-blue{
-        color:#1d4ed8;           /* Coloca el texto en azul */
-        border-color:#93c5fd;    /* Coloca la línea en azul claro */
+        color:#1d4ed8;               /* Coloca el texto en azul */
+        border-color:#93c5fd;        /* Coloca la línea en azul claro */
     }
 
 
     /* Define el aspecto del título verde */
     .form-titulo-green{
-        color:#15803d;           /* Coloca el texto en verde */
-        border-color:#86efac;    /* Coloca la línea en verde claro */
+        color:#15803d;               /* Coloca el texto en verde */
+        border-color:#86efac;        /* Coloca la línea en verde claro */
     }
 
 /* TÍTULO: TOTAL DE LITROS */
@@ -145,398 +145,230 @@ JAJA
 /* TÍTULO: CAJAS PARA ESCRIBIR */
 
     /* Da formato a las cajas donde se escriben datos */
-.form-input{
-    width:100%;
-    /* Hace que ocupe todo el ancho disponible */
-    height:52px;
-    /* Define el alto de la caja */
-
-    padding:0 16px;
-    /* Deja espacio a los lados del texto */
-
-    border:1px solid #cbd5e1;
-    /* Coloca un borde gris claro */
-    border-radius:14px;
-    /* Redondea las esquinas */
-
-    font-size:15px;
-    /* Define el tamaño del texto */
-
-    background:#fff;
-    /* Coloca el fondo en blanco */
-
-    transition:.25s;
-    /* Hace que el cambio sea suave */
-
-    box-sizing:border-box;
-    /* Hace que el tamaño incluya los espacios internos */
-}
-
+    .form-input{
+        width:100%;                     /* Hace que ocupe todo el ancho disponible */
+        height:52px;                    /* Define el alto de la caja */
+        padding:0 16px;                 /* Deja espacio a los lados del texto */
+        border:1px solid #cbd5e1;     /* Coloca un borde gris claro */
+        border-radius:14px;             /* Redondea las esquinas */
+        font-size:15px;                 /* Define el tamaño del texto */
+        background:#fff;              /* Coloca el fondo en blanco */
+        transition:.25s;                /* Hace que el cambio sea suave */
+        box-sizing:border-box;          /* Hace que el tamaño incluya los espacios internos */
+    }
 
     /* Cambia la caja cuando se selecciona */
-.form-input:focus{
-    outline:none;
-    /* Quita el borde que aparece al seleccionar */
-    border-color:#2563eb;
-    /* Cambia el borde a azul */
-    box-shadow:0 0 0 4px rgba(37,99,235,.12);
-    /* Agrega un pequeño brillo azul */
-}
+    .form-input:focus{
+        outline:none;                   /* Quita el borde que aparece al seleccionar */
+        border-color:#2563eb;         /* Cambia el borde a azul */
+        box-shadow:0 0 0 4px rgba(37,99,235,.12);/* Agrega un pequeño brillo azul */
+    }
 
-
-
-/* ================================================= */
 /* TÍTULO: CAJA PARA TEXTO LARGO */
-/* ================================================= */
-
 
     /* Da formato a la caja para escribir texto largo */
-.form-textarea{
-    width:100%;
-    /* Hace que ocupe todo el ancho disponible */
-
-    min-height:120px;
-    /* Define un alto mínimo para escribir */
-
-    padding:16px;
-    /* Deja espacio dentro de la caja */
-
-    border:1px solid #cbd5e1;
-    /* Coloca un borde gris claro */
-    border-radius:14px;
-    /* Redondea las esquinas */
-
-    resize:vertical;
-    /* Permite cambiar el alto hacia arriba o abajo */
-
-    font-size:15px;
-    /* Define el tamaño del texto */
-
-    box-sizing:border-box;
-    /* Hace que el tamaño incluya los espacios internos */
-
-    transition:.25s;
-    /* Hace que el cambio sea suave */
-}
-
+    .form-textarea{
+        width:100%;                    /* Hace que ocupe todo el ancho disponible */
+        min-height:120px;              /* Define un alto mínimo para escribir */
+        padding:16px;                  /* Deja espacio dentro de la caja */
+        border:1px solid #cbd5e1;    /* Coloca un borde gris claro */
+        border-radius:14px;            /* Redondea las esquinas */
+        resize:vertical;               /* Permite cambiar el alto hacia arriba o abajo */
+        font-size:15px;                /* Define el tamaño del texto */
+        box-sizing:border-box;         /* Hace que el tamaño incluya los espacios internos */
+        transition:.25s;               /* Hace que el cambio sea suave */
+    }
 
     /* Cambia la caja de texto largo cuando se selecciona */
-.form-textarea:focus{
-    outline:none;
-    /* Quita el borde que aparece al seleccionar */
-    border-color:#2563eb;
-    /* Cambia el borde a azul */
-    box-shadow:0 0 0 4px rgba(37,99,235,.12);
-    /* Agrega un pequeño brillo azul */
-}
+    .form-textarea:focus{
+        outline:none;                  /* Quita el borde que aparece al seleccionar */
+        border-color:#2563eb;        /* Cambia el borde a azul */
+        box-shadow:0 0 0 4px rgba(37,99,235,.12);/* Agrega un pequeño brillo azul */
+    }
 
-
-
-/* ================================================= */
 /* TÍTULO: CAJA CON BOTÓN */
-/* ================================================= */
-
 
     /* Coloca una caja y un botón juntos */
-.input-with-button{
-    display:flex;
-    /* Permite ordenar los elementos */
-    align-items:center;
-    /* Centra los elementos de arriba hacia abajo */
-    gap:12px;
-    /* Deja espacio entre los elementos */
-}
+    .input-with-button{
+        display:flex;                 /* Permite ordenar los elementos */
+        align-items:center;           /* Centra los elementos de arriba hacia abajo */
+        gap:12px;                     /* Deja espacio entre los elementos */
+    }
 
 
     /* Hace que la caja use el espacio disponible */
-.input-with-button .form-input{
-    flex:1;
-}
+    .input-with-button .form-input{
+        flex:1;
+    }
 
-
-
-/* ================================================= */
 /* TÍTULO: BOTÓN PARA UBICACIÓN */
-/* ================================================= */
-
 
     /* Da formato al botón para obtener la ubicación */
-.btn-location{
-    width:55px;
-    height:52px;
-    /* Define el alto de la caja */
-
-    border:none;
-    /* Quita el borde del botón */
-    border-radius:14px;
-    /* Redondea las esquinas */
-
-    cursor:pointer;
-    /* Cambia el puntero cuando se pasa sobre el botón */
-
-    display:flex;
-    /* Permite ordenar los elementos */
-    align-items:center;
-    /* Centra los elementos de arriba hacia abajo */
-    justify-content:center;
-    /* Centra los elementos de izquierda a derecha */
-
-    font-size:22px;
-    /* Define el tamaño del icono o texto */
-
-    color:#fff;
-    /* Coloca el texto en blanco */
-
-    transition:.25s;
-    /* Hace que el cambio sea suave */
-
-    flex-shrink:0;
-    /* Evita que el botón se haga más pequeño */
-}
-
+    .btn-location{
+        width:55px;                   /* Define el ancho de la caja */
+        height:52px;                  /* Define el alto de la caja */
+        border:none;                  /* Quita el borde del botón */
+        border-radius:14px;           /* Redondea las esquinas */
+        cursor:pointer;               /* Cambia el puntero cuando se pasa sobre el botón */
+        display:flex;                 /* Permite ordenar los elementos */
+        align-items:center;           /* Centra los elementos de arriba hacia abajo */
+        justify-content:center;       /* Centra los elementos de izquierda a derecha */
+        font-size:22px;               /* Define el tamaño del icono o texto */
+        color:#fff;                 /* Coloca el texto en blanco */
+        transition:.25s;              /* Hace que el cambio sea suave */
+        flex-shrink:0;                /* Evita que el botón se haga más pequeño */
+    }
 
     /* Cambia el botón cuando se pasa el mouse encima */
-.btn-location:hover{
-    transform:scale(1.05);
-    /* Hace el botón un poco más grande */
-}
+    .btn-location:hover{
+        transform:scale(1.05);        /* Hace el botón un poco más grande */
+    }
 
 
     /* Define el aspecto azul del botón */
-.btn-blue{
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    /* Coloca un fondo azul */
-}
+    .btn-blue{
+        background:linear-gradient(135deg,#2563eb,#1d4ed8); /* Coloca un fondo azul */
+    }
 
 
     /* Define el aspecto verde del botón */
-.btn-green{
-    background:linear-gradient(135deg,#16a34a,#15803d);
-    /* Coloca un fondo verde */
-}
+    .btn-green{
+        background:linear-gradient(135deg,#16a34a,#15803d); /* Coloca un fondo verde */
+    }
 
-
-
-/* ================================================= */
 /* TÍTULO: MENSAJES DE ERROR */
-/* ================================================= */
-
 
     /* Da formato al mensaje de error debajo de un campo */
-.error-texto{
-    min-height:18px;
-    /* Reserva un pequeño espacio para el mensaje */
-    margin-top:6px;
-    /* Deja un pequeño espacio arriba */
+    .error-texto{
+        min-height:18px;              /* Reserva un pequeño espacio para el mensaje */
+        margin-top:6px;               /* Deja un pequeño espacio arriba */
+        font-size:13px;               /* Define el tamaño del mensaje */
+        font-weight:600;              /* Hace que el texto se vea más grueso */
+        color:#dc2626;              /* Coloca el mensaje en rojo */
+    }
 
-    font-size:13px;
-    /* Define el tamaño del mensaje */
-    font-weight:600;
-    /* Hace que el texto se vea más grueso */
-
-    color:#dc2626;
-    /* Coloca el mensaje en rojo */
-}
-
-
-
-/* ================================================= */
 /* TÍTULO: BOTONES DEL FORMULARIO */
-/* ================================================= */
+
 
 
     /* Da espacio a la zona donde están los botones */
-.form-actions{
-    margin-top:28px;
-    /* Deja espacio encima de los botones */
-}
-
+    .form-actions{
+        margin-top:28px;             /* Deja espacio encima de los botones */
+    }
 
     /* Da formato al botón para guardar */
-.btn-submit{
-    width:100%;
-    /* Hace que ocupe todo el ancho disponible */
-    height:56px;
-    /* Define el alto del botón */
-
-    border:none;
-    /* Quita el borde del botón */
-    border-radius:16px;
-    /* Redondea las esquinas del botón */
-
-    color:#fff;
-    /* Coloca el texto en blanco */
-
-    font-size:17px;
-    /* Define el tamaño del texto del botón */
-    font-weight:700;
-    /* Hace que el texto se vea más grueso */
-
-    cursor:pointer;
-    /* Cambia el puntero cuando se pasa sobre el botón */
-
-    transition:.25s;
-    /* Hace que el cambio sea suave */
-
-    box-shadow:0 8px 20px rgba(0,0,0,.12);
-    /* Agrega una sombra al botón */
-}
-
+    .btn-submit{
+        width:100%;                  /* Hace que ocupe todo el ancho disponible */
+        height:56px;                 /* Define el alto del botón */
+        border:none;                 /* Quita el borde del botón */
+        border-radius:16px;          /* Redondea las esquinas del botón */
+        color:#fff;                /* Coloca el texto en blanco */
+        font-size:17px;              /* Define el tamaño del texto del botón */
+        font-weight:700;             /* Hace que el texto se vea más grueso */
+        cursor:pointer;              /* Cambia el puntero cuando se pasa sobre el botón */
+        transition:.25s;             /* Hace que el cambio sea suave */
+        box-shadow:0 8px 20px rgba(0,0,0,.12);/* Agrega una sombra al botón */
+    }
 
     /* Cambia el botón cuando se pasa el mouse encima */
-.btn-submit:hover{
-    transform:translateY(-2px);
-    /* Mueve el botón un poco hacia arriba */
-}
-
+    .btn-submit:hover{
+        transform:translateY(-2px);  /* Mueve el botón un poco hacia arriba */
+    }
 
     /* Define el aspecto azul del botón para guardar */
-.btn-submit-blue{
-    background:linear-gradient(135deg,#2563eb,#1e40af);
-    /* Coloca un fondo azul */
-}
+    .btn-submit-blue{
+        background:linear-gradient(135deg,#2563eb,#1e40af); /* Coloca un fondo azul */
+    }
 
 
     /* Define el aspecto verde del botón para guardar */
-.btn-submit-green{
-    background:linear-gradient(135deg,#16a34a,#166534);
-    /* Coloca un fondo verde */
-}
+    .btn-submit-green{
+        background:linear-gradient(135deg,#16a34a,#166534); /* Coloca un fondo verde */
+    }
 
-
-
-/* ================================================= */
 /* TÍTULO: MENSAJE DEL SISTEMA */
-/* ================================================= */
-
 
     /* Crea el mensaje que aparece en la pantalla */
-.mensaje-sistema{
-    position:fixed;
-    /* Mantiene el mensaje en una posición fija */
-    top:20px;
-    /* Deja espacio desde la parte superior */
-    right:20px;
-    /* Deja espacio desde el lado derecho */
-
-    z-index:99999;
-    /* Hace que el mensaje quede por encima de otros elementos */
-
-    padding:16px 20px;
-    /* Deja espacio dentro del mensaje */
-
-    border-radius:14px;
-    /* Redondea las esquinas */
-
-    color:#fff;
-    /* Coloca el texto en blanco */
-
-    font-size:15px;
-    /* Define el tamaño del texto */
-    font-weight:700;
-    /* Hace que el texto se vea más grueso */
-
-    box-shadow:0 8px 25px rgba(0,0,0,.20);
-    /* Agrega una sombra al mensaje */
-
-    animation:fadeIn .25s ease;
-    /* Hace que el mensaje aparezca suavemente */
-}
+    .mensaje-sistema{
+        position:fixed;              /* Mantiene el mensaje en una posición fija */
+        top:20px;                    /* Deja espacio desde la parte superior */
+        right:20px;                  /* Deja espacio desde el lado derecho */
+        z-index:99999;               /* Hace que el mensaje quede por encima de otros elementos */
+        padding:16px 20px;           /* Deja espacio dentro del mensaje */
+        border-radius:14px;          /* Redondea las esquinas */
+        color:#fff;                /* Coloca el texto en blanco */
+        font-size:15px;              /* Define el tamaño del texto */
+        font-weight:700;             /* Hace que el texto se vea más grueso */
+        box-shadow:0 8px 25px rgba(0,0,0,.20);/* Agrega una sombra al mensaje */
+        animation:fadeIn .25s ease;  /* Hace que el mensaje aparezca suavemente */
+    }
 
 
     /* Da color rojo al mensaje de error */
-.mensaje-sistema.error{
-    background:#dc2626;
-    /* Coloca el mensaje de error en rojo */
-}
+    .mensaje-sistema.error{
+        background:#dc2626;         /* Coloca el mensaje de error en rojo */
+    }
 
 
     /* Da color verde al mensaje correcto */
-.mensaje-sistema.success{
-    background:#16a34a;
-    /* Coloca el mensaje correcto en verde */
-}
-
+    .mensaje-sistema.success{
+        background:#16a34a;         /* Coloca el mensaje correcto en verde */
+    }
 
     /* Controla cómo aparece suavemente el mensaje */
-@keyframes fadeIn{
+    @keyframes fadeIn{
+            from{
+                opacity:0;           /* Hace que al comienzo el mensaje no se vea */
+                transform:translateY(-10px); /* Coloca el mensaje un poco más arriba al comenzar */
+            }
 
-    from{
-        opacity:0;
-    /* Hace que al comienzo el mensaje no se vea */
-        transform:translateY(-10px);
-    /* Coloca el mensaje un poco más arriba al comenzar */
+            to{
+                opacity:1;           /* Hace que el mensaje se vea */
+                transform:translateY(0);/* Devuelve el mensaje a su lugar */
+            }
+
     }
 
-    to{
-        opacity:1;
-    /* Hace que el mensaje se vea */
-        transform:translateY(0);
-    /* Devuelve el mensaje a su lugar */
-    }
-
-}
-
-
-
-/* ================================================= */
 /* TÍTULO: AJUSTE PARA PANTALLAS PEQUEÑAS */
-/* ================================================= */
-
-@media(max-width:768px){
 
 
-    /* Crea la caja principal donde estará el formulario */
-    .form-card{
-        padding:22px;
-    /* Reduce el espacio de la caja en pantallas pequeñas */
+    @media(max-width:768px){
+
+        /* Crea la caja principal donde estará el formulario */
+        .form-card{
+            padding:22px;            /* Reduce el espacio de la caja en pantallas pequeñas */
+        }
+
+        /* Da formato al título principal */
+        .form-titulo{
+            font-size:24px;          /* Reduce el tamaño del título en pantallas pequeñas */
+        }
+
+        /* Crea la caja donde se muestra el total de litros */
+        .total-box{
+            flex-direction:column;   /* Coloca el contenido uno debajo del otro */
+            font-size:20px;          /* Reduce el tamaño del texto */
+        }
+
+        /* Da formato al número del total */
+        .total-box span{
+            font-size:34px;          /* Reduce el tamaño del número */
+        }
+
     }
-
-
-    /* Da formato al título principal */
-    .form-titulo{
-        font-size:24px;
-    /* Reduce el tamaño del título en pantallas pequeñas */
-    }
-
-
-    /* Crea la caja donde se muestra el total de litros */
-    .total-box{
-        flex-direction:column;
-    /* Coloca el contenido uno debajo del otro */
-        font-size:20px;
-    /* Reduce el tamaño del texto */
-    }
-
-
-    /* Da formato al número del total */
-    .total-box span{
-        font-size:34px;
-    /* Reduce el tamaño del número */
-    }
-
-}
 
 
     /* Da formato al mensaje que aparece cuando no se puede guardar */
-.error-guardar {
-    max-width: 720px;
-    /* Evita que el mensaje sea demasiado ancho */
-    margin: 2rem auto;
-    /* Centra el mensaje y deja espacio alrededor */
-    padding: 20px;
-    /* Deja espacio dentro del mensaje */
-    background: #dc2626;
-    /* Coloca el fondo del mensaje en rojo */
-    color: #fff;
-    /* Coloca el texto en blanco */
-    font-family: Arial, sans-serif;
-    /* Usa una letra sencilla */
-    text-align: center;
-    /* Centra el texto */
-    border-radius: 10px;
-    /* Redondea las esquinas */
-}
+    .error-guardar {
+        max-width: 720px;            /* Evita que el mensaje sea demasiado ancho */
+        margin: 2rem auto;           /* Centra el mensaje y deja espacio alrededor */
+        padding: 20px;               /* Deja espacio dentro del mensaje */
+        background: #dc2626;       /* Coloca el fondo del mensaje en rojo */
+        color: #fff;               /* Coloca el texto en blanco */
+        font-family: Arial, sans-serif;/* Usa una letra sencilla */
+        text-align: center;          /* Centra el texto */
+        border-radius: 10px;         /* Redondea las esquinas */
+    }
 
 
 /* -------------------------------------------------------------------------------------------------------------
