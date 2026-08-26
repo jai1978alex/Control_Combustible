@@ -1,188 +1,230 @@
-/* =========================
-   RESET
-========================= */
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA 
+*/
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez crear_usuario.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
 
-/* =========================
-   BODY
-========================= */
 
-body{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background:#f1f5f9;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:30px;
-}
 
-/* =========================
-   CONTENEDOR
-========================= */
 
-.container{
-    width:100%;
-    max-width:550px;
-}
+/* TÍTULO: LIMPIAR LOS ESPACIOS DE TODA LA PÁGINA            */
 
-/* =========================
-   CARD
-========================= */
+    /* Quita los espacios que vienen puestos automáticamente */
+    *{
+        margin:0; /* Quita el espacio que queda por fuera de los elementos */
+        padding:0; /* Quita el espacio que queda por dentro de los elementos */
+        box-sizing:border-box; /* Hace que el tamaño incluya el contenido y sus espacios */
+    }
 
-.card{
-    background:white;
-    padding:40px;
-    border-radius:20px;
-    box-shadow:0 8px 30px rgba(0,0,0,0.08);
-}
+/* TÍTULO: APARIENCIA GENERAL DE LA PÁGINA */
 
-/* =========================
-   TITULO
-========================= */
+    /* Da formato a toda la página */
+    body{
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define el tipo de letra que se utilizará */
+        background:#f1f5f9; /* Coloca un fondo de color gris muy claro */
+        min-height:100vh; /* Hace que la página ocupe como mínimo todo el alto de la pantalla */
+        display:flex; /* Permite ordenar fácilmente el contenido */
+        justify-content:center; /* Coloca el contenido en el centro de izquierda a derecha */
+        align-items:center; /* Coloca el contenido en el centro de arriba hacia abajo */
+        padding:30px; /* Deja espacio entre el contenido y los bordes de la pantalla */
+    }
 
-h1{
-    text-align:center;
-    margin-bottom:35px;
-    color:#0f172a;
-    font-size:32px;
-    font-weight:700;
-}
+/* TÍTULO: ESPACIO PRINCIPAL */
 
-/* =========================
-   FORMULARIO
-========================= */
+    /* Controla el espacio donde estará el contenido */
+    .container{
+        width:100%; /* Hace que ocupe todo el ancho disponible */
+        max-width:550px; /* Evita que el contenido sea demasiado ancho */
+    }
 
-form{
-    display:flex;
-    flex-direction:column;
-    gap:22px;
-}
+/* TÍTULO: CAJA PRINCIPAL */
 
-/* =========================
-   GRUPOS
-========================= */
-
-.form-group{
-    display:flex;
-    flex-direction:column;
-}
-
-/* =========================
-   LABELS
-========================= */
-
-label{
-    margin-bottom:8px;
-    font-weight:600;
-    color:#334155;
-}
-
-/* =========================
-   INPUTS
-========================= */
-
-input,
-select{
-    width:100%;
-    padding:14px;
-    border:1px solid #cbd5e1;
-    border-radius:12px;
-    font-size:15px;
-    transition:0.3s;
-    background:#fff;
-}
-
-input:focus,
-select:focus{
-    outline:none;
-    border-color:#2563eb;
-    box-shadow:0 0 0 4px rgba(37,99,235,0.15);
-}
-
-/* =========================
-   BOTON
-========================= */
-
-button{
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:15px;
-    border-radius:12px;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s ease;
-}
-
-button:hover{
-    background:#1d4ed8;
-    transform:translateY(-2px);
-}
-
-/* =========================
-   VOLVER
-========================= */
-
-.back{
-    margin-top:25px;
-    text-align:center;
-}
-
-.back a{
-    text-decoration:none;
-    color:#2563eb;
-    font-weight:600;
-    transition:0.3s;
-}
-
-.back a:hover{
-    color:#1d4ed8;
-}
-
-/* =========================
-   ALERTAS
-========================= */
-
-.success{
-    background:#dcfce7;
-    color:#166534;
-    padding:14px;
-    border-radius:10px;
-    margin-bottom:20px;
-    text-align:center;
-    font-weight:600;
-}
-
-.error{
-    background:#fee2e2;
-    color:#991b1b;
-    padding:14px;
-    border-radius:10px;
-    margin-bottom:20px;
-    text-align:center;
-    font-weight:600;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:600px){
-
+    /* Da apariencia a la caja donde estará el formulario */
     .card{
-        padding:25px;
+        background:white; /* Coloca el fondo de la caja en color blanco */
+        padding:40px; /* Deja espacio entre el contenido y los bordes de la caja */
+        border-radius:20px; /* Redondea las esquinas de la caja */
+        box-shadow:0 8px 30px rgba(0,0,0,0.08); /* Agrega una sombra suave alrededor de la caja */
     }
 
+/* TÍTULO: TÍTULO PRINCIPAL */
+
+    /* Da formato al título principal de la página */
     h1{
-        font-size:26px;
+        text-align:center; /* Coloca el título en el centro */
+        margin-bottom:35px; /* Deja espacio debajo del título */
+        color:#0f172a; /* Coloca el título en un color oscuro */
+        font-size:32px; /* Define el tamaño del título */
+        font-weight:700; /* Hace que el título se vea más grueso */
     }
 
-}
-.password-error{color:#dc2626;min-height:1.2em;display:block;}
+/* TÍTULO: FORMULARIO */
+
+    /* Organiza todos los elementos que están dentro del formulario */
+    form{
+        display:flex; /* Permite organizar los elementos del formulario */
+        flex-direction:column; /* Coloca los elementos uno debajo del otro */
+        gap:22px; /* Deja espacio entre cada elemento del formulario */
+    }
+
+/* TÍTULO: GRUPOS DE CAMPOS */
+
+    /* Organiza cada grupo de información del formulario */
+    .form-group{
+        display:flex; /* Permite ordenar los elementos del grupo */
+        flex-direction:column; /* Coloca los elementos uno debajo del otro */
+    }
+
+/* TÍTULO: NOMBRES DE LOS CAMPOS                             */
+
+
+    /* Da formato a los nombres que aparecen sobre las cajas */
+    label{
+        margin-bottom:8px; /* Deja espacio entre el nombre y la caja */
+        font-weight:600; /* Hace que el nombre se vea un poco más grueso */
+        color:#334155; /* Coloca el nombre en un color oscuro */
+    }
+
+/* TÍTULO: CAJAS PARA ESCRIBIR Y SELECCIONAR */
+
+    /* Da formato a las cajas donde se ingresan o seleccionan datos */
+    input,
+    select{
+        width:100%; /* Hace que la caja ocupe todo el ancho disponible */
+        padding:14px; /* Deja espacio dentro de la caja para que el texto no quede pegado */
+        border:1px solid #cbd5e1; /* Coloca un borde delgado de color gris claro */
+        border-radius:12px; /* Redondea las esquinas de las cajas */
+        font-size:15px; /* Define el tamaño del texto dentro de las cajas */
+        transition:0.3s; /* Hace que los cambios de apariencia sean suaves */
+        background:#fff; /* Coloca el fondo de las cajas en color blanco */
+    }
+
+/* TÍTULO: CAMBIO DE LAS CAJAS AL SELECCIONARLAS */
+
+    /* Cambia la apariencia cuando se hace clic en una caja */
+    input:focus,
+    select:focus{
+        outline:none; /* Quita el borde que aparece automáticamente al seleccionar */
+        border-color:#2563eb; /* Cambia el borde a color azul */
+        box-shadow:0 0 0 4px rgba(37,99,235,0.15); /* Agrega un pequeño brillo azul alrededor de la caja */
+    }
+
+/* TÍTULO: BOTÓN */
+
+    /* Da formato al botón */
+    button{
+        background:#2563eb; /* Coloca el botón de color azul */
+        color:white; /* Coloca el texto del botón en color blanco */
+        border:none; /* Quita el borde del botón */
+        padding:15px; /* Deja espacio dentro del botón */
+        border-radius:12px; /* Redondea las esquinas del botón */
+        font-size:16px; /* Define el tamaño del texto del botón */
+        font-weight:600; /* Hace que el texto del botón se vea más grueso */
+        cursor:pointer; /* Cambia el puntero del mouse cuando pasa sobre el botón */
+        transition:0.3s ease; /* Hace que los cambios del botón sean suaves */
+    }
+
+/* TÍTULO: BOTÓN AL PASAR EL MOUSE                           */
+
+    /* Cambia el botón cuando el mouse pasa por encima */
+    button:hover{
+        background:#1d4ed8; /* Cambia el botón a un azul más oscuro */
+        transform:translateY(-2px); /* Mueve el botón un poco hacia arriba */
+    }
+
+/* TÍTULO: OPCIÓN PARA VOLVER                                */
+
+    /* Da espacio y centra la opción para volver */
+    .back{
+        margin-top:25px; /* Deja espacio encima de esta sección */
+        text-align:center; /* Coloca el contenido en el centro */
+    }
+
+/* TÍTULO: ENLACE PARA VOLVER */
+
+    /* Da formato al enlace para volver */
+    .back a{
+        text-decoration:none; /* Quita la línea que normalmente aparece debajo del enlace */
+        color:#2563eb; /* Coloca el enlace en color azul */
+        font-weight:600; /* Hace que el texto se vea más grueso */
+        transition:0.3s; /* Hace que los cambios sean suaves */
+    }
+
+/* TÍTULO: ENLACE AL PASAR EL MOUSE                          */
+
+    /* Cambia el enlace cuando el mouse pasa por encima */
+    .back a:hover{
+        color:#1d4ed8; /* Cambia el enlace a un azul más oscuro */
+    }
+
+/* TÍTULO: MENSAJES DE AVISO */
+
+
+    /* Da formato al mensaje cuando todo salió correctamente */
+    .success{
+        background:#dcfce7; /* Coloca un fondo verde claro */
+        color:#166534; /* Coloca el texto en verde oscuro */
+        padding:14px; /* Deja espacio dentro del mensaje */
+        border-radius:10px; /* Redondea las esquinas del mensaje */
+        margin-bottom:20px; /* Deja espacio debajo del mensaje */
+        text-align:center; /* Centra el texto del mensaje */
+        font-weight:600; /* Hace que el texto se vea más grueso */
+    }
+
+/* TÍTULO: MENSAJE DE ERROR */
+
+    /* Da formato al mensaje cuando ocurre un problema */
+    .error{
+        background:#fee2e2; /* Coloca un fondo rojo claro */
+        color:#991b1b; /* Coloca el texto en rojo oscuro */
+        padding:14px; /* Deja espacio dentro del mensaje */
+        border-radius:10px; /* Redondea las esquinas del mensaje */
+        margin-bottom:20px; /* Deja espacio debajo del mensaje */
+        text-align:center; /* Centra el texto del mensaje */
+        font-weight:600; /* Hace que el texto se vea más grueso */
+    }
+
+/* TÍTULO: ADAPTACIÓN PARA CELULARES                         */
+
+    /* Estas reglas se aplican cuando la pantalla es pequeña */
+    @media(max-width:600px){
+
+        /* Cambia el espacio interno de la caja en pantallas pequeñas */
+        .card{
+            padding:25px; /* Reduce el espacio dentro de la caja */
+        }
+
+        /* Reduce el tamaño del título en pantallas pequeñas */
+        h1{
+            font-size:26px; /* Hace el título un poco más pequeño */
+        }
+
+    }
+
+/* TÍTULO: MENSAJE DE ERROR DE LA CONTRASEÑA */
+
+    /* Da formato al mensaje que aparece cuando la contraseña tiene un problema */
+    .password-error{color:#dc2626;min-height:1.2em;display:block;} /* Coloca el mensaje en rojo, reserva un pequeño espacio y permite que se muestre correctamente */
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez crear_usuario.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA 
+*/    

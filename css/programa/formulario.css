@@ -1,210 +1,254 @@
-/* ================================================= */
-/* FORM CARD */
-/* ================================================= */
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA 
+*/
 
-.form-card{
-    background:#ffffff;
-    border-radius:22px;
-    padding:35px;
-    box-shadow:0 12px 35px rgba(0,0,0,.10);
-    margin-bottom:35px;
-    border:1px solid #dbeafe;
-}
-
-
-
-/* ================================================= */
-/* TITULOS */
-/* ================================================= */
-
-.form-titulo{
-    font-size:30px;
-    font-weight:800;
-    margin-bottom:25px;
-    text-align:center;
-    padding-bottom:15px;
-    border-bottom:3px solid;
-}
-
-.form-titulo-blue{
-    color:#1d4ed8;
-    border-color:#93c5fd;
-}
-
-.form-titulo-green{
-    color:#15803d;
-    border-color:#86efac;
-}
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez formulario.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
 
 
 
-/* ================================================= */
-/* TOTAL LITROS */
-/* ================================================= */
 
-.total-box{
-    width:100%;
-    padding:22px;
-    border-radius:18px;
-    margin-bottom:30px;
+/* TÍTULO: CAJA PRINCIPAL DEL FORMULARIO */
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:12px;
+    /* Crea la caja principal donde estará el formulario */
+    .form-card{
+        background:#ffffff;     /* Coloca el fondo en color blanco */
+        border-radius:22px;       /* Redondea las esquinas */
+        padding:35px;             /* Deja espacio entre el contenido y los bordes */
+        box-shadow:0 12px 35px rgba(0,0,0,.10);/* Agrega una sombra suave */
+        margin-bottom:35px;       /* Deja espacio debajo de la caja */
+        border:1px solid #dbeafe;/* Agrega un borde de color azul claro */
+    }
 
-    color:#fff;
-    font-size:24px;
-    font-weight:700;
+/* TÍTULO: TÍTULOS DEL FORMULARIO */
 
-    box-shadow:0 8px 25px rgba(0,0,0,.15);
-
-    box-sizing:border-box;
-}
-
-.total-box span{
-    font-size:38px;
-    font-weight:900;
-    color:#fff;
-}
-
-.total-blue{
-    background:linear-gradient(135deg,#2563eb,#1e3a8a);
-}
-
-.total-green{
-    background:linear-gradient(135deg,#16a34a,#166534);
-}
+    /* Da formato al título principal */
+    .form-titulo{
+        font-size:30px;           /* Define el tamaño del título */
+        font-weight:800;          /* Hace que el título se vea más grueso */
+        margin-bottom:25px;       /* Deja espacio debajo del título */
+        text-align:center;        /* Centra el texto */
+        padding-bottom:15px;      /* Deja espacio debajo del texto */
+        border-bottom:3px solid;  /* Agrega una línea debajo del título */
+    }
 
 
+    /* Define el aspecto del título azul */
+    .form-titulo-blue{
+        color:#1d4ed8;           /* Coloca el texto en azul */
+        border-color:#93c5fd;    /* Coloca la línea en azul claro */
+    }
 
-/* ================================================= */
-/* GRID */
-/* ================================================= */
 
-.form-grid{
-    display:grid;
-    gap:22px;
-    margin-bottom:22px;
-}
+    /* Define el aspecto del título verde */
+    .form-titulo-green{
+        color:#15803d;           /* Coloca el texto en verde */
+        border-color:#86efac;    /* Coloca la línea en verde claro */
+    }
 
-.grid-2{
-    grid-template-columns:1fr;
-}
+/* TÍTULO: TOTAL DE LITROS */
 
-.grid-3{
-    grid-template-columns:1fr;
-}
+    /* Crea la caja donde se muestra el total de litros */
+    .total-box{
+        width:100%;                   /* Hace que ocupe todo el ancho disponible */
+        padding:22px;                 /* Reduce el espacio de la caja en pantallas pequeñas */
+        border-radius:18px;           /* Redondea las esquinas */
+        margin-bottom:30px;           /* Deja espacio debajo */
+        display:flex;                 /* Permite ordenar los elementos */
+        justify-content:center;       /* Centra los elementos de izquierda a derecha */
+        align-items:center;           /* Centra los elementos de arriba hacia abajo */
+        gap:12px;                     /* Deja espacio entre los elementos */
+        color:#fff;                 /* Coloca el texto en blanco */
+        font-size:24px;               /* Reduce el tamaño del título en pantallas pequeñas */
+        font-weight:700;              /* Hace que el texto se vea más grueso */
+        box-shadow:0 8px 25px rgba(0,0,0,.15);/* Agrega una sombra */
+        box-sizing:border-box;        /* Hace que el tamaño incluya los espacios internos */
+    }
 
-@media(min-width:768px){
+    /* Da formato al número del total */
+    .total-box span{
+        font-size:38px;               /* Hace más grande el número de litros */
+        font-weight:900;              /* Hace que el número se vea muy grueso */
+        color:#fff;                 /* Coloca el texto en blanco */
+    }
 
+    /* Define el aspecto azul del total */
+    .total-blue{
+        background:linear-gradient(135deg,#2563eb,#1e3a8a);/* Coloca un fondo azul con dos tonos */
+    }
+
+    /* Define el aspecto verde del total */
+    .total-green{
+        background:linear-gradient(135deg,#16a34a,#166534);/* Coloca un fondo verde */
+    }
+
+/* TÍTULO: ORGANIZACIÓN DE LOS CAMPOS */
+
+    /* Ordena los campos del formulario */
+    .form-grid{
+        display:grid;                /* Ordena los campos en espacios */
+        gap:22px;                    /* Deja espacio entre los campos */
+        margin-bottom:22px;          /* Deja espacio debajo */
+    }
+
+    /* Prepara el espacio para dos campos por fila */
     .grid-2{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:1fr;   /* Coloca los campos en una sola columna */
     }
 
+
+    /* Prepara el espacio para tres campos por fila */
     .grid-3{
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:1fr;   /* Coloca los campos en una sola columna */
+    }
+
+    @media(min-width:768px){
+
+    /* Prepara el espacio para dos campos por fila */
+    .grid-2{
+        grid-template-columns:repeat(2,1fr);/* Coloca dos campos por fila */
+    }
+
+    /* Prepara el espacio para tres campos por fila */
+    .grid-3{
+        grid-template-columns:repeat(3,1fr);/* Coloca tres campos por fila */
     }
 
 }
 
+/* TÍTULO: GRUPOS DE CAMPOS */
+
+    /* Agrupa los elementos de cada campo */
+    .form-group{
+        display:flex;                /* Permite ordenar los elementos */
+        flex-direction:column;       /* Coloca el contenido uno debajo del otro */
+    }
 
 
-/* ================================================= */
-/* FORM GROUP */
-/* ================================================= */
+/* TÍTULO: NOMBRES DE LOS CAMPOS */
 
-.form-group{
-    display:flex;
-    flex-direction:column;
-}
+    /* Da formato al nombre de cada campo */
+    .form-label{
+        margin-bottom:8px;           /* Deja espacio debajo del nombre */
+        font-size:15px;              /* Define el tamaño del texto */
+        font-weight:700;             /* Hace que el texto se vea más grueso */
+        color:#1f2937;             /* Coloca el texto en un color oscuro */
+    }
 
+/* TÍTULO: CAJAS PARA ESCRIBIR */
 
-
-/* ================================================= */
-/* LABELS */
-/* ================================================= */
-
-.form-label{
-    margin-bottom:8px;
-    font-size:15px;
-    font-weight:700;
-    color:#1f2937;
-}
-
-
-
-/* ================================================= */
-/* INPUTS */
-/* ================================================= */
-
+    /* Da formato a las cajas donde se escriben datos */
 .form-input{
     width:100%;
+    /* Hace que ocupe todo el ancho disponible */
     height:52px;
+    /* Define el alto de la caja */
 
     padding:0 16px;
+    /* Deja espacio a los lados del texto */
 
     border:1px solid #cbd5e1;
+    /* Coloca un borde gris claro */
     border-radius:14px;
+    /* Redondea las esquinas */
 
     font-size:15px;
+    /* Define el tamaño del texto */
 
     background:#fff;
+    /* Coloca el fondo en blanco */
 
     transition:.25s;
+    /* Hace que el cambio sea suave */
 
     box-sizing:border-box;
+    /* Hace que el tamaño incluya los espacios internos */
 }
 
+
+    /* Cambia la caja cuando se selecciona */
 .form-input:focus{
     outline:none;
+    /* Quita el borde que aparece al seleccionar */
     border-color:#2563eb;
+    /* Cambia el borde a azul */
     box-shadow:0 0 0 4px rgba(37,99,235,.12);
+    /* Agrega un pequeño brillo azul */
 }
 
 
 
 /* ================================================= */
-/* TEXTAREA */
+/* TÍTULO: CAJA PARA TEXTO LARGO */
 /* ================================================= */
 
+
+    /* Da formato a la caja para escribir texto largo */
 .form-textarea{
     width:100%;
+    /* Hace que ocupe todo el ancho disponible */
 
     min-height:120px;
+    /* Define un alto mínimo para escribir */
 
     padding:16px;
+    /* Deja espacio dentro de la caja */
 
     border:1px solid #cbd5e1;
+    /* Coloca un borde gris claro */
     border-radius:14px;
+    /* Redondea las esquinas */
 
     resize:vertical;
+    /* Permite cambiar el alto hacia arriba o abajo */
 
     font-size:15px;
+    /* Define el tamaño del texto */
 
     box-sizing:border-box;
+    /* Hace que el tamaño incluya los espacios internos */
 
     transition:.25s;
+    /* Hace que el cambio sea suave */
 }
 
+
+    /* Cambia la caja de texto largo cuando se selecciona */
 .form-textarea:focus{
     outline:none;
+    /* Quita el borde que aparece al seleccionar */
     border-color:#2563eb;
+    /* Cambia el borde a azul */
     box-shadow:0 0 0 4px rgba(37,99,235,.12);
+    /* Agrega un pequeño brillo azul */
 }
 
 
 
 /* ================================================= */
-/* INPUT + BOTON */
+/* TÍTULO: CAJA CON BOTÓN */
 /* ================================================= */
 
+
+    /* Coloca una caja y un botón juntos */
 .input-with-button{
     display:flex;
+    /* Permite ordenar los elementos */
     align-items:center;
+    /* Centra los elementos de arriba hacia abajo */
     gap:12px;
+    /* Deja espacio entre los elementos */
 }
 
+
+    /* Hace que la caja use el espacio disponible */
 .input-with-button .form-input{
     flex:1;
 }
@@ -212,145 +256,223 @@
 
 
 /* ================================================= */
-/* BOTON GPS */
+/* TÍTULO: BOTÓN PARA UBICACIÓN */
 /* ================================================= */
 
+
+    /* Da formato al botón para obtener la ubicación */
 .btn-location{
     width:55px;
     height:52px;
+    /* Define el alto de la caja */
 
     border:none;
+    /* Quita el borde del botón */
     border-radius:14px;
+    /* Redondea las esquinas */
 
     cursor:pointer;
+    /* Cambia el puntero cuando se pasa sobre el botón */
 
     display:flex;
+    /* Permite ordenar los elementos */
     align-items:center;
+    /* Centra los elementos de arriba hacia abajo */
     justify-content:center;
+    /* Centra los elementos de izquierda a derecha */
 
     font-size:22px;
+    /* Define el tamaño del icono o texto */
 
     color:#fff;
+    /* Coloca el texto en blanco */
 
     transition:.25s;
+    /* Hace que el cambio sea suave */
 
     flex-shrink:0;
+    /* Evita que el botón se haga más pequeño */
 }
 
+
+    /* Cambia el botón cuando se pasa el mouse encima */
 .btn-location:hover{
     transform:scale(1.05);
+    /* Hace el botón un poco más grande */
 }
 
+
+    /* Define el aspecto azul del botón */
 .btn-blue{
     background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    /* Coloca un fondo azul */
 }
 
+
+    /* Define el aspecto verde del botón */
 .btn-green{
     background:linear-gradient(135deg,#16a34a,#15803d);
+    /* Coloca un fondo verde */
 }
 
 
 
 /* ================================================= */
-/* ERRORES */
+/* TÍTULO: MENSAJES DE ERROR */
 /* ================================================= */
 
+
+    /* Da formato al mensaje de error debajo de un campo */
 .error-texto{
     min-height:18px;
+    /* Reserva un pequeño espacio para el mensaje */
     margin-top:6px;
+    /* Deja un pequeño espacio arriba */
 
     font-size:13px;
+    /* Define el tamaño del mensaje */
     font-weight:600;
+    /* Hace que el texto se vea más grueso */
 
     color:#dc2626;
+    /* Coloca el mensaje en rojo */
 }
 
 
 
 /* ================================================= */
-/* BOTONES */
+/* TÍTULO: BOTONES DEL FORMULARIO */
 /* ================================================= */
 
+
+    /* Da espacio a la zona donde están los botones */
 .form-actions{
     margin-top:28px;
+    /* Deja espacio encima de los botones */
 }
 
+
+    /* Da formato al botón para guardar */
 .btn-submit{
     width:100%;
+    /* Hace que ocupe todo el ancho disponible */
     height:56px;
+    /* Define el alto del botón */
 
     border:none;
+    /* Quita el borde del botón */
     border-radius:16px;
+    /* Redondea las esquinas del botón */
 
     color:#fff;
+    /* Coloca el texto en blanco */
 
     font-size:17px;
+    /* Define el tamaño del texto del botón */
     font-weight:700;
+    /* Hace que el texto se vea más grueso */
 
     cursor:pointer;
+    /* Cambia el puntero cuando se pasa sobre el botón */
 
     transition:.25s;
+    /* Hace que el cambio sea suave */
 
     box-shadow:0 8px 20px rgba(0,0,0,.12);
+    /* Agrega una sombra al botón */
 }
 
+
+    /* Cambia el botón cuando se pasa el mouse encima */
 .btn-submit:hover{
     transform:translateY(-2px);
+    /* Mueve el botón un poco hacia arriba */
 }
 
+
+    /* Define el aspecto azul del botón para guardar */
 .btn-submit-blue{
     background:linear-gradient(135deg,#2563eb,#1e40af);
+    /* Coloca un fondo azul */
 }
 
+
+    /* Define el aspecto verde del botón para guardar */
 .btn-submit-green{
     background:linear-gradient(135deg,#16a34a,#166534);
+    /* Coloca un fondo verde */
 }
 
 
 
 /* ================================================= */
-/* MENSAJE SISTEMA */
+/* TÍTULO: MENSAJE DEL SISTEMA */
 /* ================================================= */
 
+
+    /* Crea el mensaje que aparece en la pantalla */
 .mensaje-sistema{
     position:fixed;
+    /* Mantiene el mensaje en una posición fija */
     top:20px;
+    /* Deja espacio desde la parte superior */
     right:20px;
+    /* Deja espacio desde el lado derecho */
 
     z-index:99999;
+    /* Hace que el mensaje quede por encima de otros elementos */
 
     padding:16px 20px;
+    /* Deja espacio dentro del mensaje */
 
     border-radius:14px;
+    /* Redondea las esquinas */
 
     color:#fff;
+    /* Coloca el texto en blanco */
 
     font-size:15px;
+    /* Define el tamaño del texto */
     font-weight:700;
+    /* Hace que el texto se vea más grueso */
 
     box-shadow:0 8px 25px rgba(0,0,0,.20);
+    /* Agrega una sombra al mensaje */
 
     animation:fadeIn .25s ease;
+    /* Hace que el mensaje aparezca suavemente */
 }
 
+
+    /* Da color rojo al mensaje de error */
 .mensaje-sistema.error{
     background:#dc2626;
+    /* Coloca el mensaje de error en rojo */
 }
 
+
+    /* Da color verde al mensaje correcto */
 .mensaje-sistema.success{
     background:#16a34a;
+    /* Coloca el mensaje correcto en verde */
 }
 
+
+    /* Controla cómo aparece suavemente el mensaje */
 @keyframes fadeIn{
 
     from{
         opacity:0;
+    /* Hace que al comienzo el mensaje no se vea */
         transform:translateY(-10px);
+    /* Coloca el mensaje un poco más arriba al comenzar */
     }
 
     to{
         opacity:1;
+    /* Hace que el mensaje se vea */
         transform:translateY(0);
+    /* Devuelve el mensaje a su lugar */
     }
 
 }
@@ -358,37 +480,75 @@
 
 
 /* ================================================= */
-/* RESPONSIVE */
+/* TÍTULO: AJUSTE PARA PANTALLAS PEQUEÑAS */
 /* ================================================= */
 
 @media(max-width:768px){
 
+
+    /* Crea la caja principal donde estará el formulario */
     .form-card{
         padding:22px;
+    /* Reduce el espacio de la caja en pantallas pequeñas */
     }
 
+
+    /* Da formato al título principal */
     .form-titulo{
         font-size:24px;
+    /* Reduce el tamaño del título en pantallas pequeñas */
     }
 
+
+    /* Crea la caja donde se muestra el total de litros */
     .total-box{
         flex-direction:column;
+    /* Coloca el contenido uno debajo del otro */
         font-size:20px;
+    /* Reduce el tamaño del texto */
     }
 
+
+    /* Da formato al número del total */
     .total-box span{
         font-size:34px;
+    /* Reduce el tamaño del número */
     }
 
 }
 
+
+    /* Da formato al mensaje que aparece cuando no se puede guardar */
 .error-guardar {
     max-width: 720px;
+    /* Evita que el mensaje sea demasiado ancho */
     margin: 2rem auto;
+    /* Centra el mensaje y deja espacio alrededor */
     padding: 20px;
+    /* Deja espacio dentro del mensaje */
     background: #dc2626;
+    /* Coloca el fondo del mensaje en rojo */
     color: #fff;
+    /* Coloca el texto en blanco */
     font-family: Arial, sans-serif;
+    /* Usa una letra sencilla */
     text-align: center;
+    /* Centra el texto */
     border-radius: 10px;
+    /* Redondea las esquinas */
 }
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez formulario.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA
+*/

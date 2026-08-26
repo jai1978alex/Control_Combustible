@@ -5,15 +5,17 @@ Quintero - Chile
 jaime.jerez1978@gmail.com
 https://www.
 Creado, Programado y Diseñado por Jerez.
-BPPJ 
+JAJA 
 */
 
 /* -------------------------------------------------------------------------------------------------------------
-   ------------------------------------- INICIO Jerez boton_logout .CSS ------------------------------------
+   ------------------------------------- INICIO Jerez acceso.CSS ------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
 
-/* TITULO  */   
+
+/* TÍTULO: PÁGINA DE ACCESO */
+
 
     /* Esta es la sección de la página donde está el acceso o inicio de sesión */
     .acceso-page {
@@ -24,151 +26,207 @@ BPPJ
         background: linear-gradient(to bottom right, #dbeafe, #bfdbfe);/* Pone un fondo con un degradado que va desde un azul claro hacia otro azul */
         padding: 1rem;          /* Deja un pequeño espacio entre el contenido y los bordes de la pantalla */
     }
-
-    .acceso-container {
-        width: 100%;
-        max-width: 28rem;
+    
+/* TÍTULO: CONTENEDOR PRINCIPAL DEL ACCESO */
+    
+    /* Crea el espacio principal donde estará el formulario de acceso */
+    .acceso-container { 
+        width: 100%;            /* Hace que ocupe todo el ancho disponible */
+        max-width: 28rem;       /* Evita que el formulario sea demasiado ancho */
     }
 
-    .acceso-card {
-        background: white;
-        border-radius: 2rem;
-        box-shadow: 0 25px 30px 20px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        padding: 2rem;
-    }
-
-    /* acceso Header */
-    .acceso-header {
-        text-align: center;
-        margin-bottom: 1.5rem;
-    }
-
-    .logo-box {
-        width: 5rem;
-        height: 5rem;
-        background: linear-gradient(to bottom right, #2563eb, #1e40af);
-        border-radius: 0.75rem;
-        margin: 0 auto 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .logo-texto {
-        color: white;
-        font-size: 1.5rem;
-        font-weight: 700;
-    }
-
-    .acceso-titulo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-    }
-
-    .acceso-subtitulo {
-        color: #6b7280;
-        font-size: 0.875rem;
-    }
-
-    /* acceso Form */
-    .acceso-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .form-group {
-        position: relative;
-    }
-
-    .form-label {
-        display: block;
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #374151;
-        margin-bottom: 0.25rem;
-    }
-
-    .form-input {
-        width: 90%;
-        padding: 0.75rem 1rem;
-        font-size: 0.875rem;
-        border: -2px solid #d1d5db;
-        border-radius: 0.5rem;
-        transition: all 0.2s ease;
-    }
-
-    .form-input:focus {
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    .form-input::placeholder {
-        color: #9ca3af;
-    }
-
-    /* Error Message */
-    .error-message {
-        background: #fef2f2;
-        border: 1px solid #fecaca;
-        color: #b91c1c;
-        padding: 0.75rem 1rem;
-        border-radius: 0.5rem;
-        font-size: 0.875rem;
-    }
-
-    /* acceso Button */
-    .btn-acceso {
-        width: 100%;
-        background: linear-gradient(to right, #2563eb, #1d4ed8);
-        color: white;
-        padding: 0.75rem 1rem;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-
-    .btn-acceso:hover {
-        background: linear-gradient(to right, #1d4ed8, #1e40af);
-        transform: translateY(-1px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    .btn-acceso:active {
-        transform: translateY(0);
-    }
-
-    .btn-icon {
-        flex-shrink: 0;
-    }
-
-    /* acceso Footer */
-    .acceso-footer {
-        text-align: center;
-        font-size: 0.75rem;
-        color: #6b7280;
-        padding-top: 1rem;
-        margin-top: 1rem;
-        border-top: 1px solid #e5e7eb;
+/* TÍTULO: CAJA PRINCIPAL DEL ACCESO                         */
+    
+    /* Da forma y apariencia a la caja principal del acceso */
+    .acceso-card { 
+        background: white;    /* Coloca el fondo de la caja en color blanco */
+        border-radius: 2rem;    /* Hace que las esquinas de la caja sean redondeadas */
+        box-shadow: 0 25px 30px 20px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Agrega una sombra alrededor de la caja */
+        padding: 2rem;          /* Deja espacio entre el contenido y los bordes de la caja */
     }
 
 
-
-    /* Estado visible para mensajes de error renderizados por PHP */
-    .error-message-visible {
-        display: block;
+    
+/* TÍTULO: PARTE SUPERIOR DEL ACCESO */
+    
+    /* Da formato a la parte superior del formulario */
+    .acceso-header { 
+        text-align: center;     /* Coloca el texto en el centro */
+        margin-bottom: 1.5rem;  /* Deja espacio debajo de esta parte */
     }
 
+    
+/* TÍTULO: CUADRO DEL LOGO */
+    
+    /* Crea el cuadro donde estará el logo */
+    .logo-box { 
+        width: 5rem;            /* Define el ancho del cuadro del logo */
+        height: 5rem;           /* Define el alto del cuadro del logo */
+        background: linear-gradient(to bottom right, #2563eb, #1e40af); /* Coloca un fondo azul que cambia de un tono a otro */
+        border-radius: 0.75rem; /* Redondea las esquinas del cuadro */
+        margin: 0 auto 1rem;    /* Centra el cuadro y deja espacio debajo */
+        display: flex;          /* Permite ordenar fácilmente lo que está dentro */
+        align-items: center;    /* Coloca el contenido en el centro de arriba hacia abajo */
+        justify-content: center;/* Coloca el contenido en el centro de izquierda a derecha */
+    }
+
+/* TÍTULO: TEXTO DEL LOGO */
+    
+    /* Da formato al texto que aparece dentro del logo */
+    .logo-texto { 
+        color: white;         /* Coloca el texto en color blanco */
+        font-size: 1.5rem;      /* Define el tamaño del texto */
+        font-weight: 700; /* Hace que el texto se vea más grueso */
+    }
+
+/* TÍTULO: TÍTULO PRINCIPAL */
+    
+    /* Da formato al título principal del acceso */
+    .acceso-titulo { 
+        font-size: 1.5rem;      /* Define el tamaño del título */
+        font-weight: 700;       /* Hace que el título se vea más grueso */
+        color: #1f2937;       /* Coloca el título en un color oscuro */
+        margin-bottom: 0.5rem;  /* Deja un pequeño espacio debajo del título */
+    }
+    
+/* TÍTULO: SUBTÍTULO */
+    
+    /* Da formato al texto que aparece debajo del título */
+    .acceso-subtitulo { 
+        color: #6b7280;        /* Coloca el texto en color gris */
+        font-size: 0.875rem;     /* Define un tamaño de letra más pequeño */
+    }
+
+
+    
+/* TÍTULO: FORMULARIO DE ACCESO */
+    
+    /* Da formato a todo el formulario de acceso */
+    .acceso-form { 
+        display: flex;           /* Permite ordenar los elementos del formulario */
+        flex-direction: column;  /* Coloca los elementos uno debajo del otro */
+        gap: 1rem;               /* Deja espacio entre cada elemento */
+    }
+
+    /* TÍTULO: GRUPO DE CAMPOS */
+
+    /* Da formato a cada grupo de campo del formulario */
+    .form-group { 
+        position: relative;      /* Permite colocar elementos dentro de este espacio de manera controlada */
+    }
+
+/* TÍTULO: NOMBRES DE LOS CAMPOS */
+    
+    /* Da formato a los nombres de los campos */
+    .form-label { 
+        display: block;          /* Hace que el nombre ocupe su propia línea */
+        font-size: 0.875rem;     /* Define el tamaño del texto */
+        font-weight: 500;        /* Hace que el texto tenga un poco más de grosor */
+        color: #374151;        /* Coloca el texto en un color oscuro */
+        margin-bottom: 0.25rem;  /* Deja un pequeño espacio debajo del nombre */
+    }
+    
+/* TÍTULO: CAJAS PARA ESCRIBIR DATOS */
+    
+    /* Da formato a las cajas donde se escriben los datos */
+    .form-input { 
+        width: 90%;              /* Hace que la caja ocupe el 90% del espacio disponible */
+        padding: 0.75rem 1rem;   /* Deja espacio dentro de la caja para que el texto no quede pegado */
+        font-size: 0.875rem;     /* Define el tamaño del texto que se escribe */
+        border: -2px solid #d1d5db; /* Define el borde de la caja */
+        border-radius: 0.5rem;   /* Redondea las esquinas de la caja */
+        transition: all 0.2s ease; /* Hace que los cambios de apariencia sean más suaves */
+    }
+    
+/* TÍTULO: CAMBIO DE LA CAJA AL SELECCIONARLA */
+
+    /* Cambia la apariencia de la caja cuando se selecciona */
+    .form-input:focus { 
+        border-color: #3b82f6;  /* Cambia el borde a color azul */
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); /* Agrega un pequeño brillo azul alrededor */
+    }
+
+/* TÍTULO: TEXTO DE EJEMPLO DE LAS CAJAS */
+    
+    /* Cambia la apariencia del texto de ejemplo dentro de la caja */
+    .form-input::placeholder { 
+        color: #9ca3af;         /* Coloca el texto de ejemplo en color gris */
+    }
+
+    /* TÍTULO: MENSAJE DE ERROR */
+    
+    /* Da formato al mensaje que aparece cuando existe un error */
+    .error-message { 
+        background: #fef2f2;    /* Coloca un fondo rojo muy claro */
+        border: 1px solid #fecaca; /* Coloca un borde rojo claro */
+        color: #b91c1c;         /* Coloca el texto en rojo oscuro */
+        padding: 0.75rem 1rem;    /* Deja espacio alrededor del mensaje */
+        border-radius: 0.5rem;    /* Redondea las esquinas del mensaje */
+        font-size: 0.875rem;      /* Define el tamaño del texto del mensaje */
+    }
+
+/* TÍTULO: BOTÓN DE ACCESO */
+    
+    /* Da formato al botón para entrar */
+    .btn-acceso { 
+        width: 100%;              /* Hace que el botón ocupe todo el ancho disponible */
+        background: linear-gradient(to right, #2563eb, #1d4ed8); /* Coloca un fondo azul con dos tonos */
+        color: white;           /* Coloca el texto del botón en blanco */
+        padding: 0.75rem 1rem;    /* Deja espacio dentro del botón */
+        border-radius: 0.5rem;    /* Redondea las esquinas del botón */
+        font-weight: 500;         /* Hace que el texto tenga un poco más de grosor */
+        display: flex;            /* Permite ordenar el contenido del botón */
+        align-items: center;      /* Centra el contenido de arriba hacia abajo */
+        justify-content: center;  /* Centra el contenido de izquierda a derecha */
+        gap: 0.5rem;              /* Deja espacio entre los elementos del botón */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Agrega una sombra al botón */
+    }
+
+/* TÍTULO: BOTÓN CUANDO SE PASA EL MOUSE */
+    
+    /* Cambia el botón cuando colocas el mouse encima */
+    .btn-acceso:hover { 
+        background: linear-gradient(to right, #1d4ed8, #1e40af); /* Cambia el fondo a un azul más oscuro */
+        transform: translateY(-1px); /* Mueve el botón un poco hacia arriba */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Hace más grande la sombra del botón */
+    }
+
+/* TÍTULO: BOTÓN CUANDO SE PRESIONA */
+   
+    /* Cambia el botón mientras se está presionando */
+    .btn-acceso:active { 
+        transform: translateY(0); /* Devuelve el botón a su posición original */
+    }
+    
+/* TÍTULO: ICONO DEL BOTÓN */
+    
+    /* Da formato a un posible icono dentro del botón */
+    .btn-icon { 
+        flex-shrink: 0;           /* Evita que el icono se haga más pequeño */
+    }
+
+/* TÍTULO: PARTE INFERIOR DEL ACCESO */
+
+    /* Da formato a la parte inferior del formulario */
+    .acceso-footer { 
+        text-align: center;       /* Centra el texto */
+        font-size: 0.75rem;       /* Hace el texto pequeño */
+        color: #6b7280;         /* Coloca el texto en color gris */
+        padding-top: 1rem;        /* Deja espacio encima del texto */
+        margin-top: 1rem;         /* Deja espacio entre el formulario y esta parte */
+        border-top: 1px solid #e5e7eb; /* Coloca una línea arriba para separar esta sección */
+    }
+    
+/* TÍTULO: MOSTRAR MENSAJE DE ERROR */
+    
+    /* Controla que el mensaje de error pueda mostrarse */
+    .error-message-visible { 
+        display: block;           /* Hace que el mensaje sea visible */
+    }
 
 
 /* -------------------------------------------------------------------------------------------------------------
-   -------------------------------------- FIN Jerez boton_logout .CSS --------------------------------------
+   -------------------------------------- FIN Jerez acceso.CSS --------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
 /* 
@@ -178,5 +236,5 @@ Quintero - Chile
 jaime.jerez1978@gmail.com
 https://www.
 Creado, Programado y Diseñado por Jerez.
-BPPJ 
+JAJA
 */
