@@ -1,78 +1,137 @@
-.acceso-page { /* Estilo para toda la página de acceso (login) */
-    background: linear-gradient(to bottom, #b8c6db, #8fa4c1); /* Pinta el fondo con un degradado: gris azulado arriba y un tono más oscuro abajo */
-    height: 100vh; /* Hace que la página ocupe toda la altura de la pantalla */
-    display: flex; /* Activa un modo de acomodar lo de adentro en fila/columna, para poder centrarlo fácil */
-    justify-content: center; /* Centra el contenido de izquierda a derecha */
-    align-items: center; /* Centra el contenido de arriba a abajo */
-    font-family: 'Segoe UI', sans-serif; /* Define el tipo de letra que se usa en el texto */
-}
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA 
+*/
 
-.acceso-container { /* Estilo de la caja que envuelve la tarjeta de acceso */
-    width: 100%; /* Ocupa todo el ancho disponible */
-    max-width: 400px; /* Pero nunca crece más de 400 píxeles, para que no se vea gigante en pantallas grandes */
-}
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez recuperar.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
 
-.acceso-card { /* Estilo de la tarjeta blanca donde está el formulario */
-    background: #fff; /* Color de fondo blanco */
-    border-radius: 25px; /* Redondea las esquinas de la tarjeta */
-    padding: 30px; /* Deja espacio interno entre el borde de la tarjeta y su contenido */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Agrega una sombra suave abajo para dar sensación de relieve */
-}
 
-.acceso-header { /* Estilo de la parte de arriba de la tarjeta (donde suele ir el logo) */
-    text-align: center; /* Centra el texto en horizontal */
-    margin-bottom: 20px; /* Deja espacio debajo de esta sección, antes de lo que sigue */
-}
 
-.logo-box { /* Estilo del cuadro que contiene el logo */
-    width: 80px; /* Ancho del cuadro del logo */
-    height: 80px; /* Alto del cuadro del logo */
-    background: linear-gradient(#3b6edc, #1e3c9a); /* Fondo con degradado de azul claro a azul oscuro */
-    border-radius: 20px; /* Redondea las esquinas del cuadro */
-    margin: 0 auto 10px; /* Centra el cuadro en horizontal y deja espacio debajo */
-    display: flex; /* Permite acomodar fácilmente lo que esté adentro del cuadro */
-    align-items: center; /* Centra el contenido de adentro en vertical */
-    justify-content: center; /* Centra el contenido de adentro en horizontal */
-}
+/* TÍTULO: PÁGINA DE ACCESO */
 
-.logo-texto { /* Estilo del texto que va dentro del logo */
-    color: white; /* Color del texto: blanco */
-    font-size: 24px; /* Tamaño del texto */
-    font-weight: bold; /* Pone el texto en negrita (más grueso) */
-}
 
-.form-group { /* Estilo de cada bloque del formulario (por ejemplo, un campo con su etiqueta) */
-    margin-bottom: 15px; /* Deja espacio debajo de cada bloque, para separarlos entre sí */
-}
+    /* Estilo para toda la página de acceso (login) */
+    .acceso-page { 
+        background: linear-gradient(to bottom, #b8c6db, #8fa4c1); /* Pinta el fondo con un degradado: gris azulado arriba y un tono más oscuro abajo */
+        height: 100vh;                      /* Hace que la página ocupe toda la altura de la pantalla */
+        display: flex;                      /* Activa un modo de acomodar lo de adentro en fila/columna, para poder centrarlo fácil */
+        justify-content: center;            /* Centra el contenido de izquierda a derecha */
+        align-items: center;                /* Centra el contenido de arriba a abajo */
+        font-family: 'Segoe UI', sans-serif;/* Define el tipo de letra que se usa en el texto */
+    }
 
-.form-input { /* Estilo de las cajas donde el usuario escribe (usuario, contraseña, etc.) */
-    width: 90%; /* El campo ocupa el 90% del ancho disponible */
-    padding: 12px; /* Espacio interno entre el borde del campo y el texto escrito */
-    border-radius: 10px; /* Redondea las esquinas del campo */
-    border: -2px solid #ccc; /* Define el borde del campo; OJO: el grosor está en negativo, eso no es válido, así que probablemente el navegador no muestra ningún borde aquí */
-    outline: none; /* Quita el contorno azul que aparece normalmente al hacer clic en el campo */
-}
+/* TÍTULO: CONTENEDOR */
 
-.form-input:focus { /* Estilo que se aplica cuando el usuario hace clic o está escribiendo en el campo */
-    border-color: #3b6edc; /* Cambia el color del borde a azul mientras se escribe */
-}
+    /* Estilo de la caja que envuelve la tarjeta de acceso */
+    .acceso-container { 
+        width: 100%;                        /* Ocupa todo el ancho disponible */
+        max-width: 400px;                   /* Pero nunca crece más de 400 píxeles, para que no se vea gigante en pantallas grandes */
+    }
 
-.btn-acceso { /* Estilo del botón para iniciar sesión / entrar */
-    width: 100%; /* El botón ocupa todo el ancho disponible */
-    padding: 12px; /* Espacio interno del botón, para que no se vea apretado */
-    border: none; /* Quita cualquier borde del botón */
-    border-radius: 10px; /* Redondea las esquinas del botón */
-    background: linear-gradient(#3b6edc, #1e3c9a); /* Fondo con degradado de azul claro a azul oscuro */
-    color: white; /* Color del texto del botón: blanco */
-    font-size: 16px; /* Tamaño del texto del botón */
-    cursor: pointer; /* Cambia el cursor a una manito al pasar por encima, para indicar que se puede hacer clic */
-}
+/* TÍTULO: TARJETA  */
 
-.btn-acceso:hover { /* Estilo que se aplica cuando el mouse pasa por encima del botón */
-    opacity: 0.9; /* Hace que el botón se vea un poquito más transparente, como un efecto sutil */
-}
+    /* Estilo de la tarjeta blanca donde está el formulario */
+    .acceso-card { 
+        background: #fff;                  /* Color de fondo blanco */
+        border-radius: 25px;                 /* Redondea las esquinas de la tarjeta */
+        padding: 30px;                       /* Deja espacio interno entre el borde de la tarjeta y su contenido */
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Agrega una sombra suave abajo para dar sensación de relieve */
+    }
 
-.acceso-footer { /* Estilo de la parte de abajo de la tarjeta (pie de página) */
-    text-align: center; /* Centra el texto en horizontal */
-    margin-top: 15px; /* Deja espacio arriba de esta sección, separándola de lo anterior */
-}
+/* TÍTULO: ENCABEZADO Y LOGO   */
+
+    /* Estilo de la parte de arriba de la tarjeta (donde suele ir el logo) */
+    .acceso-header { 
+        text-align: center;                  /* Centra el texto en horizontal */
+        margin-bottom: 20px;                 /* Deja espacio debajo de esta sección, antes de lo que sigue */
+    }
+
+    /* Estilo del cuadro que contiene el logo */
+    .logo-box { 
+        width: 80px;                         /* Ancho del cuadro del logo */
+        height: 80px;                        /* Alto del cuadro del logo */
+        background: linear-gradient(#3b6edc, #1e3c9a); /* Fondo con degradado de azul claro a azul oscuro */
+        border-radius: 20px;                 /* Redondea las esquinas del cuadro */
+        margin: 0 auto 10px;                 /* Centra el cuadro en horizontal y deja espacio debajo */
+        display: flex;                       /* Permite acomodar fácilmente lo que esté adentro del cuadro */
+        align-items: center;                 /* Centra el contenido de adentro en vertical */
+        justify-content: center;             /* Centra el contenido de adentro en horizontal */
+    }
+
+    /* Estilo del texto que va dentro del logo */
+    .logo-texto { 
+        color: white;                       /* Color del texto: blanco */
+        font-size: 24px;                      /* Tamaño del texto */
+        font-weight: bold;                    /* Pone el texto en negrita (más grueso) */
+    }
+
+/* TÍTULO: FORMULARIO  */
+
+    /* Estilo de cada bloque del formulario (por ejemplo, un campo con su etiqueta) */
+    .form-group { 
+        margin-bottom: 15px;                 /* Deja espacio debajo de cada bloque, para separarlos entre sí */
+    }
+
+    /* Estilo de las cajas donde el usuario escribe (usuario, contraseña, etc.) */
+    .form-input { 
+        width: 90%;                          /* El campo ocupa el 90% del ancho disponible */
+        padding: 12px;                       /* Espacio interno entre el borde del campo y el texto escrito */
+        border-radius: 10px;                 /* Redondea las esquinas del campo */
+        border: -2px solid #ccc;           /* Define el borde del campo; OJO: el grosor está en negativo, eso no es válido, así que probablemente el navegador no muestra ningún borde aquí */
+        outline: none;                       /* Quita el contorno azul que aparece normalmente al hacer clic en el campo */
+    }
+
+    /* Estilo que se aplica cuando el usuario hace clic o está escribiendo en el campo */
+    .form-input:focus { 
+        border-color: #3b6edc;            /* Cambia el color del borde a azul mientras se escribe */
+    }
+
+/* TÍTULO: BOTÓN DE ACCESO  */
+
+    /* Estilo del botón para iniciar sesión / entrar */
+    .btn-acceso { 
+        width: 100%;                       /* El botón ocupa todo el ancho disponible */
+        padding: 12px;                     /* Espacio interno del botón, para que no se vea apretado */
+        border: none;                      /* Quita cualquier borde del botón */
+        border-radius: 10px;               /* Redondea las esquinas del botón */
+        background: linear-gradient(#3b6edc, #1e3c9a); /* Fondo con degradado de azul claro a azul oscuro */
+        color: white;                    /* Color del texto del botón: blanco */
+        font-size: 16px;                   /* Tamaño del texto del botón */
+        cursor: pointer;                   /* Cambia el cursor a una manito al pasar por encima, para indicar que se puede hacer clic */
+    }
+
+    /* Estilo que se aplica cuando el mouse pasa por encima del botón */
+    .btn-acceso:hover { 
+        opacity: 0.9;                      /* Hace que el botón se vea un poquito más transparente, como un efecto sutil */
+    }
+
+/* TÍTULO: PIE DE PÁGINA */
+
+    /* Estilo de la parte de abajo de la tarjeta (pie de página) */
+    .acceso-footer { 
+        text-align: center;                /* Centra el texto en horizontal */
+        margin-top: 15px;                  /* Deja espacio arriba de esta sección, separándola de lo anterior */
+    }
+
+
+
+        /* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez recuperar.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA
+*/  

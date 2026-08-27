@@ -1,409 +1,508 @@
-/* ========================= */
-/* CABECERA                  */
-/* ========================= */
-
-.app-header {
-    background: linear-gradient(135deg, #92a7df, #1e3a8a);
-    color: #fff;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
-}
-
-.header-container {
-    max-width: 100%;       /* usa todo el ancho del header */
-    margin: 0;
-    padding: 1.2rem 2.5rem; /* controla el respiro con los costados */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-
-/* ========================= */
-/* LOGO                      */
-/* ========================= */
-
-.header-logo-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    padding-left: 0.5rem;
-}
-
-.header-logo .logo-box {
-    width: 4rem;
-    height: 4rem;
-    background: #fff;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, .2);
-}
-
-.logo-texto {
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-.header-logo .logo-texto {
-    color: #1e40af;
-    font-size: 1.25rem;
-    font-weight: 700;
-}
-
-
-/* ========================= */
-/* TÍTULO                    */
-/* ========================= */
-
-.header-titulo {
-    flex: 1;
-    text-align: center;
-    padding: 0 1rem;
-}
-
-.header-titulo h1 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: #fff;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, .3);
-}
-
-
-/* ========================= */
-/* FECHA                     */
-/* ========================= */
-
-.header-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-right: 0.5rem;
-}
-
-.datetime-display {
-    text-align: right;
-    font-size: 1rem;
-    opacity: .95;
-}
-
-.date-texto {
-    font-weight: 600;
-    font-size: 1.05rem;
-}
-
-.time-texto {
-    color: #93c5fd;
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-
-
-/* ========================= */
-/* MAIN                      */
-/* ========================= */
-
-.main-content {
-    max-width: 1200px;
-    margin: auto;
-    padding: 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-
-/* ========================= */
-/* MENÚ HAMBURGUESA          */
-/* ========================= */
-
-.menu-hamburguesa {
-    position: relative;
-    margin-top: 10px;
-}
-
-.btn-menu {
-    background: rgba(255, 255, 255, .2);
-    border: none;
-    color: #fff;
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 20px;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
-    transition: .25s;
-}
-
-.btn-menu:hover {
-    transform: scale(1.1);
-    background: rgba(255, 255, 255, .3);
-}
-
-.menu-dropdown {
-    display: none;
-    position: absolute;
-    top: 50px;
-    left: 0;
-    width: 220px;
-    background: rgba(255, 255, 255, .97);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
-    z-index: 1000;
-}
-
-.menu-dropdown.active {
-    display: block;
-}
-
-.menu-item {
-    width: 100%;
-    padding: 12px 14px;
-    border: none;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: #1f2937;
-    transition: .2s;
-    text-decoration: none;
-}
-
-.menu-item:hover {
-    background: #e0ecff;
-    color: #1d4ed8;
-}
-
-
-/* ========================= */
-/* TOTAL LITROS              */
-/* ========================= */
-
-.total-box {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 18px;
-    margin-bottom: 25px;
-    border-radius: 14px;
-    font-size: 22px;
-    font-weight: 700;
-    color: #fff;
-    text-align: center;
-    box-sizing: border-box;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
-}
-
-.total-box span {
-    font-size: 34px;
-    font-weight: 900;
-    color: #fff;
-}
-
-.total-blue {
-    background: linear-gradient(135deg, #2563eb, #1e3a8a);
-}
-
-.total-green {
-    background: linear-gradient(135deg, #16a34a, #166534);
-}
-
-
-/* ========================= */
-/* BOTÓN GPS                 */
-/* ========================= */
-
-.input-with-button {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.btn-location {
-    min-width: 55px;
-    height: 50px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    transition: .2s;
-}
-
-.btn-location:hover {
-    transform: scale(1.05);
-}
-
-.btn-blue {
-    background: #2563eb;
-}
-
-.btn-green {
-    background: #16a34a;
-}
-
-
-/* ========================= */
-/* MENSAJES DEL SISTEMA      */
-/* ========================= */
-
-.mensaje-sistema {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 99999;
-    padding: 14px 18px;
-    border-radius: 10px;
-    color: #fff;
-    font-weight: 600;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
-    animation: fadeIn .25s ease;
-}
-
-.mensaje-sistema.error {
-    background: #dc2626;
-}
-
-.mensaje-sistema.success {
-    background: #16a34a;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* ========================= */
-/* TOAST                     */
-/* ========================= */
-
-.toast-container {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-}
-
-.toast {
-    background: #fff;
-    border-radius: .5rem;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-    min-width: 300px;
-    border-left: 4px solid;
-    box-shadow:
-        0 10px 15px -3px rgba(0, 0, 0, .1),
-        0 4px 6px -2px rgba(0, 0, 0, .05);
-}
-
-.toast-success {
-    border-left-color: #10b981;
-}
-
-.toast-error {
-    border-left-color: #ef4444;
-}
-
-.toast-info {
-    border-left-color: #3b82f6;
-}
-
-
-/* ========================= */
-/* RESPONSIVE                */
-/* ========================= */
-
-@media (max-width: 768px) {
-
-    .header-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .header-titulo h1 {
-        font-size: 1.2rem;
-    }
-
-    .header-logo .logo-box {
-        width: 3rem;
-        height: 3rem;
-    }
-
-    .header-logo .logo-texto {
-        font-size: 1rem;
-    }
-
-    .total-box {
-        font-size: 18px;
-    }
-
-    .total-box span {
-        font-size: 24px;
-    }
-
-}
-#toastContainer{position:fixed;top:20px;right:20px;z-index:9999}
-.toast{background:#fff;padding:12px 16px;margin-bottom:10px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.2);display:flex;gap:8px;align-items:center}
-
-
-/* ==========================================================
-   MODAL ESCANER QR
-   ========================================================== */
-.qr-scanner-modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:100000;
-    background:rgba(15,23,42,.78);
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-.qr-scanner-modal.active{display:flex}
-.qr-scanner-box{
-    width:min(560px,100%);
-    background:#fff;
-    border-radius:18px;
-    padding:20px;
-    box-shadow:0 20px 60px rgba(0,0,0,.35);
-}
-.qr-scanner-header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:8px}
-.qr-scanner-header h2{margin:0;color:#1e293b}
-.qr-close{border:0;background:#e2e8f0;color:#334155;border-radius:10px;width:40px;height:40px;font-size:28px;line-height:1;cursor:pointer}
-.qr-scanner-status{margin:0 0 14px;color:#475569;font-weight:600}
-.qr-scanner-status.error{color:#dc2626}
-.qr-scanner-status.success{color:#16a34a}
-.qr-video-wrap{position:relative;overflow:hidden;border-radius:14px;background:#0f172a;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
-#qr-video{width:100%;height:100%;object-fit:cover}
-.qr-frame{position:absolute;width:52%;aspect-ratio:1;border:3px solid #fff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.18);pointer-events:none}
-.qr-image-input{display:block;width:100%;margin-top:14px;padding:10px;border:1px solid #cbd5e1;border-radius:10px}
-.qr-help{font-size:12px;color:#64748b;margin:10px 0 0}
-.qr-help code{background:#f1f5f9;padding:2px 4px;border-radius:4px}
-@media(max-width:600px){.qr-scanner-box{padding:14px}.qr-frame{width:65%}}
-
-#qr-reader{width:100%;min-height:280px}#qr-reader video{width:100%!important;border-radius:12px}#qr-native-video{width:100%;height:100%;object-fit:cover}
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez panel.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+
+/* TÍTULO: CABECERA */
+
+    /* aquí se define cómo se ve la franja de arriba de la página */
+    .app-header {               
+        background: linear-gradient(135deg, #92a7df, #1e3a8a);  /* le pone un color de fondo que pasa de celeste a azul oscuro */
+        color: #fff;                                      /* el texto de esta zona se ve blanco */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, .2);         /* le agrega una sombra suave debajo, para que resalte */
+        border-bottom-left-radius: 16px;                    /* redondea la esquina de abajo a la izquierda */
+        border-bottom-right-radius: 16px;                   /* redondea la esquina de abajo a la derecha */
+    }               
+
+    /* organiza lo que va dentro de la cabecera */
+    .header-container {               
+        max-width: 100%;                                    /* usa todo el ancho del header */
+        margin: 0;                                          /* no deja espacio extra alrededor */
+        padding: 1.2rem 2.5rem;                             /* controla el respiro con los costados */
+        display: flex;                                      /* pone los elementos uno al lado del otro */
+        align-items: center;                                /* los centra verticalmente */
+        justify-content: space-between;                     /* deja espacio entre ellos, separados a los extremos */
+    }               
+
+
+    
+/* TÍTULO: LOGO */
+    
+    .header-logo-group {                                    /* agrupa el logo y su texto */
+        display: flex;                                      /* pone los elementos en fila o columna según se indique */
+        flex-direction: column;                             /* los acomoda uno debajo del otro */
+        align-items: flex-start;                            /* los deja pegados al lado izquierdo */
+        gap: 10px;                                          /* deja un pequeño espacio entre ellos */
+        padding-left: 0.5rem;                               /* agrega un poco de espacio a la izquierda */
+    }               
+
+    /* es el cuadro blanco donde va el logo */
+    .header-logo .logo-box {               
+        width: 4rem;                                        /* define qué tan ancho es el cuadro */
+        height: 4rem;                                       /* define qué tan alto es el cuadro */
+        background: #fff;                                 /* el fondo del cuadro es blanco */
+        border-radius: 12px;                                /* redondea las esquinas del cuadro */
+        display: flex;                                      /* permite acomodar lo que hay adentro */
+        align-items: center;                                /* centra el contenido verticalmente */
+        justify-content: center;                            /* centra el contenido horizontalmente */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, .2);         /* le da una sombra suave */
+    }               
+
+    /* estilo general para el texto del logo */
+    .logo-texto {               
+        font-weight: 800;                                   /* hace la letra bien gruesa */
+        letter-spacing: 1px;                                /* separa un poco las letras entre sí */
+    }               
+
+    /* estilo del texto del logo, pero dentro de la cabecera */
+    .header-logo .logo-texto {               
+        color: #1e40af;                                  /* la letra se ve de color azul */
+        font-size: 1.25rem;                                /* define qué tan grande es la letra */
+        font-weight: 700;                                  /* hace la letra gruesa */
+    }                
+
+
+    
+/* TÍTULO: TÍTULO principal */
+    
+    /* es la zona donde va el título principal */ 
+    .header-titulo {               
+        flex: 1;                                           /* hace que ocupe todo el espacio disponible */
+        text-align: center;                                /* centra el texto */
+        padding: 0 1rem;                                   /* deja un poco de espacio a los lados */
+    }               
+
+    /* estilo del texto grande del título */
+    .header-titulo h1 {               
+        font-size: 1.8rem;                                 /* define qué tan grande se ve la letra */
+        font-weight: 800;                                  /* hace la letra bien gruesa */
+        letter-spacing: 1px;                               /* separa un poco las letras */
+        color: #fff;                                     /* el texto se ve blanco */
+        text-shadow: 0 2px 8px rgba(0, 0, 0, .3);        /* le agrega una sombra al texto para que se lea mejor */
+    }               
+
+
+    
+/* TÍTULO: FECHA */
+    
+    /* zona donde va la fecha y la hora */ 
+    .header-actions {               
+        display: flex;                                    /* acomoda los elementos de adentro */
+        flex-direction: column;                           /* los pone uno debajo del otro */
+        align-items: flex-end;                            /* los pega hacia la derecha */
+        padding-right: 0.5rem;                            /* deja un poco de espacio a la derecha */
+    }               
+
+    /* estilo del bloque que muestra fecha y hora */
+    .datetime-display {               
+        text-align: right;                                /* alinea el texto hacia la derecha */
+        font-size: 1rem;                                  /* tamaño normal de la letra */
+        opacity: .95;                                     /* lo hace casi opaco del todo, muy leve transparencia */
+    }               
+
+    /* estilo del texto de la fecha */
+    .date-texto {               
+        font-weight: 600;                                 /* letra un poco gruesa */
+        font-size: 1.05rem;                               /* tamaño de la letra */
+    }               
+
+    /* estilo del texto de la hora */
+    .time-texto {               
+        color: #93c5fd;                                 /* la hora se ve de color celeste */
+        font-weight: 700;                                 /* letra gruesa */
+        font-size: 1.2rem;                                /* tamaño más grande que el normal */
+    }               
+
+
+    
+/* TÍTULO: MAIN                      */
+ 
+    /* es el bloque principal donde va todo el contenido de la página */
+    .main-content {               
+        max-width: 1200px;                                /* no deja que se estire más allá de este ancho */
+        margin: auto;                                     /* lo centra en la pantalla */
+        padding: 2rem 1rem;                               /* deja espacio interno arriba, abajo y a los lados */
+        display: flex;                                    /* acomoda lo de adentro */
+        flex-direction: column;                           /* pone las cosas una debajo de la otra */
+        gap: 2rem;                                        /* deja espacio entre cada sección */
+    }               
+    
+/* TÍTULO: MENÚ HAMBURGUESA  */
+    
+    /* es el botón con las tres rayitas para abrir el menú */
+    .menu-hamburguesa {               
+        position: relative;                               /* sirve como punto de referencia para el menú que se despliega */
+        margin-top: 10px;                                 /* deja un poco de espacio arriba */
+    }               
+
+    /* estilo del botón de menú */
+    .btn-menu {               
+        background: rgba(255, 255, 255, .2);             /* fondo blanco bien transparente */
+        border: none;                                      /* no tiene borde */
+        color: #fff;                                     /* el ícono o texto se ve blanco */
+        padding: 10px 14px;                                /* deja espacio interno */
+        border-radius: 12px;                               /* redondea las esquinas */
+        font-size: 20px;                                   /* tamaño del ícono o letra */
+        cursor: pointer;                                   /* muestra la manito al pasar el mouse, para que sepan que se puede tocar */
+        backdrop-filter: blur(8px);                        /* difumina lo que está detrás del botón */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, .2);        /* sombra suave alrededor */
+        transition: .25s;                                  /* hace que los cambios de estilo se vean suaves, no de golpe */
+    }               
+
+    /* cómo se ve el botón cuando el mouse pasa por encima */
+    .btn-menu:hover {               
+        transform: scale(1.1);                             /* lo agranda un poco */
+        background: rgba(255, 255, 255, .3);             /* el fondo se ve un poco más blanco */
+    }               
+
+    /* es el cuadro que aparece al abrir el menú */
+    .menu-dropdown {               
+        display: none;                                    /* está escondido por defecto */
+        position: absolute;                               /* se ubica flotando sobre el resto del contenido */
+        top: 50px;                                        /* aparece un poco más abajo del botón */
+        left: 0;                                          /* se alinea a la izquierda */
+        width: 220px;                                     /* define qué tan ancho es el cuadro */
+        background: rgba(255, 255, 255, .97);           /* fondo casi blanco del todo */
+        backdrop-filter: blur(10px);                      /* difumina lo que está detrás */
+        border-radius: 12px;                              /* redondea las esquinas */
+        padding: 8px;                                     /* deja un poco de espacio interno */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, .25);     /* le da una sombra marcada */
+        z-index: 1000;                                    /* hace que se muestre por encima de otras cosas */
+    }               
+
+    /* cómo se ve el menú cuando está abierto */
+    .menu-dropdown.active {               
+        display: block;                                   /* lo hace visible */
+    }               
+
+    /* estilo de cada opción dentro del menú */
+    .menu-item {               
+        width: 100%;                                      /* ocupa todo el ancho disponible */
+        padding: 12px 14px;                               /* deja espacio interno */
+        border: none;                                     /* sin borde */
+        background: transparent;                          /* sin color de fondo */
+        display: flex;                                    /* acomoda el ícono y el texto en fila */
+        align-items: center;                              /* los centra verticalmente */
+        gap: 10px;                                        /* deja espacio entre el ícono y el texto */
+        border-radius: 8px;                               /* redondea un poco las esquinas */
+        cursor: pointer;                                  /* muestra que se puede hacer clic */
+        font-size: 14px;                                  /* tamaño de la letra */
+        font-weight: 500;                                 /* grosor medio de la letra */
+        color: #1f2937;                                 /* color gris oscuro para el texto */
+        transition: .2s;                                  /* hace los cambios de estilo suaves */
+        text-decoration: none;                            /* quita el subrayado si es un link */
+    }               
+
+    /* cómo se ve una opción cuando el mouse pasa por encima */
+    .menu-item:hover {               
+        background: #e0ecff;                             /* el fondo se pone celeste clarito */
+        color: #1d4ed8;                                  /* el texto se pone azul */
+    }               
+ 
+/* TÍTULO: TOTAL LITROS */
+
+    /* es el recuadro que muestra el total de litros */
+    .total-box {               
+        width: 100%;                                      /* ocupa todo el ancho disponible */
+        display: flex;                                    /* acomoda lo de adentro */
+        align-items: center;                              /* centra verticalmente */
+        justify-content: center;                          /* centra horizontalmente */
+        gap: 10px;                                        /* deja espacio entre los elementos */
+        padding: 18px;                                    /* espacio interno alrededor */
+        margin-bottom: 25px;                              /* deja espacio debajo de este recuadro */
+        border-radius: 14px;                              /* redondea las esquinas */
+        font-size: 22px;                                  /* tamaño de la letra */
+        font-weight: 700;                                 /* letra gruesa */
+        color: #fff;                                    /* texto blanco */
+        text-align: center;                               /* centra el texto */
+        box-sizing: border-box;                           /* hace que el tamaño se calcule incluyendo el espacio interno */
+        box-shadow: 0 6px 18px rgba(0, 0, 0, .15);      /* sombra suave alrededor */
+    }               
+
+    /* estilo del número dentro del recuadro */
+    .total-box span {                       
+        font-size: 34px;                                 /* letra bien grande para que resalte el número */
+        font-weight: 900;                                /* letra bien gruesa */
+        color: #fff;                                   /* se ve blanco */
+    }               
+
+    /* versión azul del recuadro de total */
+    .total-blue {               
+        background: linear-gradient(135deg, #2563eb, #1e3a8a); /* fondo que pasa de azul a azul oscuro */
+    }              
+
+    /* versión verde del recuadro de total */
+    .total-green {               
+        background: linear-gradient(135deg, #16a34a, #166534); /* fondo que pasa de verde a verde oscuro */
+    }               
+
+
+    
+/* TÍTULO: BOTÓN GPS */
+    
+    /* junta el campo de texto con el botón de ubicación */
+    .input-with-button {               
+        display: flex;                                  /* los pone uno al lado del otro */
+        gap: 10px;                                      /* deja espacio entre ellos */
+        align-items: center;                            /* los centra verticalmente */
+    }               
+
+    /* estilo del botón para usar la ubicación (GPS) */
+    .btn-location {               
+        min-width: 55px;                                /* no deja que se achique más de este ancho */
+        height: 50px;                                   /* define la altura del botón */
+        border: none;                                   /* sin borde */
+        border-radius: 12px;                            /* redondea las esquinas */
+        cursor: pointer;                                /* muestra que se puede tocar */
+        color: #fff;                                  /* el ícono se ve blanco */
+        font-size: 20px;                                /* tamaño del ícono */
+        font-weight: bold;                              /* lo hace más grueso */
+        transition: .2s;                                /* cambios de estilo suaves */
+    }               
+
+    /* cómo se ve el botón cuando pasa el mouse por encima */
+    .btn-location:hover {               
+        transform: scale(1.05);                         /* lo agranda un poquito */
+    }              
+
+    /* versión azul del botón */
+    .btn-blue {               
+        background: #2563eb;                         /* fondo de color azul */
+    }              
+
+    /* versión verde del botón */
+    .btn-green {               
+        background: #16a34a;                        /* fondo de color verde */
+    }               
+    
+/* TÍTULO: MENSAJES DEL SISTEMA      */
+    
+    /* es el aviso que aparece arriba a la derecha, como una notificación */
+    .mensaje-sistema {               
+        position: fixed;                             /* se queda fijo en la pantalla aunque se haga scroll */
+        top: 20px;                                   /* aparece a 20 píxeles del borde de arriba */
+        right: 20px;                                 /* aparece a 20 píxeles del borde derecho */
+        z-index: 99999;                              /* se muestra por encima de casi todo lo demás */
+        padding: 14px 18px;                          /* espacio interno */
+        border-radius: 10px;                         /* esquinas redondeadas */
+        color: #fff;                               /* texto blanco */
+        font-weight: 600;                            /* letra un poco gruesa */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .2);  /* sombra suave */
+        animation: fadeIn .25s ease;                 /* hace que aparezca con un efecto suave, no de golpe */
+    }               
+
+    /* cómo se ve el aviso cuando es de error */
+    .mensaje-sistema.error {               
+        background: #dc2626;                        /* fondo de color rojo */
+    }               
+
+    /* cómo se ve el aviso cuando todo salió bien */
+    .mensaje-sistema.success {               
+        background: #16a34a;                        /* fondo de color verde */
+    }               
+
+    /* aquí se define el efecto de aparición suave usado arriba */
+    @keyframes fadeIn {               
+        from {                                       /* cómo empieza el efecto */
+            opacity: 0;                              /* al inicio es totalmente invisible */
+            transform: translateY(-10px);            /* y empieza un poco más arriba de su posición final */
+        }               
+        to {                                         /* cómo termina el efecto */
+            opacity: 1;                              /* al final se ve completamente visible */
+            transform: translateY(0);                /* y queda en su posición normal */
+        }               
+    }               
+
+
+    
+/* TÍTULO: TOAST */
+
+    /* es la zona donde se apilan los avisos tipo "toast" */
+    .toast-container {               
+        position: fixed;                             /* se queda fijo en la pantalla */
+        top: 1rem;                                   /* separado un poco del borde de arriba */
+        right: 1rem;                                 /* separado un poco del borde derecho */
+        z-index: 9999;                               /* se muestra por encima de otros elementos */
+        display: flex;                               /* acomoda los avisos */
+        flex-direction: column;                      /* uno debajo del otro */
+        gap: .5rem;                                  /* con un pequeño espacio entre ellos */
+    }               
+
+    /* estilo de cada aviso individual */
+    .toast {               
+        background: #fff;                           /* fondo blanco */
+        border-radius: .5rem;                         /* esquinas redondeadas */
+        padding: 1rem 1.5rem;                         /* espacio interno */
+        display: flex;                                /* acomoda el ícono y el texto */
+        align-items: center;                          /* los centra verticalmente */
+        gap: .75rem;                                  /* deja espacio entre ellos */
+        min-width: 300px;                             /* no deja que se achique demasiado */
+        border-left: 4px solid;                       /* le pone una franja de color en el borde izquierdo */
+        box-shadow:                                   /* le da una sombra usando dos capas para que se vea más natural */
+            0 10px 15px -3px rgba(0, 0, 0, .1),     /* primera capa de sombra, más difusa */
+            0 4px 6px -2px rgba(0, 0, 0, .05);      /* segunda capa de sombra, más cercana */
+    }               
+
+    /* variante del aviso para cuando algo salió bien */
+    .toast-success {               
+        border-left-color: #10b981;                 /* la franja izquierda se ve verde */
+    }               
+
+    /* variante del aviso para cuando algo salió mal */
+    .toast-error {               
+        border-left-color: #ef4444;                 /* la franja izquierda se ve roja */
+    }               
+
+    /* variante del aviso para mostrar solo información */
+    .toast-info {               
+        border-left-color: #3b82f6;                 /* la franja izquierda se ve azul */
+    }               
+
+
+    
+/* TÍTULO: RESPONSIVE  */
+    
+    /* estos estilos solo se aplican en pantallas chicas, como celulares */
+    @media (max-width: 768px) {               
+         
+        /* ajusta la cabecera en pantallas chicas */
+        .header-container {               
+            flex-direction: column;                  /* pone los elementos uno debajo del otro en vez de en fila */
+            gap: 15px;                               /* deja un poco más de espacio entre ellos */
+        }               
+
+        /* ajusta el título en pantallas chicas */
+        .header-titulo h1 {               
+            font-size: 1.2rem;                       /* lo achica para que entre mejor */
+        }              
+
+        /* ajusta el tamaño del logo en pantallas chicas */
+        .header-logo .logo-box {               
+            width: 3rem;                             /* lo hace un poco más angosto */
+            height: 3rem;                            /* lo hace un poco más bajo */
+        }               
+
+        /* ajusta el texto del logo en pantallas chicas */
+        .header-logo .logo-texto {               
+            font-size: 1rem;                         /* lo achica un poco */
+        }               
+
+        /* ajusta el recuadro de total en pantallas chicas */
+        .total-box {               
+            font-size: 18px;                         /* achica la letra */
+        }               
+
+        /* ajusta el número del total en pantallas chicas */
+        .total-box span {               
+            font-size: 24px;                         /* lo achica un poco, pero sigue siendo grande */
+        }               
+
+    }              
+
+
+    
+/* TÍTULO: AVISOS FLOTANTES (VERSIÓN ANTIGUA) */
+
+    /* otra caja de avisos, fija arriba a la derecha, por encima de todo */
+    #toastContainer{position:fixed;top:20px;right:20px;z-index:9999} 
+    
+    /* estilo de cada aviso: fondo blanco, esquinas redondas, sombra y el contenido acomodado en fila */
+    .toast{background:#fff;padding:12px 16px;margin-bottom:10px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.2);display:flex;gap:8px;align-items:center}               
+
+
+/* TÍTULO: MODAL ESCANER QR */
+
+    /* es la ventana emergente para escanear un código QR */
+    .qr-scanner-modal{               
+        display:none;                                /* está escondida por defecto */
+        position:fixed;                              /* se queda fija en toda la pantalla */
+        inset:0;                                     /* cubre la pantalla completa desde todos los bordes */
+        z-index:100000;                              /* se muestra por encima de absolutamente todo */
+        background:rgba(15,23,42,.78);             /* fondo oscuro semitransparente, como un velo */
+        align-items:center;                          /* centra el contenido verticalmente */
+        justify-content:center;                      /* centra el contenido horizontalmente */
+        padding:20px;                                /* deja espacio interno alrededor */
+    } 
+    
+    /* cuando está activa, la ventana se muestra y organiza su contenido */
+    .qr-scanner-modal.active{display:flex}
+    
+    /* es la tarjeta blanca dentro de la ventana emergente */
+    .qr-scanner-box{               
+        width:min(560px,100%);                       /* usa hasta 560 píxeles de ancho, sin pasarse del tamaño de la pantalla */
+        background:#fff;                           /* fondo blanco */
+        border-radius:18px;                          /* esquinas bien redondeadas */
+        padding:20px;                                /* espacio interno */
+        box-shadow:0 20px 60px rgba(0,0,0,.35);    /* sombra marcada para que resalte sobre el fondo oscuro */
+    }               
+
+     /* organiza el título y el botón de cerrar en la parte de arriba de la tarjeta */
+    .qr-scanner-header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:8px}
+    
+    /* estilo del título dentro de esa cabecera: sin espacio extra y en gris oscuro */
+    .qr-scanner-header h2{margin:0;color:#1e293b} 
+    
+    /* es el botón redondo para cerrar la ventana */
+    .qr-close{border:0;background:#e2e8f0;color:#334155;border-radius:10px;width:40px;height:40px;font-size:28px;line-height:1;cursor:pointer}
+    
+    /* mensaje que indica el estado del escaneo, en gris */
+    .qr-scanner-status{margin:0 0 14px;color:#475569;font-weight:600}
+    
+    /* si el estado es de error, el texto se pone rojo */
+    .qr-scanner-status.error{color:#dc2626} 
+    
+     /* si el estado es exitoso, el texto se pone verde */
+    .qr-scanner-status.success{color:#16a34a}
+    
+    /* es el recuadro oscuro donde se ve la cámara */
+    .qr-video-wrap{position:relative;overflow:hidden;border-radius:14px;background:#0f172a;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+    
+    /* hace que la imagen de la cámara llene todo el recuadro */
+    #qr-video{width:100%;height:100%;object-fit:cover}
+    
+     /* dibuja el marco blanco que indica dónde apuntar el código QR */
+    .qr-frame{position:absolute;width:52%;aspect-ratio:1;border:3px solid #fff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.18);pointer-events:none}  
+    
+     /* es el botón para subir una imagen con el código QR en vez de usar la cámara */
+    .qr-image-input{display:block;width:100%;margin-top:14px;padding:10px;border:1px solid #cbd5e1;border-radius:10px} 
+    
+    /* texto de ayuda pequeño, en gris claro */
+    .qr-help{font-size:12px;color:#64748b;margin:10px 0 0}
+    
+    /* resalta con un fondo gris claro las palabras técnicas dentro del texto de ayuda */
+    .qr-help code{background:#f1f5f9;padding:2px 4px;border-radius:4px}               
+
+    /* en pantallas chicas, achica el espacio interno de la tarjeta y agranda el marco del QR */
+    @media(max-width:600px){.qr-scanner-box{padding:14px}.qr-frame{width:65%}}               
+
+/* TÍTULO: LECTOR QR (CÁMARA)   */
+
+    /* ajusta el tamaño del lector de códigos y de los videos de cámara, para que se vean bien y con esquinas redondeadas */
+    #qr-reader{width:100%;min-height:280px}#qr-reader video{width:100%!important;border-radius:12px}#qr-native-video{width:100%;height:100%;object-fit:cover}               
+
+
+
+    /* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez panel.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA
+*/     
