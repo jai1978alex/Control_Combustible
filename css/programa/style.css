@@ -1,100 +1,155 @@
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA 
+*/
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    line-height: 1.5;
-    color: #1f2937;
-    background: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
-    min-height: 100vh;
-}
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez style.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-}
 
-/* Button Base */
-button {
-    font-family: inherit;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    transition: all 0.3s ease;
-}
 
-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-}
 
-/* Input Base */
-input,
-select,
-textarea {
-    font-family: inherit;
-    outline: none;
-}
+/* TÍTULO: REINICIO Y ESTILOS BASE   */
 
-input:focus,
-select:focus,
-textarea:focus {
-    outline: none;
-}
 
-/* Utility Classes */
-.required {
-    color: #ef4444;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* Container */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-/* Responsive */
-@media (min-width: 768px) {
-    .container {
-        padding: 0 1.5rem;
+    /* Reset and Base Styles esto aplica a absolutamente todos los elementos de la página */
+    * { 
+        margin: 0;                              /* les quita el espacio de afuera que traen por defecto */
+        padding: 0;                             /* les quita el espacio de adentro que traen por defecto */
+        box-sizing: border-box;                 /* hace que el tamaño se calcule incluyendo el espacio interno, para que no se descuadre nada */
     }
-}
 
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
+    /* estilo general de toda la página */
+    body { 
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* define el tipo de letra, probando varias opciones según el aparato */
+        line-height: 1.5;                       /* deja un espacio cómodo entre las líneas de texto */
+        color: #1f2937;                       /* el texto se ve de color gris oscuro */
+        background: linear-gradient(to bottom right, #f9fafb, #f3f4f6); /* fondo con un degradado suave de blanco a gris muy clarito */
+        min-height: 100vh;                      /* hace que la página ocupe como mínimo toda la altura de la pantalla */
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
+/* TÍTULO: TIPOGRAFÍA  */
 
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
+    /* Typography aplica a todos los títulos, del más grande al más chico */
+    h1, h2, h3, h4, h5, h6 { 
+        font-weight: 700;                       /* hace que la letra de los títulos se vea gruesa */
     }
-    to {
-        transform: rotate(360deg);
+
+/* TÍTULO: BOTONES */
+
+    /* Button Base estilo base para todos los botones */
+    button { 
+        font-family: inherit;                   /* usa el mismo tipo de letra que el resto de la página */
+        cursor: pointer;                        /* muestra la manito al pasar el mouse, para indicar que se puede tocar */
+        border: none;                           /* quita el borde que traen los botones por defecto */
+        outline: none;                          /* quita el contorno azul que aparece al hacer clic */
+        transition: all 0.3s ease;              /* hace que cualquier cambio de estilo se vea suave, no de golpe */
     }
-}
+
+    /* cómo se ve un botón cuando está deshabilitado, es decir, que no se puede usar */
+    button:disabled { 
+        cursor: not-allowed;                    /* muestra un ícono de "prohibido" al pasar el mouse */
+        opacity: 0.5;                           /* se ve más transparente, como apagado */
+    }
+
+/* TÍTULO: CAMPOS DE TEXTO */
+
+    /* Input Base estilo base para los campos donde se escribe, se elige de una lista o se escriben textos largos */
+    input,
+    select,
+    textarea { 
+        font-family: inherit;                   /* usa el mismo tipo de letra que el resto de la página */
+        outline: none;                          /* quita el contorno azul que aparece por defecto */
+    }
+    
+    /* cómo se ven esos campos cuando el usuario hace clic o está escribiendo en ellos */
+    input:focus,
+    select:focus,
+    textarea:focus { 
+        outline: none;                          /* se asegura de que tampoco aparezca el contorno azul en ese momento */
+    }
+
+/* TÍTULO: CLASES DE UTILIDAD  */
+
+    /* Utility Classes se usa para marcar algo como obligatorio, por ejemplo un campo del formulario */
+    .required { 
+        color: #ef4444;                      /* se ve de color rojo, para llamar la atención */
+    }
+
+    /* se usa para esconder un elemento */
+    .hidden { 
+        display: none !important;              /* lo hace invisible, y esta orden manda por encima de cualquier otro estilo */
+    }
+
+/* TÍTULO: CONTENEDOR  */
+
+    /* Container es la caja que envuelve y ordena el contenido principal */
+    .container { 
+        max-width: 1200px;                     /* no deja que se estire más allá de este ancho */
+        margin: 0 auto;                        /* lo centra en la pantalla, dejándolo sin espacio arriba/abajo pero centrado a los lados */
+        padding: 0 1rem;                       /* deja un poco de espacio interno a los costados */
+    }
+
+/* TÍTULO: RESPONSIVE */
+
+    /* Responsive estos estilos solo se aplican en pantallas medianas o grandes, como tablets o computadores */
+    @media (min-width: 768px) { 
+        .container {                           /* ajusta el contenedor en esas pantallas más grandes */
+            padding: 0 1.5rem;                 /* le da un poco más de espacio a los costados */
+        }
+    }
+
+/* TÍTULO: ANIMACIONES */
+
+    /* Animations efecto para que algo aparezca suavemente, como si se desvaneciera hacia adentro */
+    @keyframes fadeIn { 
+        from {                                 /* cómo empieza el efecto */
+            opacity: 0;                        /* al inicio es totalmente invisible */
+            transform: translateY(-10px);      /* y empieza un poco más arriba de su posición final */
+        }
+        to {                                   /* cómo termina el efecto */
+            opacity: 1;                        /* al final se ve completamente visible */
+            transform: translateY(0);          /* y queda en su posición normal */
+        }
+    }
+
+    /* efecto para que algo entre deslizándose desde el costado */
+    @keyframes slideIn { 
+        from {                                /* cómo empieza el efecto */
+            transform: translateX(100%);      /* comienza totalmente afuera, hacia la derecha */
+        }
+        to {                                  /* cómo termina el efecto */
+            transform: translateX(0);         /* termina en su posición normal, ya visible */
+        }
+    }
+
+    /* efecto para que algo gire, como una rueda */
+    @keyframes spin { 
+        from {                                /* cómo empieza el efecto */
+            transform: rotate(0deg);          /* comienza sin ninguna rotación */
+        }
+        to {                                  /* cómo termina el efecto */
+            transform: rotate(360deg);        /* termina dando una vuelta completa */
+        }
+    }
+
+
+        /* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez style.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JAJA
+*/     
