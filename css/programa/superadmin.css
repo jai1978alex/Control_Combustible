@@ -1,117 +1,566 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f7fb;
-    color: #1e293b;
-    padding: 30px;
-}
-a { text-decoration: none; }
-.admin-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 25px;
-    margin-bottom: 25px;
-}
-h1 { font-size: 34px; color: #0f172a; margin-bottom: 8px; }
-.admin-header p { color: #64748b; }
-h2 {
-    margin: 28px 0 16px;
-    font-size: 25px;
-    color: #1e293b;
-    border-left: 6px solid #2563eb;
-    padding-left: 12px;
-}
-.acciones { display: flex; gap: 10px; flex-wrap: wrap; }
-.btn {
-    padding: 11px 18px;
-    border-radius: 10px;
-    font-weight: 700;
-    display: inline-block;
-    border: 0;
-    cursor: pointer;
-    font-size: 14px;
-}
-.btn-crear, .btn-buscar { background: #2563eb; color: white; }
-.btn-crear:hover, .btn-buscar:hover { background: #1d4ed8; }
-.btn-logout { background: #dc2626; color: white; }
-.btn-logout:hover { background: #b91c1c; }
-.btn-limpiar { background: #64748b; color: white; }
-.btn-print { background: #0f766e; color: white; padding: 8px 10px; border-radius: 8px; font-weight: 700; white-space: nowrap; }
-.btn-print:hover { background: #115e59; }
-.busqueda-card {
-    background: white;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.07);
-    margin-bottom: 20px;
-}
-.busqueda-form { display: flex; align-items: end; gap: 10px; flex-wrap: wrap; }
-.busqueda-form label { width: 100%; font-weight: 700; color: #334155; }
-.busqueda-form input {
-    min-width: 280px;
-    padding: 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    font-size: 15px;
-}
-.ayuda-busqueda { margin-top: 10px; color: #64748b; font-size: 13px; }
-.resumen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 20px 0; }
-.resumen-card { color: white; padding: 20px; border-radius: 14px; box-shadow: 0 5px 18px rgba(0,0,0,.12); }
-.resumen-card span { display: block; font-weight: 600; opacity: .9; }
-.resumen-card strong { display: block; font-size: 28px; margin-top: 5px; }
-.resumen-card.azul { background: linear-gradient(135deg, #2563eb, #1e3a8a); }
-.resumen-card.verde { background: linear-gradient(135deg, #16a34a, #166534); }
-hr { border: 0; border-top: 1px solid #dbe3ee; margin: 28px 0; }
-.tabla-contenedor { width: 100%; overflow-x: auto; background: white; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,.07); }
-table { width: 100%; min-width: 900px; border-collapse: collapse; }
-table thead { background: #2563eb; color: white; }
-th { padding: 12px; text-align: left; font-size: 13px; white-space: nowrap; }
-td { padding: 11px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; vertical-align: top; }
-tr:hover td { background: #f8fafc; }
-.tabla-registros { min-width: 1850px; }
-.acciones-registro { text-align: center; }
-.btn-delete { color: #dc2626; font-weight: 600; }
-.tu-usuario { color: #64748b; }
-.sin-registros { text-align: center; color: #64748b; padding: 25px; }
-@media (max-width: 900px) {
-    body { padding: 18px; }
-    .admin-header { flex-direction: column; }
-    .resumen { grid-template-columns: 1fr; }
-}
-@media (max-width: 700px) {
-    .mensaje-admin {
-        top: 78px;
-        left: 18px;
-        right: 18px;
-        max-width: none;
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez superadmin.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+
+
+/* TÍTULO: CONFIGURACIÓN GENERAL */
+
+    /* Reset general aplica estos cambios a todos los elementos de la página */
+    * { 
+        margin: 0;                           /* quita el espacio de afuera que traen por defecto */
+        padding: 0;                          /* quita el espacio de adentro que traen por defecto */
+        box-sizing: border-box;              /* hace que el tamaño incluya también el espacio interno */
     }
-}
 
-@media print {
-    body { padding: 0; background: white; }
-    .admin-header .acciones, .busqueda-card { display: none; }
-    .tabla-contenedor { box-shadow: none; }
-}
+    /* estilo general de toda la página */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* define el tipo de letra de la página */
+        background: #f4f7fb;                /* coloca un fondo de color gris muy claro */
+        color: #1e293b;                     /* coloca el texto en color gris oscuro */
+        padding: 30px;                        /* deja espacio entre el contenido y los bordes de la pantalla */
+    }
 
-.logout-inline{display:inline}
+    /* quita la línea que aparece debajo de los enlaces */
+    a { 
+        text-decoration: none;                /* quita la decoración o línea del enlace */
+    }
 
 
-.acciones-registro{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;white-space:nowrap;width:max-content;min-width:max-content;margin:0 auto}
-.tabla-registros td:last-child{white-space:nowrap;min-width:190px}
-.form-eliminar-registro{display:inline;margin:0}
-.btn-delete-registro{border:0;background:#dc2626;color:#fff;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap}
-.btn-delete-registro:hover{background:#b91c1c}
-.mensaje-admin{position:fixed;top:90px;right:20px;z-index:9999;padding:14px 18px;border-radius:10px;color:#fff;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,.18);max-width:420px;opacity:1;transform:translateY(0);transition:opacity .4s ease,transform .4s ease}.mensaje-admin-oculto{opacity:0;transform:translateY(-10px);pointer-events:none}
-.mensaje-admin.success{background:#16a34a}.mensaje-admin.error{background:#dc2626}
-.temp-password-flash{background:#0f766e;line-height:1.5}
-.temp-password-flash code{display:inline-block;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:6px;font-size:15px;letter-spacing:.5px;margin:4px 0}
-.temp-password-flash small{display:block;font-weight:400;opacity:.9;margin-top:4px}
-.btn-reset-password{background:#0369a1;color:#fff}
-.btn-reset-password:hover{background:#075985}
-.btn-exportar{margin-left:12px;font-size:13px;vertical-align:middle;padding:6px 12px}
-h2{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
-.paginador{display:flex;align-items:center;justify-content:center;gap:16px;margin:16px 0 6px;flex-wrap:wrap}
-.paginador-info{color:#64748b;font-size:14px;font-weight:600}
+/* TÍTULO: ENCABEZADO DEL ADMINISTRADOR */
 
-.btn-edit{background:#2563eb!important;color:#fff!important;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;}
+    /* organiza los elementos que están dentro del encabezado */
+    .admin-header {
+        display: flex;                        /* coloca los elementos de forma ordenada en una misma fila */
+        justify-content: space-between;       /* deja un espacio entre los elementos de los extremos */
+        align-items: flex-start;              /* alinea los elementos desde la parte superior */
+        gap: 25px;                            /* deja espacio entre los elementos */
+        margin-bottom: 25px;                  /* deja espacio debajo del encabezado */
+    }
+
+    /* estilo del título principal */
+    h1 { 
+        font-size: 34px;                      /* define el tamaño del título */
+        color: #0f172a;                     /* coloca el título en un color oscuro */
+        margin-bottom: 8px;                   /* deja un pequeño espacio debajo del título */
+    }
+
+    /* estilo del texto que está dentro del encabezado */
+    .admin-header p { 
+        color: #64748b;                      /* coloca el texto en color gris */
+    }
+
+
+/* TÍTULO: TÍTULOS DE SECCIONES */
+
+    /* estilo de los títulos secundarios de las diferentes partes de la página */
+    h2 {
+        margin: 28px 0 16px;                  /* deja espacio arriba y abajo del título */
+        font-size: 25px;                      /* define el tamaño del título */
+        color: #1e293b;                     /* coloca el título en color gris oscuro */
+        border-left: 6px solid #2563eb;     /* coloca una línea azul al lado izquierdo */
+        padding-left: 12px;                   /* deja espacio entre la línea azul y el texto */
+    }
+
+
+/* TÍTULO: BOTONES Y ACCIONES */
+
+    /* organiza los botones que se encuentran dentro de la zona de acciones */
+    .acciones { 
+        display: flex;                        /* coloca los botones de forma ordenada */
+        gap: 10px;                            /* deja espacio entre cada botón */
+        flex-wrap: wrap;                      /* permite que los botones bajen cuando no hay espacio */
+    }
+
+    /* estilo general de los botones */
+    .btn {
+        padding: 11px 18px;                   /* deja espacio dentro del botón */
+        border-radius: 10px;                  /* redondea las esquinas del botón */
+        font-weight: 700;                     /* hace que el texto se vea más grueso */
+        display: inline-block;                /* permite que el botón ocupe solo el espacio necesario */
+        border: 0;                            /* quita el borde del botón */
+        cursor: pointer;                      /* muestra la manito al pasar el mouse */
+        font-size: 14px;                      /* define el tamaño del texto */
+    }
+
+    /* color de los botones crear y buscar */
+    .btn-crear, .btn-buscar { 
+        background: #2563eb;                 /* coloca el fondo de color azul */
+        color: white;                        /* coloca el texto en color blanco */
+    }
+
+    /* cambia el color de los botones crear y buscar al pasar el mouse */
+    .btn-crear:hover, .btn-buscar:hover { 
+        background: #1d4ed8;                 /* coloca un azul más oscuro */
+    }
+
+    /* estilo del botón para cerrar sesión */
+    .btn-logout { 
+        background: #dc2626;                 /* coloca el fondo de color rojo */
+        color: white;                        /* coloca el texto en color blanco */
+    }
+
+    /* cambia el color del botón cerrar sesión al pasar el mouse */
+    .btn-logout:hover { 
+        background: #b91c1c;                 /* coloca un rojo más oscuro */
+    }
+
+    /* estilo del botón limpiar */
+    .btn-limpiar { 
+        background: #64748b;                /* coloca el fondo de color gris */
+        color: white;                       /* coloca el texto en color blanco */
+    }
+
+    /* estilo del botón imprimir */
+    .btn-print { 
+        background: #0f766e;                /* coloca el fondo de color verde oscuro */
+        color: white;                       /* coloca el texto en color blanco */
+        padding: 8px 10px;                    /* deja espacio dentro del botón */
+        border-radius: 8px;                   /* redondea las esquinas */
+        font-weight: 700;                     /* hace que el texto se vea más grueso */
+        white-space: nowrap;                  /* evita que el texto se divida en varias líneas */
+    }
+
+    /* cambia el color del botón imprimir al pasar el mouse */
+    .btn-print:hover { 
+        background: #115e59;                 /* coloca un verde más oscuro */
+    }
+
+
+/* TÍTULO: CAJA DE BÚSQUEDA */
+
+    /* crea la caja donde se encuentra la búsqueda */
+    .busqueda-card {
+        background: white;                   /* coloca el fondo de color blanco */
+        padding: 20px;                         /* deja espacio dentro de la caja */
+        border-radius: 14px;                   /* redondea las esquinas */
+        box-shadow: 0 4px 15px rgba(0,0,0,.07); /* agrega una sombra suave alrededor */
+        margin-bottom: 20px;                   /* deja espacio debajo de la caja */
+    }
+
+    /* organiza los elementos del formulario de búsqueda */
+    .busqueda-form { 
+        display: flex;                         /* organiza los elementos de forma flexible */
+        align-items: end;                      /* coloca los elementos alineados hacia abajo */
+        gap: 10px;                             /* deja espacio entre los elementos */
+        flex-wrap: wrap;                       /* permite que los elementos bajen cuando no hay espacio */
+    }
+
+    /* estilo del texto que acompaña al campo de búsqueda */
+    .busqueda-form label { 
+        width: 100%;                           /* hace que ocupe todo el ancho disponible */
+        font-weight: 700;                      /* hace que el texto se vea más grueso */
+        color: #334155;                      /* coloca el texto en color gris oscuro */
+    }
+
+    /* estilo del campo donde se escribe la búsqueda */
+    .busqueda-form input {
+        min-width: 280px;                     /* establece un ancho mínimo para el campo */
+        padding: 12px;                        /* deja espacio dentro del campo */
+        border: 1px solid #cbd5e1;          /* coloca un borde gris claro */
+        border-radius: 10px;                  /* redondea las esquinas del campo */
+        font-size: 15px;                      /* define el tamaño del texto */
+    }
+
+    /* estilo del texto que ayuda a usar la búsqueda */
+    .ayuda-busqueda { 
+        margin-top: 10px;                     /* deja espacio arriba del texto */
+        color: #64748b;                     /* coloca el texto en color gris */
+        font-size: 13px;                      /* hace el texto más pequeño */
+    }
+
+
+/* TÍTULO: RESUMEN DE INFORMACIÓN */
+
+    /* organiza las tarjetas del resumen en dos columnas */
+    .resumen { 
+        display: grid;                        /* organiza las tarjetas en una cuadrícula */
+        grid-template-columns: repeat(2, minmax(0, 1fr)); /* crea dos columnas del mismo tamaño */
+        gap: 18px;                            /* deja espacio entre las tarjetas */
+        margin: 20px 0;                       /* deja espacio arriba y abajo */
+    }
+
+    /* estilo general de las tarjetas del resumen */
+    .resumen-card { 
+        color: white;                        /* coloca el texto en color blanco */
+        padding: 20px;                         /* deja espacio dentro de la tarjeta */
+        border-radius: 14px;                   /* redondea las esquinas */
+        box-shadow: 0 5px 18px rgba(0,0,0,.12); /* agrega una sombra alrededor */
+    }
+
+    /* estilo del texto pequeño dentro de la tarjeta */
+    .resumen-card span { 
+        display: block;                        /* hace que aparezca en una línea propia */
+        font-weight: 600;                      /* hace que el texto se vea un poco más grueso */
+        opacity: .9;                           /* hace que el texto sea ligeramente transparente */
+    }
+
+    /* estilo del número principal de la tarjeta */
+    .resumen-card strong { 
+        display: block;                        /* coloca el número en una línea propia */
+        font-size: 28px;                       /* hace más grande el número */
+        margin-top: 5px;                       /* deja un pequeño espacio arriba */
+    }
+
+    /* coloca un fondo azul en la tarjeta azul */
+    .resumen-card.azul { 
+        background: linear-gradient(135deg, #2563eb, #1e3a8a); /* crea un degradado de azul */
+    }
+
+    /* coloca un fondo verde en la tarjeta verde */
+    .resumen-card.verde { 
+        background: linear-gradient(135deg, #16a34a, #166534); /* crea un degradado de verde */
+    }
+
+
+/* TÍTULO: SEPARADOR */
+
+    /* crea una línea para separar diferentes partes de la página */
+    hr { 
+        border: 0;                             /* quita el borde que trae por defecto */
+        border-top: 1px solid #dbe3ee;       /* coloca una línea fina en la parte superior */
+        margin: 28px 0;                        /* deja espacio arriba y abajo de la línea */
+    }
+
+
+    /* TÍTULO: TABLA */
+
+    /* crea y ordena la caja donde se encuentra la tabla */
+    .tabla-contenedor { 
+        width: 100%;                           /* hace que la caja ocupe todo el ancho disponible */
+        overflow-x: auto;                      /* permite mover la tabla hacia los lados si es muy grande */
+        background: white;                   /* coloca fondo blanco */
+        border-radius: 14px;                   /* redondea las esquinas */
+        box-shadow: 0 4px 15px rgba(0,0,0,.07); /* agrega una sombra suave */
+    }
+
+    /* configura el tamaño general de la tabla */
+    table { 
+        width: 100%;                           /* hace que la tabla ocupe todo el ancho disponible */
+        min-width: 900px;                      /* establece un ancho mínimo para la tabla */
+        border-collapse: collapse;             /* junta los bordes de las celdas */
+    }
+
+    /* cambia el fondo de la parte superior de la tabla */
+    table thead { 
+        background: #2563eb;                  /* coloca el encabezado de la tabla en azul */
+        color: white;                         /* coloca el texto del encabezado en blanco */
+    }
+
+    /* configura las celdas que contienen los títulos de las columnas */
+    th { 
+        padding: 12px;                         /* deja espacio dentro de cada título */
+        text-align: left;                      /* alinea el texto hacia la izquierda */
+        font-size: 13px;                       /* define el tamaño del texto */
+        white-space: nowrap;                   /* evita que el texto se divida en varias líneas */
+    }
+
+    /* configura las celdas donde aparecen los datos */
+    td { 
+        padding: 11px 12px;                    /* deja espacio dentro de las celdas */
+        border-bottom: 1px solid #e2e8f0;    /* coloca una línea debajo de cada fila */
+        font-size: 13px;                       /* define el tamaño del texto */
+        vertical-align: top;                   /* coloca el contenido en la parte superior */
+    }
+
+    /* cambia el fondo de las celdas cuando se pasa el mouse por una fila */
+    tr:hover td { 
+        background: #f8fafc;                  /* coloca un fondo gris muy claro */
+    }
+
+    /* establece un ancho mínimo para la tabla de registros */
+    .tabla-registros { 
+        min-width: 1850px;                     /* hace que la tabla tenga espacio suficiente para sus datos */
+    }
+
+    /* centra las acciones de cada registro */
+    .acciones-registro { 
+        text-align: center;                    /* centra el contenido */
+    }
+
+    /* estilo del botón o enlace para eliminar */
+    .btn-delete { 
+        color: #dc2626;                       /* coloca el texto en color rojo */
+        font-weight: 600;                       /* hace que el texto se vea más grueso */
+    }
+
+    /* cambia el color del nombre del usuario actual */
+    .tu-usuario { 
+        color: #64748b;                        /* coloca el texto en color gris */
+    }
+
+    /* estilo para cuando no existen registros */
+    .sin-registros { 
+        text-align: center;                     /* centra el mensaje */
+        color: #64748b;                       /* coloca el texto en color gris */
+        padding: 25px;                          /* deja espacio alrededor del mensaje */
+    }
+
+
+/* TÍTULO: AJUSTE PARA PANTALLAS MEDIANAS */
+
+    /* estos cambios se aplican cuando la pantalla tiene hasta 900 píxeles */
+    @media (max-width: 900px) {
+        /* reduce el espacio de los lados en pantallas más pequeñas */
+        body { 
+            padding: 18px;                      /* reduce el espacio alrededor de la página */
+        }
+
+        /* coloca el encabezado en forma vertical */
+        .admin-header { 
+            flex-direction: column;             /* coloca los elementos uno debajo del otro */
+        }
+
+        /* coloca las tarjetas del resumen en una sola columna */
+        .resumen { 
+            grid-template-columns: 1fr;         /* deja una sola columna */
+        }
+    }
+
+
+/* TÍTULO: AJUSTE PARA CELULARES */
+
+    /* estos cambios se aplican cuando la pantalla tiene hasta 700 píxeles */
+    @media (max-width: 700px) {
+        /* configura la posición del mensaje del administrador */
+        .mensaje-admin {
+            top: 78px;                          /* coloca el mensaje debajo de la parte superior */
+            left: 18px;                         /* deja espacio desde el lado izquierdo */
+            right: 18px;                        /* deja espacio desde el lado derecho */
+            max-width: none;                    /* permite que use el ancho disponible */
+        }
+    }
+
+
+/* TÍTULO: CONFIGURACIÓN PARA IMPRIMIR */
+
+    /* estos estilos se usan solamente cuando se imprime la página */
+    @media print {
+        /* prepara la página para impresión */
+        body { 
+            padding: 0;                         /* quita el espacio alrededor de la página */
+            background: white;                /* coloca fondo blanco */
+        }
+
+        /* oculta los botones y la búsqueda cuando se imprime */
+        .admin-header .acciones, .busqueda-card { 
+            display: none;                      /* hace que estos elementos no aparezcan impresos */
+        }
+
+        /* quita la sombra de la tabla al imprimir */
+        .tabla-contenedor { 
+            box-shadow: none;                   /* elimina la sombra */
+        }
+    }
+
+
+/* TÍTULO: BOTÓN DE CERRAR SESIÓN */
+
+    /* permite que el botón permanezca dentro de la misma línea */
+    .logout-inline{
+        display:inline                          /* mantiene el elemento en línea */
+    }
+
+
+/* TÍTULO: BOTONES DE ACCIONES DE LOS REGISTROS */
+
+    /* organiza los botones de cada registro y evita que se separen */
+    .acciones-registro{
+        display:flex;                           /* organiza los elementos en una misma línea */
+        align-items:center;                     /* centra los elementos verticalmente */
+        justify-content:center;                 /* centra los elementos horizontalmente */
+        gap:8px;                                /* deja espacio entre los botones */
+        flex-wrap:nowrap;                       /* evita que los botones bajen a otra línea */
+        white-space:nowrap;                     /* evita que el contenido se divida */
+        width:max-content;                      /* usa solo el ancho que necesitan los elementos */
+        min-width:max-content;                  /* establece como mínimo el ancho necesario */
+        margin:0 auto                           /* centra la zona de botones */
+    }
+
+    /* configura la última columna de la tabla */
+    .tabla-registros td:last-child{
+        white-space:nowrap;                     /* evita que los botones se separen */
+        min-width:190px                         /* establece un ancho mínimo para la columna */
+    }
+
+    /* mantiene el formulario de eliminar en la misma línea */
+    .form-eliminar-registro{
+        display:inline;                         /* mantiene el formulario en línea */
+        margin:0                                /* quita espacios externos */
+    }
+
+    /* estilo del botón que elimina un registro */
+    .btn-delete-registro{
+        border:0;                               /* quita el borde */
+        background:#dc2626;                   /* coloca fondo rojo */
+        color:#fff;                           /* coloca texto blanco */
+        padding:8px 10px;                       /* deja espacio dentro del botón */
+        border-radius:8px;                      /* redondea las esquinas */
+        font-weight:700;                        /* hace que el texto se vea grueso */
+        cursor:pointer;                         /* muestra la manito al pasar el mouse */
+        white-space:nowrap                      /* evita que el texto se divida */
+    }
+
+    /* cambia el color del botón eliminar cuando se pasa el mouse */
+    .btn-delete-registro:hover{
+        background:#b91c1c                     /* coloca un rojo más oscuro */
+    }
+
+
+/* TÍTULO: MENSAJES DEL ADMINISTRADOR */
+
+    /* configura la posición y apariencia de los mensajes que aparecen en pantalla */
+    .mensaje-admin{
+        position:fixed;                         /* mantiene el mensaje en una posición fija */
+        top:90px;                               /* coloca el mensaje a 90 píxeles desde arriba */
+        right:20px;                             /* deja 20 píxeles desde el lado derecho */
+        z-index:9999;                           /* hace que el mensaje quede por encima de otros elementos */
+        padding:14px 18px;                      /* deja espacio dentro del mensaje */
+        border-radius:10px;                     /* redondea las esquinas */
+        color:#fff;                           /* coloca el texto en blanco */
+        font-weight:700;                        /* hace que el texto se vea grueso */
+        box-shadow:0 8px 20px rgba(0,0,0,.18);/* agrega una sombra */
+        max-width:420px;                        /* limita el ancho máximo del mensaje */
+        opacity:1;                              /* hace que el mensaje sea completamente visible */
+        transform:translateY(0);                /* mantiene el mensaje en su posición normal */
+        transition:opacity .4s ease,transform .4s ease /* hace suave el cambio del mensaje */
+    }
+    .mensaje-admin-oculto{
+        opacity:0;                              /* hace que el mensaje sea invisible */
+        transform:translateY(-10px);            /* mueve el mensaje un poco hacia arriba */
+        pointer-events:none                     /* evita que el mensaje pueda recibir clics */
+    }
+
+    /* coloca color verde para mensajes correctos y rojo para errores */
+    .mensaje-admin.success{
+        background:#16a34a                     /* coloca fondo verde */
+    }
+    .mensaje-admin.error{
+        background:#dc2626                     /* coloca fondo rojo */
+    }
+
+
+/* TÍTULO: CONTRASEÑA TEMPORAL */
+
+    /* configura el mensaje que muestra una contraseña temporal */
+    .temp-password-flash{
+        background:#0f766e;                    /* coloca fondo verde oscuro */
+        line-height:1.5                          /* deja espacio cómodo entre las líneas */
+    }
+
+    /* configura la apariencia del código de la contraseña */
+    .temp-password-flash code{
+        display:inline-block;                    /* permite controlar el espacio del código */
+        background:rgba(255,255,255,.18);      /* coloca un fondo blanco transparente */
+        padding:3px 10px;                        /* deja espacio alrededor de la contraseña */
+        border-radius:6px;                       /* redondea las esquinas */
+        font-size:15px;                          /* define el tamaño de la contraseña */
+        letter-spacing:.5px;                     /* deja un pequeño espacio entre las letras */
+        margin:4px 0                             /* deja espacio arriba y abajo */
+    }
+
+    /* configura el texto pequeño debajo de la contraseña */
+    .temp-password-flash small{
+        display:block;                          /* coloca el texto en una línea propia */
+        font-weight:400;                        /* usa un grosor normal */
+        opacity:.9;                             /* hace el texto ligeramente transparente */
+        margin-top:4px                          /* deja un pequeño espacio arriba */
+    }
+
+
+/* TÍTULO: BOTÓN PARA CAMBIAR CONTRASEÑA */
+
+    /* coloca el color del botón para reiniciar la contraseña */
+    .btn-reset-password{
+        background:#0369a1;                    /* coloca fondo azul */
+        color:#fff                             /* coloca texto blanco */
+    }
+
+    /* cambia el color del botón al pasar el mouse */
+    .btn-reset-password:hover{
+        background:#075985                     /* coloca un azul más oscuro */
+    }
+
+
+/* TÍTULO: BOTÓN EXPORTAR */
+
+    /* ajusta la posición, tamaño y espacio del botón exportar */
+    .btn-exportar{
+        margin-left:12px;                      /* deja espacio a la izquierda */
+        font-size:13px;                        /* define el tamaño del texto */
+        vertical-align:middle;                 /* alinea el botón con el contenido de alrededor */
+        padding:6px 12px                       /* deja espacio dentro del botón */
+    }
+
+
+/* TÍTULO: TÍTULOS CON BOTONES */
+
+    /* permite colocar títulos y botones juntos y ordenados */
+    h2{
+        display:flex;                          /* organiza los elementos de forma flexible */
+        align-items:center;                    /* centra los elementos verticalmente */
+        flex-wrap:wrap;                        /* permite que bajen si no hay espacio */
+        gap:6px                                /* deja espacio entre los elementos */
+    }
+
+
+/* TÍTULO: PAGINACIÓN */
+
+    /* organiza los botones utilizados para cambiar de página */
+    .paginador{
+        display:flex;                          /* coloca los elementos de forma ordenada */
+        align-items:center;                    /* centra los elementos verticalmente */
+        justify-content:center;                /* centra los elementos horizontalmente */
+        gap:16px;                              /* deja espacio entre los elementos */
+        margin:16px 0 6px;                     /* deja espacio arriba y debajo */
+        flex-wrap:wrap                         /* permite que los elementos bajen si falta espacio */
+    }
+
+    /* configura el texto que indica la página actual */
+    .paginador-info{
+        color:#64748b;                      /* coloca el texto en color gris */
+        font-size:14px;                       /* define el tamaño del texto */
+        font-weight:600                       /* hace que el texto se vea un poco más grueso */
+    }
+
+
+/* TÍTULO: BOTÓN EDITAR */
+
+    /* configura el botón utilizado para editar un registro */
+    .btn-edit{
+        background:#2563eb!important;        /* coloca fondo azul y da prioridad a este color */
+        color:#fff!important;                /* coloca el texto en blanco y da prioridad a este color */
+        text-decoration:none;                  /* quita cualquier línea del enlace */
+        display:inline-flex;                   /* permite ordenar correctamente el contenido */
+        align-items:center;                    /* centra el contenido verticalmente */
+        justify-content:center                 /* centra el contenido horizontalmente */
+    }
+
+
+
+
+
+        /* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez superadmin.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/ 
