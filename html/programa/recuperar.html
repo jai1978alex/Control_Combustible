@@ -1,51 +1,108 @@
+<!--
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+-->
+
+<!-- -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez recuperar.html ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- -->
+
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recuperar contraseña</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Recuperar contraseña</title>
+        <link rel="stylesheet" href="../../css/programa/recuperar.css">
+    </head>
 
-    <!-- IMPORTANTE -->
-     <link rel="stylesheet" href="../../css/programa/recuperar.css">
-</head>
+<!-- TÍTULO: CONTENIDO VISIBLE DE LA PÁGINA -->
 
-    <body class="acceso-page">
+    <!-- Esta parte comienza el contenido que verá el usuario -->
+    <body class="acceso-page">        
+        <!-- Este espacio contiene y ordena todo el contenido de la página -->
         <div class="acceso-container">
+            <!-- Este es el cuadro principal donde estará el formulario -->
             <div class="acceso-card">
+                
 
+<!-- TÍTULO: ENCABEZADO DE LA PÁGINA -->
+                
+                <!-- Contiene el logo, el título y el texto de la página -->
                 <div class="acceso-header">
+                    <!-- Espacio donde se muestra el logo -->
                     <div class="logo-box">
-                        <span class="logo-texto">EMEX</span>
+                        <!-- Muestra el nombre EMEX -->
+                        <span class="logo-texto">EMEX</span>                        
                     </div>
+                    <!-- Muestra el título principal de la página -->
                     <h1 class="acceso-titulo">Recuperar contraseña</h1>
+                   <!-- Indica al usuario que debe ingresar su correo -->
                     <p class="acceso-subtitulo">Ingrese su correo electrónico</p>
                 </div>
-
-                <form id="recuperarForm" class="acceso-form">
+                
+<!--  TÍTULO: FORMULARIO PARA RECUPERAR LA CONTRASEÑA   -->
+                
+                <!-- Comienza el formulario para recuperar la contraseña -->
+                <form id="recuperarForm" class="acceso-form">                    
+                    <!-- Agrupa el texto y el campo donde se escribe el correo -->
                     <div class="form-group">
+                        <!-- Muestra el nombre del campo que debe completar el usuario -->
                         <label for="email" class="form-label">Correo electrónico</label>
+                        <!-- Campo donde el usuario escribe su correo electrónico -->
+                        <!-- Se revisa que tenga formato de correo y que no quede vacío -->
                         <input
                             type="email"
                             id="email"
                             class="form-input"
                             placeholder="Ingrese su correo"
                             required
-                        />
+                        /> 
                     </div>
 
+<!-- TÍTULO: BOTÓN PARA RECUPERAR LA CONTRASEÑA  -->
+                    
+                    <!-- Este botón permite enviar el formulario -->
                     <button type="submit" class="btn-acceso">
+                        <!-- Texto que aparece dentro del botón -->
                         Recuperar contraseña
                     </button>
                 </form>
-
+                                
+<!-- TÍTULO: OPCIÓN PARA VOLVER AL ACCESO -->
+                
+                <!-- Espacio que contiene el enlace para volver -->
                 <div class="acceso-footer">
+                    <!-- Permite volver a la página principal de acceso -->
                     <a href="/control_combustible/index.php">← Volver al acceso</a>
                 </div>
-
             </div>
         </div>
-
+        <!-- Conecta esta página con el archivo JavaScript que controla la recuperación de contraseña -->
         <script src="../../js/programa/recuperar.js"></script>
+        
     </body>
 
+
 </html>
+
+
+
+<!-- -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez recuperar.html --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- -->
+
+<!-- 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+--
