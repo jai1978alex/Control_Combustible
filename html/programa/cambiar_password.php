@@ -9,14 +9,14 @@ JJA
 -->
 
 <!-- -------------------------------------------------------------------------------------------------------------
-   ------------------------------------- INICIO Jerez cambiar_password.html ------------------------------------
+   ------------------------------------- INICIO Jerez cambiar_password.php ------------------------------------
    ------------------------------------------------------------------------------------------------------------- -->
 
 
 
 <?php
 
-/* INICIO Y CONFIGURACIÓN DEL ARCHIVO */
+/* TÍTULO: INICIO Y CONFIGURACIÓN DEL ARCHIVO */
 
     // Activa el uso de tipos de datos estrictos en PHP.
     declare(strict_types=1);
@@ -27,7 +27,7 @@ JJA
     // Comprueba que el usuario haya iniciado sesión.
     requireLogin();
 
-/* VARIABLES PARA LOS MENSAJES */
+/* TÍTULO: VARIABLES PARA LOS MENSAJES */
 
     // Crea una variable para guardar mensajes informativos.
     $mensaje = '';
@@ -36,7 +36,7 @@ JJA
     // Comprueba si el usuario está obligado a cambiar su contraseña.
     $forzado = !empty($_SESSION['debe_cambiar_password']);
 
-/* COMPROBAR ENVÍO DEL FORMULARIO */
+/* TÍTULO: COMPROBAR ENVÍO DEL FORMULARIO */
 
     // Comprueba si el formulario fue enviado mediante POST.
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -44,7 +44,7 @@ JJA
         verifyCsrf();
 
     
-/* OBTENER DATOS DEL FORMULARIO */
+/* TÍTULO: OBTENER DATOS DEL FORMULARIO */
     
         // Obtiene la contraseña actual escrita por el usuario.
         $actual = (string)($_POST['current_password'] ?? '');
@@ -55,7 +55,7 @@ JJA
         // Obtiene el número del usuario que tiene la sesión iniciada.
         $uid = (int)$_SESSION['usuario_id'];
     
-/* COMPROBAR LA NUEVA CONTRASEÑA */
+/* TÍTULO: COMPROBAR LA NUEVA CONTRASEÑA */
 
         // Comprueba que la nueva contraseña cumpla las reglas de seguridad.
         if (!validPassword($nueva)) {
@@ -69,7 +69,7 @@ JJA
         } else {
 
        
-/* BUSCAR LA CONTRASEÑA ACTUAL */
+/* TÍTULO: BUSCAR LA CONTRASEÑA ACTUAL */
         
             // Prepara una consulta para buscar la contraseña del usuario.
             $stmt = $conn->prepare('SELECT password FROM usuarios WHERE id=? LIMIT 1');
@@ -80,7 +80,7 @@ JJA
             // Obtiene los datos del usuario encontrado.
             $row = $stmt->get_result()->fetch_assoc();
         
-/* COMPROBAR LA CONTRASEÑA ACTUAL */
+/* TÍTULO: COMPROBAR LA CONTRASEÑA ACTUAL */
         
             // Comprueba que exista el usuario y que la contraseña actual sea correcta.
             if (!$row || !password_verify($actual, (string)$row['password'])) {
@@ -94,7 +94,7 @@ JJA
             } else {
 
             
-/* CREAR LA NUEVA CONTRASEÑA */
+/* TÍTULO: CREAR LA NUEVA CONTRASEÑA */
             
                 // Protege la nueva contraseña antes de guardarla.
                 $hash = password_hash($nueva, PASSWORD_DEFAULT);
@@ -102,7 +102,7 @@ JJA
                 $conn->begin_transaction();
 
                 
-/* ACTUALIZAR LA CONTRASEÑA */
+/* TÍTULO: ACTUALIZAR LA CONTRASEÑA */
             
                 // Intenta realizar el cambio de contraseña.
                 try {
@@ -114,7 +114,7 @@ JJA
                     $u->execute();
 
                     
-/* OBTENER LA FECHA ACTUALIZADA */
+/* TÍTULO: OBTENER LA FECHA ACTUALIZADA */
                 
                     // Prepara una consulta para obtener la fecha de actualización.
                     $r = $conn->prepare('SELECT updated_at FROM usuarios WHERE id=?');
@@ -126,7 +126,7 @@ JJA
                     $fresh = $r->get_result()->fetch_assoc();
 
 
-/* GUARDAR EL CAMBIO EN EL REGISTRO */
+/* TÍTULO: GUARDAR EL CAMBIO EN EL REGISTRO */
                 
                     // Guarda un registro indicando que el usuario cambió su contraseña.
                     audit($conn, $uid, 'CAMBIO_PASSWORD_PROPIO', 'usuarios', $uid);
@@ -134,7 +134,7 @@ JJA
                     $conn->commit();
 
                 
- /* ACTUALIZAR LA SESIÓN */
+ /* TÍTULO: ACTUALIZAR LA SESIÓN */
                 
                     /* Renueva la sesión con los datos ya vigentes para no auto-invalidarse. */
                     // Crea una nueva sesión para el usuario.
@@ -147,7 +147,7 @@ JJA
                     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
                 
-/* DEFINIR LA PÁGINA DE DESTINO */
+/* TÍTULO: DEFINIR LA PÁGINA DE DESTINO */
                 
                     // Define a qué página será enviado el usuario después del cambio.
                     $destino = appBasePath() . (($_SESSION['rol'] ?? '') === 'admin'
@@ -161,7 +161,7 @@ JJA
                     exit;
 
 
-/* MANEJAR ERRORES AL CAMBIAR LA CONTRASEÑA */
+/* TÍTULO: MANEJAR ERRORES AL CAMBIAR LA CONTRASEÑA */
             
                 // Captura cualquier problema que ocurra durante el proceso.
                 } catch (Throwable $e) {
@@ -177,8 +177,7 @@ JJA
     }
 
 
-
-/* CREAR DATOS PARA EL FORMULARIO */
+/* TÍTULO: CREAR DATOS PARA EL FORMULARIO */
 
     // Obtiene el código de seguridad para usarlo en el formulario.
     $csrf = csrfToken();
@@ -190,9 +189,8 @@ JJA
         : 'panel.php';
 
 
-/* ================================================== */
-/* INICIO DE LA PÁGINA HTML */
-/* ================================================== */
+/* TÍTULO: INICIO DE LA PÁGINA HTML */
+
 
 ?><!DOCTYPE html>
 <html lang="es">
@@ -201,55 +199,37 @@ JJA
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Cambiar Contraseña</title>
         <link rel="stylesheet" href="../../css/programa/crear_usuario.css">
-
     </head>
 
-
-
-<!-- CUERPO PRINCIPAL DE LA PÁGINA -->
+<!-- TÍTULO: CUERPO PRINCIPAL DE LA PÁGINA -->
+    
     <body>
-
-        
-<!-- CONTENEDOR PRINCIPAL -->
-            
+        <!-- Contenedor principal -->    
         <div class="container">
-            
-<!-- TARJETA PARA CAMBIAR LA CONTRASEÑA -->
-                   
+            <!-- Targeta para cambiar contraseña -->       
             <div class="card">
-                
-<!-- TÍTULO DE LA PÁGINA -->
-                                
+                <!-- Título de la pagina -->               
                 <h1>Cambiar Contraseña</h1>
-                
-<!-- AVISO DE CAMBIO OBLIGATORIO -->
-                
+                <!-- Aviso de cambio obligatorio -->
                 <?php if ($forzado && $error === ''): ?>
                     <!-- Muestra un aviso cuando el administrador obligó a cambiar la contraseña. -->
                     <div class="error">Un administrador reseteó tu contraseña. Debes definir una nueva antes de continuar.</div>
-                <?php endif; ?>
-
-                
-<!-- MOSTRAR MENSAJE CORRECTO -->
-                
-
-                <?php if ($mensaje): ?><div class="success"><?= e($mensaje) ?></div><?php endif; ?>
-                
-                
-<!-- MOSTRAR MENSAJE DE ERROR -->
-                                
+                <?php endif; ?>                
+                <!-- Mostrar mensaje de éxito -->
+                <?php if ($mensaje): ?><div class="success"><?= e($mensaje) ?></div><?php endif; ?>                
+                <!-- Mostrar mensaje de error -->                
                 <?php if ($error): ?><div class="error"><?= e($error) ?></div><?php endif; ?>
                 
-<!-- FORMULARIO PARA CAMBIAR LA CONTRASEÑA -->
+<!-- TÍTULO: FORMULARIO PARA CAMBIAR LA CONTRASEÑA -->
                 
                 <form method="POST" autocomplete="off">
 
-<!-- CÓDIGO DE SEGURIDAD -->
+<!-- TÍTULO: CÓDIGO DE SEGURIDAD -->
                     
                     <!-- Guarda el código de seguridad del formulario. -->
                     <input type="hidden" name="csrf_token" value="<?= e($csrf) ?>">
                     
-<!-- CONTRASEÑA ACTUAL -->
+<!-- TÍTULO: CONTRASEÑA ACTUAL -->
                     
                     <div class="form-group">
                         <!-- Muestra el nombre del campo para la contraseña actual. -->
@@ -257,10 +237,8 @@ JJA
                         <!-- Permite escribir la contraseña actual. -->
                         <input type="password" name="current_password" maxlength="255" required autocomplete="current-password">
                     </div>
-
-
                     
-<!-- NUEVA CONTRASEÑA -->
+<!-- TÍTULO: NUEVA CONTRASEÑA -->
                     
                     <div class="form-group">
                         <!-- Muestra el nombre del campo para la nueva contraseña. -->
@@ -271,7 +249,7 @@ JJA
                         <small>Mínimo 12 caracteres, mayúscula, minúscula, número y símbolo.</small>
                     </div>
                     
-<!-- CONFIRMAR NUEVA CONTRASEÑA -->
+<!-- TÍTULO: CONFIRMAR NUEVA CONTRASEÑA -->
                     
                     <div class="form-group">
                         <!-- Muestra el nombre del campo para confirmar la contraseña. -->
@@ -282,13 +260,13 @@ JJA
                         <small id="confirmError" class="password-error"></small>
                     </div>
                     
-<!-- BOTÓN PARA ACTUALIZAR -->
+<!-- TÍTULO: BOTÓN PARA ACTUALIZAR -->
                     
                     <!-- Botón que permite guardar la nueva contraseña. -->
                     <button type="submit">Actualizar contraseña</button>
                 </form>
 
-<!-- BOTÓN PARA VOLVER -->
+<!-- TÍTULO: BOTÓN PARA VOLVER -->
                                 
                 <?php if (!$forzado): ?>
                     <!-- Muestra el enlace para volver si el cambio no era obligatorio. -->
@@ -307,7 +285,7 @@ JJA
 
 
 <!-- -------------------------------------------------------------------------------------------------------------
-   -------------------------------------- FIN Jerez cambiar_password.html --------------------------------------
+   -------------------------------------- FIN Jerez cambiar_password.php --------------------------------------
    ------------------------------------------------------------------------------------------------------------- -->
 
 <!-- 
