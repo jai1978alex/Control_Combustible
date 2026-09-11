@@ -1,3 +1,20 @@
+<!--
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+-->
+
+<!-- -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez instalar.php ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- -->
+
+
+
+
 <?php
 declare(strict_types=1);
 
@@ -390,3 +407,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 </body>
 </html>
+
+
+
+
+
+<!-- -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez instalar.php --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- -->
+
+<!-- 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+--
