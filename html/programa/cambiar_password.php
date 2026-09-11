@@ -16,267 +16,443 @@ JJA
 
 <?php
 
-/* TÍTULO: INICIO Y CONFIGURACIÓN DEL ARCHIVO */
+    /* TÍTULO: INICIO Y CONFIGURACIÓN DEL ARCHIVO */
 
-    // Activa el uso de tipos de datos estrictos en PHP.
-    declare(strict_types=1);
     // Carga el archivo que permite conectarse a la base de datos.
     require_once __DIR__ . '/../../backend/conexion.php';
+
     // Carga el archivo que contiene las funciones de seguridad.
     require_once __DIR__ . '/../../backend/security.php';
+
     // Comprueba que el usuario haya iniciado sesión.
     requireLogin();
 
-/* TÍTULO: VARIABLES PARA LOS MENSAJES */
+    /* TÍTULO: VARIABLE PARA LOS MENSAJES DE ERROR */
 
-    // Crea una variable para guardar mensajes informativos.
-    $mensaje = '';
     // Crea una variable para guardar mensajes de error.
     $error = '';
+
     // Comprueba si el usuario está obligado a cambiar su contraseña.
     $forzado = !empty($_SESSION['debe_cambiar_password']);
 
-/* TÍTULO: COMPROBAR ENVÍO DEL FORMULARIO */
+    /* TÍTULO: COMPROBAR ENVÍO DEL FORMULARIO */
 
     // Comprueba si el formulario fue enviado mediante POST.
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
         // Comprueba que el código de seguridad del formulario sea correcto.
         verifyCsrf();
 
-    
-/* TÍTULO: OBTENER DATOS DEL FORMULARIO */
-    
+        /* TÍTULO: OBTENER DATOS DEL FORMULARIO */
+
         // Obtiene la contraseña actual escrita por el usuario.
         $actual = (string)($_POST['current_password'] ?? '');
+
         // Obtiene la nueva contraseña escrita por el usuario.
         $nueva = (string)($_POST['new_password'] ?? '');
+
         // Obtiene la confirmación de la nueva contraseña.
         $confirmar = (string)($_POST['confirm_password'] ?? '');
+
         // Obtiene el número del usuario que tiene la sesión iniciada.
-        $uid = (int)$_SESSION['usuario_id'];
-    
-/* TÍTULO: COMPROBAR LA NUEVA CONTRASEÑA */
+        $uid = (int)($_SESSION['usuario_id'] ?? 0);
+
+        /* TÍTULO: COMPROBAR USUARIO */
+
+        // Comprueba que el número de usuario sea válido.
+        if ($uid <= 0) {
+
+            // Guarda un mensaje de error si la sesión no es válida.
+            $error = 'La sesión del usuario no es válida. Inicia sesión nuevamente.';
+
+        /* TÍTULO: COMPROBAR LA NUEVA CONTRASEÑA */
 
         // Comprueba que la nueva contraseña cumpla las reglas de seguridad.
-        if (!validPassword($nueva)) {
-            // Muestra un error si la nueva contraseña no cumple los requisitos.
+        } elseif (!validPassword($nueva)) {
+
+            // Guarda un mensaje de error si la contraseña no cumple los requisitos.
             $error = 'La nueva contraseña no cumple los requisitos de seguridad (mínimo 12 caracteres, mayúscula, minúscula, número y símbolo).';
+
         // Comprueba que la nueva contraseña y su confirmación sean iguales.
         } elseif ($nueva !== $confirmar) {
-            // Muestra un error si las dos contraseñas no coinciden.
+
+            // Guarda un mensaje de error si las contraseñas no coinciden.
             $error = 'La confirmación no coincide con la nueva contraseña.';
-        // Si las comprobaciones anteriores son correctas, continúa.
+
+        // Si pasó todas las validaciones anteriores, continúa el proceso.
         } else {
 
-       
-/* TÍTULO: BUSCAR LA CONTRASEÑA ACTUAL */
-        
+            /* TÍTULO: BUSCAR LA CONTRASEÑA ACTUAL */
+
             // Prepara una consulta para buscar la contraseña del usuario.
-            $stmt = $conn->prepare('SELECT password FROM usuarios WHERE id=? LIMIT 1');
+            $stmt = $conn->prepare(
+                'SELECT password FROM usuarios WHERE id=? LIMIT 1'
+            );
+
             // Envía el número del usuario a la consulta.
             $stmt->bind_param('i', $uid);
+
             // Ejecuta la consulta.
             $stmt->execute();
+
             // Obtiene los datos del usuario encontrado.
             $row = $stmt->get_result()->fetch_assoc();
-        
-/* TÍTULO: COMPROBAR LA CONTRASEÑA ACTUAL */
-        
+
+            // Cierra la consulta.
+            $stmt->close();
+
+            /* TÍTULO: COMPROBAR LA CONTRASEÑA ACTUAL */
+
             // Comprueba que exista el usuario y que la contraseña actual sea correcta.
             if (!$row || !password_verify($actual, (string)$row['password'])) {
-                // Muestra un error si la contraseña actual no es correcta.
+
+                // Guarda un mensaje de error si la contraseña actual es incorrecta.
                 $error = 'La contraseña actual no es correcta.';
+
             // Comprueba que la nueva contraseña no sea igual a la anterior.
             } elseif (password_verify($nueva, (string)$row['password'])) {
-                // Muestra un error si se intenta usar la misma contraseña.
+
+                // Guarda un mensaje de error si la nueva contraseña es igual a la actual.
                 $error = 'La nueva contraseña no puede ser igual a la actual.';
+
             // Si todo está correcto, continúa con el cambio de contraseña.
             } else {
 
-            
-/* TÍTULO: CREAR LA NUEVA CONTRASEÑA */
-            
+                /* TÍTULO: CREAR LA NUEVA CONTRASEÑA */
+
                 // Protege la nueva contraseña antes de guardarla.
                 $hash = password_hash($nueva, PASSWORD_DEFAULT);
+
                 // Comienza una operación para guardar los cambios de forma segura.
                 $conn->begin_transaction();
 
-                
-/* TÍTULO: ACTUALIZAR LA CONTRASEÑA */
-            
-                // Intenta realizar el cambio de contraseña.
+                // Intenta ejecutar el proceso de actualización.
                 try {
-                    // Prepara la consulta para actualizar la contraseña del usuario.
-                    $u = $conn->prepare('UPDATE usuarios SET password=?, debe_cambiar_password=0 WHERE id=?');
+
+                    /* TÍTULO: ACTUALIZAR LA CONTRASEÑA */
+
+                    // Prepara la consulta para actualizar la contraseña.
+                    $u = $conn->prepare(
+                        'UPDATE usuarios
+                        SET password=?, debe_cambiar_password=0
+                        WHERE id=?'
+                    );
+
                     // Envía la nueva contraseña protegida y el número del usuario.
                     $u->bind_param('si', $hash, $uid);
+
                     // Ejecuta la actualización.
                     $u->execute();
 
-                    
-/* TÍTULO: OBTENER LA FECHA ACTUALIZADA */
-                
+                    // Verifica que realmente se haya encontrado el usuario.
+                    if ($u->affected_rows < 1) {
+
+                        // Puede ocurrir que el usuario exista pero MySQL no marque cambios.
+                        // Por seguridad comprobamos nuevamente que exista.
+                        $check = $conn->prepare(
+                            'SELECT id FROM usuarios WHERE id=? LIMIT 1'
+                        );
+
+                        // Envía el número del usuario a la consulta de verificación.
+                        $check->bind_param('i', $uid);
+
+                        // Ejecuta la consulta de verificación.
+                        $check->execute();
+
+                        // Obtiene el resultado de la verificación.
+                        $exists = $check->get_result()->fetch_assoc();
+
+                        // Cierra la consulta de verificación.
+                        $check->close();
+
+                        // Si el usuario realmente no existe, lanza un error.
+                        if (!$exists) {
+
+                            // Lanza una excepción indicando que no se encontró el usuario.
+                            throw new RuntimeException(
+                                'No se encontró el usuario al actualizar la contraseña.'
+                            );
+                        }
+                    }
+
+                    // Cierra la consulta de actualización.
+                    $u->close();
+
+                    /* TÍTULO: OBTENER LA FECHA ACTUALIZADA */
+
                     // Prepara una consulta para obtener la fecha de actualización.
-                    $r = $conn->prepare('SELECT updated_at FROM usuarios WHERE id=?');
-                    // Envía el número del usuario a la consulta.
+                    $r = $conn->prepare(
+                        'SELECT updated_at FROM usuarios WHERE id=? LIMIT 1'
+                    );
+
+                    // Envía el número del usuario.
                     $r->bind_param('i', $uid);
+
                     // Ejecuta la consulta.
                     $r->execute();
-                    // Obtiene los datos actualizados del usuario.
+
+                    // Obtiene los datos actualizados.
                     $fresh = $r->get_result()->fetch_assoc();
 
+                    // Cierra la consulta.
+                    $r->close();
 
-/* TÍTULO: GUARDAR EL CAMBIO EN EL REGISTRO */
-                
+                    /* TÍTULO: GUARDAR EL CAMBIO EN EL REGISTRO */
+
                     // Guarda un registro indicando que el usuario cambió su contraseña.
-                    audit($conn, $uid, 'CAMBIO_PASSWORD_PROPIO', 'usuarios', $uid);
+                    audit(
+                        $conn,
+                        $uid,
+                        'CAMBIO_PASSWORD_PROPIO',
+                        'usuarios',
+                        $uid
+                    );
+
                     // Confirma y guarda todos los cambios realizados.
                     $conn->commit();
 
-                
- /* TÍTULO: ACTUALIZAR LA SESIÓN */
-                
-                    /* Renueva la sesión con los datos ya vigentes para no auto-invalidarse. */
-                    // Crea una nueva sesión para el usuario.
+                    /* TÍTULO: ACTUALIZAR LA SESIÓN */
+
+                    // Renueva la sesión después del cambio de contraseña.
                     session_regenerate_id(true);
-                    // Guarda en la sesión la fecha actualizada del usuario.
-                    $_SESSION['user_updated_at'] = (string)$fresh['updated_at'];
+
+                    // Guarda la fecha actualizada del usuario.
+                    $_SESSION['user_updated_at'] =
+                        (string)($fresh['updated_at'] ?? '');
+
                     // Indica que el usuario ya no necesita cambiar su contraseña.
                     $_SESSION['debe_cambiar_password'] = 0;
+
                     // Crea un nuevo código de seguridad para la sesión.
                     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
-                
-/* TÍTULO: DEFINIR LA PÁGINA DE DESTINO */
-                
+                    /* TÍTULO: DEFINIR LA PÁGINA DE DESTINO */
+
                     // Define a qué página será enviado el usuario después del cambio.
-                    $destino = appBasePath() . (($_SESSION['rol'] ?? '') === 'admin'
-                        // Si el usuario es administrador, lo envía al panel de administrador.
-                        ? '/html/login/seguridad_login/superadmin.php?success=password_actualizada'
-                        // Si no es administrador, lo envía al panel principal.
-                        : '/html/programa/panel.php?success=password_actualizada');
+                    if (($_SESSION['rol'] ?? '') === 'admin') {
+
+                        // Arma la ruta de destino para el administrador.
+                        $destino = appBasePath()
+                            . '/html/login/seguridad_login/superadmin.php'
+                            . '?success=password_actualizada';
+
+                    } else {
+
+                        // Arma la ruta de destino para un usuario normal.
+                        $destino = appBasePath()
+                            . '/html/programa/panel.php'
+                            . '?success=password_actualizada';
+                    }
+
                     // Envía al usuario a la página correspondiente.
                     header('Location: ' . $destino);
-                    // Detiene la ejecución del código.
+
+                    // Detiene la ejecución.
                     exit;
 
-
-/* TÍTULO: MANEJAR ERRORES AL CAMBIAR LA CONTRASEÑA */
-            
-                // Captura cualquier problema que ocurra durante el proceso.
                 } catch (Throwable $e) {
+
+                    /* TÍTULO: MANEJAR ERRORES AL CAMBIAR LA CONTRASEÑA */
+
                     // Deshace los cambios realizados si ocurrió un problema.
-                    $conn->rollback();
+                    try {
+
+                        // Ejecuta el rollback de la transacción.
+                        $conn->rollback();
+
+                    } catch (Throwable $rollbackError) {
+
+                        // Evita que un error durante rollback oculte el error original.
+                    }
+
                     // Guarda el detalle del error en el registro del sistema.
-                    error_log('Error cambiando contraseña propia: ' . $e->getMessage());
+                    error_log(
+                        'Error cambiando contraseña propia: '
+                        . $e->getMessage()
+                    );
+
                     // Muestra un mensaje simple para el usuario.
-                    $error = 'No fue posible actualizar la contraseña. Intenta nuevamente.';
+                    $error =
+                        'No fue posible actualizar la contraseña. Intenta nuevamente.';
                 }
             }
         }
     }
 
-
-/* TÍTULO: CREAR DATOS PARA EL FORMULARIO */
+    /* TÍTULO: CREAR DATOS PARA EL FORMULARIO */
 
     // Obtiene el código de seguridad para usarlo en el formulario.
     $csrf = csrfToken();
+
     // Comprueba el tipo de usuario para definir la página de regreso.
     $volver = ($_SESSION['rol'] ?? '') === 'admin'
-        // Si es administrador, vuelve al panel de administrador.
         ? '../login/seguridad_login/superadmin.php'
-        // Si no es administrador, vuelve al panel principal.
         : 'panel.php';
 
 
-/* TÍTULO: INICIO DE LA PÁGINA HTML */
 
-
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="es">
+
     <head>
+
         <meta charset="UTF-8">
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Cambiar Contraseña</title>
-        <link rel="stylesheet" href="../../css/programa/crear_usuario.css">
+
+        <link
+            rel="stylesheet"
+            href="../../css/programa/crear_usuario.css"
+        >
+
     </head>
 
-<!-- TÍTULO: CUERPO PRINCIPAL DE LA PÁGINA -->
-    
     <body>
-        <!-- Contenedor principal -->    
+
+        <!-- Contenedor principal -->
         <div class="container">
-            <!-- Targeta para cambiar contraseña -->       
+
+            <!-- Tarjeta para cambiar contraseña -->
             <div class="card">
-                <!-- Título de la pagina -->               
+
+                <!-- Título de la página -->
                 <h1>Cambiar Contraseña</h1>
+
                 <!-- Aviso de cambio obligatorio -->
                 <?php if ($forzado && $error === ''): ?>
-                    <!-- Muestra un aviso cuando el administrador obligó a cambiar la contraseña. -->
-                    <div class="error">Un administrador reseteó tu contraseña. Debes definir una nueva antes de continuar.</div>
-                <?php endif; ?>                
-                <!-- Mostrar mensaje de éxito -->
-                <?php if ($mensaje): ?><div class="success"><?= e($mensaje) ?></div><?php endif; ?>                
-                <!-- Mostrar mensaje de error -->                
-                <?php if ($error): ?><div class="error"><?= e($error) ?></div><?php endif; ?>
-                
-<!-- TÍTULO: FORMULARIO PARA CAMBIAR LA CONTRASEÑA -->
-                
+
+                    <div class="error">
+                        Un administrador reseteó tu contraseña.
+                        Debes definir una nueva antes de continuar.
+                    </div>
+
+                <?php endif; ?>
+
+                <!-- Mostrar mensaje de error -->
+                <?php if ($error): ?>
+
+                    <div class="error">
+                        <?= e($error) ?>
+                    </div>
+
+                <?php endif; ?>
+
+                <!-- FORMULARIO PARA CAMBIAR LA CONTRASEÑA -->
+
                 <form method="POST" autocomplete="off">
 
-<!-- TÍTULO: CÓDIGO DE SEGURIDAD -->
-                    
-                    <!-- Guarda el código de seguridad del formulario. -->
-                    <input type="hidden" name="csrf_token" value="<?= e($csrf) ?>">
-                    
-<!-- TÍTULO: CONTRASEÑA ACTUAL -->
-                    
+                    <!-- Código de seguridad -->
+
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="<?= e($csrf) ?>"
+                    >
+
+                    <!-- Contraseña actual -->
+
                     <div class="form-group">
-                        <!-- Muestra el nombre del campo para la contraseña actual. -->
-                        <label>Contraseña actual</label>
-                        <!-- Permite escribir la contraseña actual. -->
-                        <input type="password" name="current_password" maxlength="255" required autocomplete="current-password">
+
+                        <label for="currentPassword">
+                            Contraseña actual
+                        </label>
+
+                        <input
+                            type="password"
+                            id="currentPassword"
+                            name="current_password"
+                            maxlength="255"
+                            required
+                            autocomplete="current-password"
+                        >
+
                     </div>
-                    
-<!-- TÍTULO: NUEVA CONTRASEÑA -->
-                    
+
+                    <!-- Nueva contraseña -->
+
                     <div class="form-group">
-                        <!-- Muestra el nombre del campo para la nueva contraseña. -->
-                        <label>Nueva contraseña</label>
-                        <!-- Permite escribir la nueva contraseña. -->
-                        <input type="password" name="new_password" id="newPassword" minlength="12" required autocomplete="new-password">
-                        <!-- Indica las reglas que debe cumplir la nueva contraseña. -->
-                        <small>Mínimo 12 caracteres, mayúscula, minúscula, número y símbolo.</small>
+
+                        <label for="newPassword">
+                            Nueva contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            name="new_password"
+                            id="newPassword"
+                            minlength="12"
+                            maxlength="255"
+                            required
+                            autocomplete="new-password"
+                        >
+
+                        <small>
+                            Mínimo 12 caracteres, mayúscula, minúscula,
+                            número y símbolo.
+                        </small>
+
                     </div>
-                    
-<!-- TÍTULO: CONFIRMAR NUEVA CONTRASEÑA -->
-                    
+
+                    <!-- Confirmar nueva contraseña -->
+
                     <div class="form-group">
-                        <!-- Muestra el nombre del campo para confirmar la contraseña. -->
-                        <label>Confirmar nueva contraseña</label>
-                        <!-- Permite volver a escribir la nueva contraseña. -->
-                        <input type="password" name="confirm_password" id="confirmPassword" minlength="12" required autocomplete="new-password">
-                        <!-- Espacio donde se puede mostrar un mensaje sobre la contraseña. -->
-                        <small id="confirmError" class="password-error"></small>
+
+                        <label for="confirmPassword">
+                            Confirmar nueva contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            id="confirmPassword"
+                            minlength="12"
+                            maxlength="255"
+                            required
+                            autocomplete="new-password"
+                        >
+
+                        <small
+                            id="confirmError"
+                            class="password-error"
+                        ></small>
+
                     </div>
-                    
-<!-- TÍTULO: BOTÓN PARA ACTUALIZAR -->
-                    
-                    <!-- Botón que permite guardar la nueva contraseña. -->
-                    <button type="submit">Actualizar contraseña</button>
+
+                    <!-- Botón para actualizar -->
+
+                    <button type="submit">
+                        Actualizar contraseña
+                    </button>
+
                 </form>
 
-<!-- TÍTULO: BOTÓN PARA VOLVER -->
-                                
+                <!-- Botón para volver -->
+
                 <?php if (!$forzado): ?>
-                    <!-- Muestra el enlace para volver si el cambio no era obligatorio. -->
-                    <div class="back"><a href="<?= e($volver) ?>">← Volver</a></div>
+
+                    <div class="back">
+
+                        <a href="<?= e($volver) ?>">
+                            ← Volver
+                        </a>
+
+                    </div>
+
                 <?php endif; ?>
+
             </div>
+
         </div>
-       
-        <!-- Carga el archivo JavaScript que controla el cambio de contraseña. -->
-        <script src="../../js/programa/cambiar_password.js" defer></script>
+
+        <!-- JavaScript -->
+        <script
+            src="../../js/programa/cambiar_password.js"
+            defer
+        ></script>
+
     </body>
 
 </html>
