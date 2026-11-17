@@ -1,0 +1,19 @@
+/* Vista de impresión de la auditoría (todas las filas del filtro) */
+@page { size: A4 landscape; margin: 10mm; }
+body { background: #fff; color: #0f172a; font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 16px; }
+.hoja-auditoria { max-width: 100%; }
+.cabecera-auditoria { display: flex; justify-content: space-between; gap: 16px; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin-bottom: 12px; }
+.cabecera-auditoria h1 { margin: 0 0 4px; font-size: 20px; }
+.cabecera-auditoria p { margin: 0; color: #475569; }
+.meta-auditoria { text-align: right; font-size: 13px; line-height: 1.5; }
+.aviso-impresion { background: #fef3c7; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+.tabla-auditoria { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: auto; }
+.tabla-auditoria th, .tabla-auditoria td { border: 1px solid #cbd5e1; padding: 4px 6px; text-align: left; vertical-align: top; word-break: break-word; }
+.tabla-auditoria th { background: #eff6ff; }
+.tabla-auditoria thead { display: table-header-group; }   /* repite el encabezado en cada hoja */
+.tabla-auditoria tr { page-break-inside: avoid; }
+.sin-datos { text-align: center; padding: 16px; color: #64748b; }
+.acciones-impresion { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
+.acciones-impresion button { border: 0; border-radius: 10px; padding: 12px 20px; cursor: pointer; background: #2563eb; color: #fff; font-weight: 700; }
+.acciones-impresion .secundario { background: #64748b; }
+@media print { body { padding: 0; } .acciones-impresion { display: none; } }

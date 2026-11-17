@@ -10,17 +10,7 @@ $ubicacion=trim((string)($_POST['ubicacion']??'')); $patente=strtoupper(trim((st
 $litros=trim((string)($_POST['litros']??'')); $observacion=trim((string)($_POST['observacion']??''));
 $fechaRegistro=date('Y-m-d H:i:s');
 
-/* Los operadores solo pueden registrar operaciones asociadas a su propio RUT maestro. */
-if (($_SESSION['rol'] ?? '') === 'operador') {
-    $stmtIdentidad = $conn->prepare('SELECT rut FROM usuarios WHERE id = ? AND estado = \'activo\' LIMIT 1');
-    $stmtIdentidad->bind_param('i', $usuarioId);
-    $stmtIdentidad->execute();
-    $identidad = $stmtIdentidad->get_result()->fetch_assoc();
-    if (!$identidad || empty($identidad['rut']) || normalizeRut((string)$identidad['rut']) !== $rut) {
-        http_response_code(403);
-        exit('Identidad no válida: el RUT del registro debe coincidir con el usuario conectado.');
-    }
-}
+/* El RUT del operador puede ser distinto al del usuario conectado; solo se valida su formato y dígito verificador más abajo. */
 if (!validText($nombres,100)||!validText($ap,100)||!validText($am,100)||!validText($rut,12)||!validText($codigo,50)||!validText($ubicacion,100)||!validText($patente,10)||!in_array($turno,['A','B','C','D'],true)||!validDecimal($horometro,0,100000000)||!validDecimal($litros,0.01,1000000)||mb_strlen($observacion)>2000||!validarFormatoRut($rut)||!validarRut($rut)||!validGps($ubicacion)||!preg_match('/^[A-Z0-9 .-]{2,10}$/', $patente)) { header('Location: ../html/programa/panel.php?error=campos'); exit; }
 $conn->begin_transaction();
 try {

@@ -66,10 +66,11 @@ El script genera una contraseña temporal aleatoria nueva en cada ejecución (no
 La cuenta del trabajador debe tener asignado su RUT maestro en `usuarios.rut`.
 En instalaciones nuevas el campo se crea con el esquema principal. En bases
 existentes, respalda la base y ejecuta `base_dato/03_MIGRACION_IDENTIDAD_QR.sql`.
-Después, el administrador debe asignar a cada cuenta el RUT que verificó por
-un canal independiente. El servidor compara el RUT del QR con el RUT maestro
-de la sesión y rechaza discrepancias. No basta con leer el QR en el navegador.
+El RUT maestro de cada cuenta se sigue guardando, pero ya no se exige que el RUT
+ingresado en los formularios (o leído por QR) sea el mismo de la cuenta conectada.
+Puede registrarse el RUT de cualquier operador; el servidor solo valida su formato
+y dígito verificador.
 
 ## Usuarios y validación QR
 
-Al crear cuentas desde el panel de administración, ingresa el RUT verificado del titular. Para cuentas antiguas de una base existente, asígnalo después de ejecutar la migración QR. El lector envía el contenido al servidor; el servidor compara el RUT del QR con `usuarios.rut` de la sesión activa. Una discrepancia se rechaza y queda registrada en auditoría. Además, los usuarios con rol operador no pueden guardar registros con un RUT diferente al suyo.
+Al crear cuentas desde el panel de administración, ingresa el RUT verificado del titular. Para cuentas antiguas de una base existente, asígnalo después de ejecutar la migración QR. El lector envía el contenido al servidor, que valida el formato y el dígito verificador del RUT del QR (de cualquier operador). Los usuarios con rol operador pueden registrar el RUT de otro operador; el inicio de sesión y los permisos por rol no cambian.

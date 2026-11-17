@@ -45,22 +45,7 @@ if ($rutQR === '' || !validarFormatoRut($rutQR) || !validarRut($rutQR)) {
     responderQR(422, ['ok' => false, 'mensaje' => 'El QR no contiene un RUT válido.']);
 }
 
-/* El RUT del QR debe coincidir con el RUT maestro de la cuenta conectada. */
+/* El RUT del QR puede ser el de cualquier operador; solo se exige formato y dígito verificador válidos (ya comprobados arriba). */
 $usuarioId = (int)$_SESSION['usuario_id'];
-$stmt = $conn->prepare("SELECT rut, estado FROM usuarios WHERE id = ? LIMIT 1");
-$stmt->bind_param('i', $usuarioId);
-$stmt->execute();
-$cuenta = $stmt->get_result()->fetch_assoc();
-
-if (!$cuenta || $cuenta['estado'] !== 'activo' || empty($cuenta['rut'])) {
-    responderQR(409, ['ok' => false, 'mensaje' => 'Tu cuenta no tiene un RUT maestro asignado. Solicita al administrador que lo configure antes de escanear.']);
-}
-
-$rutMaestro = normalizeRut((string)$cuenta['rut']);
-if (!hash_equals($rutMaestro, $rutQR)) {
-    audit($conn, $usuarioId, 'QR_IDENTIDAD_RECHAZADA', 'usuarios', $usuarioId, 'El RUT del QR no coincide con el usuario conectado.');
-    responderQR(403, ['ok' => false, 'mensaje' => 'Identidad no válida: el código QR pertenece a otra persona.']);
-}
-
-audit($conn, $usuarioId, 'QR_IDENTIDAD_VALIDADA', 'usuarios', $usuarioId, 'Validación de identidad mediante QR correcta.');
-responderQR(200, ['ok' => true, 'mensaje' => 'Identidad validada correctamente.', 'rut' => $rutMaestro]);
+audit($conn, $usuarioId, 'QR_IDENTIDAD_VALIDADA', 'usuarios', $usuarioId, 'QR con RUT válido leído: ' . $rutQR);
+responderQR(200, ['ok' => true, 'mensaje' => 'RUT del QR validado correctamente.', 'rut' => $rutQR]);

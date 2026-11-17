@@ -331,7 +331,7 @@ function parsearDatosQR(texto) {
 // ---- Función completarFormularioDesdeQR: rellena el formulario con los datos del QR ----
 // Define la función; recibe el texto leído del QR
 async function completarFormularioDesdeQR(texto) {
-    // Antes de usar los datos, el servidor comprueba que el QR pertenezca al usuario conectado.
+    // Antes de usar los datos, el servidor comprueba que el QR traiga un RUT chileno válido (de cualquier operador).
     const csrf = document.querySelector('input[name="csrf_token"]')?.value || '';
     if (!csrf) {
         if (window.Toast) Toast.error('No se pudo validar la sesión. Recarga la página e inténtalo nuevamente.');
