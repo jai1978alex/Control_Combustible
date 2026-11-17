@@ -6,14 +6,14 @@
 -- Creado, Programado y Diseñado por Jerez.
 -- JJA
 
--- ---------------------------------------------
--- INICIO 04_INSTALADOR_ESTRUCTURA_TABLAS.sql
--- ---------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
+------------------------- INICIO 04_INSTALADOR_ESTRUCTURA_TABLAS.sql ---------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 
 
 
--- ---------------------------------------------
 -- TÍTULO: TABLA USUARIOS (LAS PERSONAS QUE PUEDEN ENTRAR AL SISTEMA)
+
 -- Inicio de la tabla
 CREATE TABLE IF NOT EXISTS usuarios (
   -- Número de identificación único; sube solo de 1 en 1
@@ -43,8 +43,9 @@ CREATE TABLE IF NOT EXISTS usuarios (
 -- Fin de la tabla (con el motor que cuida que los datos no se dañen)
 ) ENGINE=InnoDB;
 
--- ---------------------------------------------
+---------------------------------------------------------------------------------------------------------
 -- TÍTULO: TABLA OPERADOR_CARGADOR (REGISTROS DE QUIENES CARGAN COMBUSTIBLE A LOS ESTANQUES)
+
 -- Inicio de la tabla
 CREATE TABLE IF NOT EXISTS operador_cargador (
   -- Número de identificación único; sube solo de 1 en 1
@@ -104,8 +105,10 @@ CREATE TABLE IF NOT EXISTS operador_cargador (
 -- Fin de la tabla (con el motor que cuida que los datos no se dañen)
 ) ENGINE=InnoDB;
 
--- ---------------------------------------------
+--------------------------------------------------------------------------------------------
+
 -- TÍTULO: TABLA OPERADOR (REGISTROS DE CARGA DE COMBUSTIBLE DE LAS MÁQUINAS)
+
 -- Inicio de la tabla
 CREATE TABLE IF NOT EXISTS operador (
   -- Número de identificación único; sube solo de 1 en 1
@@ -171,8 +174,10 @@ CREATE TABLE IF NOT EXISTS operador (
 -- Fin de la tabla (con el motor que cuida que los datos no se dañen)
 ) ENGINE=InnoDB;
 
--- ---------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+
 -- TÍTULO: TABLA RECUPERACION_PASSWORD (SOLICITUDES PARA RECUPERAR UNA CONTRASEÑA OLVIDADA)
+
 -- Inicio de la tabla
 CREATE TABLE IF NOT EXISTS recuperacion_password (
   -- Número de identificación único; sube solo de 1 en 1
@@ -196,8 +201,10 @@ CREATE TABLE IF NOT EXISTS recuperacion_password (
 -- Fin de la tabla (con el motor que cuida que los datos no se dañen)
 ) ENGINE=InnoDB;
 
--- ---------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------
+
 -- TÍTULO: TABLA AUDITORIA (DIARIO DONDE QUEDA ANOTADO QUIÉN HIZO QUÉ EN EL SISTEMA)
+
 -- Inicio de la tabla
 CREATE TABLE IF NOT EXISTS auditoria (
   -- Número de identificación único (admite cantidades enormes); sube solo de 1 en 1
@@ -231,9 +238,9 @@ CREATE TABLE IF NOT EXISTS auditoria (
 -- Fin de la tabla (con el motor que cuida que los datos no se dañen)
 ) ENGINE=InnoDB;
 
--- ---------------------------------------------
--- FIN 04_INSTALADOR_ESTRUCTURA_TABLAS.sql
--- ---------------------------------------------
+-- -------------------------------------------------------------------------------------------------------
+---------------------------- FIN 04_INSTALADOR_ESTRUCTURA_TABLAS.sql -------------------------------------
+-- -------------------------------------------------------------------------------------------------------
 
 -- Sitio Web Creado por Jerez.
 -- Direccion: Miraflorez #1280
