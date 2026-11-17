@@ -1,12 +1,14 @@
 
 
 
-http://localhost/combustible/Control_Combustible-main/index.php
 
+
+clave: 
 
 Usuario:              superadmin
-Contraseña temporal:  Rw-cd*yDdAFW2ZC6
+Contraseña temporal:  Alex1978@@12
+
+http://localhost/combustible/Control_Combustible/index.php
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-revisar base de datos

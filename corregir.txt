@@ -1,0 +1,34 @@
+nombres
+Jaime
+apellidoPaterno
+pizarro
+apellidoMaterno
+Jerez
+rut
+20.270.475-1
+turno
+A
+ubicacion
+-32.787018, -71.540026
+codigoMaquinaria
+7555
+patente
+wrts32
+equipo
+bulldozer cat
+horometro
+324567
+kilometro
+134567
+litros
+500
+observacion
+
+esto es lo que arroja al confirmar Identidad no válida: el RUT del registro debe coincidir con el usuario conectado.
+
+_ La modificación que nesecito es esta:
+1. Operador Cargador: permitir ingresar el RUT de cualquier operador, aunque sea distinto al del usuario que inició sesión.
+2. Datos de Operador: aplicar exactamente la misma modificación.
+3. Mantener las validaciones del RUT chileno (formato y dígito verificador).
+4. Mantener la seguridad de inicio de sesión y los permisos de cada usuario.
+5. Eliminar únicamente la restricción que obliga a que ambos RUT sean iguales.
