@@ -12,27 +12,17 @@
    -------------------------------------- INICIO toast.js ------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
-
-
-
-
-/* ============================================================================
-   BLOQUE 1 · MODULO DE NOTIFICACIONES (TOAST)
-   ----------------------------------------------------------------------------
-   Qué hace : Define el objeto Toast, que muestra avisos temporales de tipo
-              éxito, error o información en una esquina de la pantalla.
-   ============================================================================ */
+// TITULO MODULO DE NOTIFICACIONES (TOAST)
+// Define el objeto Toast, que muestra avisos temporales de tipo
+// éxito, error o información en una esquina de la pantalla.
 
 // Toast Notification Module
 
 // Declara el objeto que agrupa las funciones de notificación
 const Toast = {
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 2 · CONTENEDOR
-       ------------------------------------------------------------------------
-       Qué hace : Guarda y busca el elemento donde se muestran los avisos.
-       ------------------------------------------------------------------------ */
+    // TITULO CONTENEDOR
+    // Guarda y busca el elemento donde se muestran los avisos.
 
     // Propiedad que guardará el contenedor de avisos (empieza vacía)
     container: null,
@@ -41,15 +31,11 @@ const Toast = {
     init() {
         // Obtiene el elemento con id toastContainer y lo guarda en container
         this.container = document.getElementById('toastContainer');
-    // Cierra la función init
     },
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 3 · MOSTRAR UN AVISO
-       ------------------------------------------------------------------------
-       Qué hace : Crea el aviso con su ícono y mensaje, lo agrega a la
-                  pantalla y lo quita solo después de 3 segundos.
-       ------------------------------------------------------------------------ */
+    // TITULO MOSTRAR UN AVISO
+    // Crea el aviso con su ícono y mensaje, lo agrega a la
+    // pantalla y lo quita solo después de 3 segundos.
 
     // Define la función show, que recibe el mensaje y el tipo (por defecto 'info')
     show(message, type = 'info') {
@@ -57,7 +43,6 @@ const Toast = {
         if (!this.container) {
             // Lo busca llamando a init
             this.init();
-        // Cierra el if
         }
 
         // Crea un div que será el aviso
@@ -102,7 +87,6 @@ const Toast = {
                 </svg>`;
                 // Sale del switch
                 break;
-        // Cierra el switch
         }
 
         // Inserta el ícono dentro del aviso
@@ -128,47 +112,34 @@ const Toast = {
             setTimeout(() => {
                 // Quita el aviso del contenedor
                 this.container.removeChild(toast);
-            // Cierra la función interna y fija su espera en 300 ms
             }, 300);
-        // Cierra la función externa y fija su espera en 3000 ms
         }, 3000);
-    // Cierra la función show
     },
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 4 · ATAJOS POR TIPO
-       ------------------------------------------------------------------------
-       Qué hace : Funciones cortas para mostrar cada tipo de aviso.
-       ------------------------------------------------------------------------ */
+    // TITULO ATAJOS POR TIPO
+    // Funciones cortas para mostrar cada tipo de aviso.
 
     // Define el atajo para avisos de éxito
     success(message) {
         // Llama a show con el tipo 'success'
         this.show(message, 'success');
-    // Cierra la función success
     },
 
     // Define el atajo para avisos de error
     error(message) {
         // Llama a show con el tipo 'error'
         this.show(message, 'error');
-    // Cierra la función error
     },
 
     // Define el atajo para avisos informativos
     info(message) {
         // Llama a show con el tipo 'info'
         this.show(message, 'info');
-    // Cierra la función info
     }
-// Cierra el objeto Toast
 };
 
-/* ============================================================================
-   BLOQUE 5 · DISPONIBILIDAD GLOBAL
-   ----------------------------------------------------------------------------
-   Qué hace : Publica Toast en window para usarlo desde otros archivos.
-   ============================================================================ */
+// TITULO DISPONIBILIDAD GLOBAL
+// Publica Toast en window para usarlo desde otros archivos.
 
 // Make Toast available globally
 // Asigna el objeto a window para que otros scripts puedan usarlo

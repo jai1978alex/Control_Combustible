@@ -12,26 +12,16 @@
    -------------------------------------- INICIO admin.js ------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
-
-
-
-
-/* ============================================================================
-   BLOQUE 1 · INICIALIZACION DEL PANEL DE ADMINISTRACION
-   ----------------------------------------------------------------------------
-   Qué hace : Espera a que la página termine de cargar y luego activa las
-              funciones del panel (confirmar eliminaciones y ocultar mensajes).
-   ============================================================================ */
+// TITULO INICIALIZACION DEL PANEL DE ADMINISTRACION
+// Espera a que la página termine de cargar y luego activa las
+// funciones del panel (confirmar eliminaciones y ocultar mensajes).
 
 // Registra una función que se ejecuta cuando el HTML terminó de cargarse
 document.addEventListener('DOMContentLoaded', function () {
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 2 · CONFIRMACION ANTES DE ELIMINAR
-       ------------------------------------------------------------------------
-       Qué hace : Pide confirmación al administrador antes de eliminar un
-                  usuario o un registro de combustible.
-       ------------------------------------------------------------------------ */
+    // TITULO CONFIRMACION ANTES DE ELIMINAR
+    // Pide confirmación al administrador antes de eliminar un
+    // usuario o un registro de combustible.
 
     // Busca los formularios que eliminan usuarios o registros y recorre cada uno
     document.querySelectorAll('form[action$="eliminar_usuario.php"], form[action$="eliminar_registro.php"]').forEach(function (form) {
@@ -53,21 +43,15 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!window.confirm(mensaje)) {
                 // Cancela el envío del formulario, por lo que no se elimina nada
                 event.preventDefault();
-            // Cierra el if de la confirmación
             }
-        // Cierra el evento submit
         });
-    // Cierra el recorrido de los formularios
     });
 
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 3 · OCULTAR MENSAJES AUTOMATICAMENTE
-       ------------------------------------------------------------------------
-       Qué hace : Los mensajes de confirmación o error desaparecen solos
-                  después de unos segundos. La contraseña temporal se
-                  excluye para que siga visible.
-       ------------------------------------------------------------------------ */
+    // TITULO OCULTAR MENSAJES AUTOMATICAMENTE
+    // Los mensajes de confirmación o error desaparecen solos
+    // después de unos segundos. La contraseña temporal se
+    // excluye para que siga visible.
 
     // Los mensajes de confirmación/error se ocultan automáticamente después de unos segundos.
     // La contraseña temporal se excluye porque debe permanecer visible una sola vez.
@@ -84,15 +68,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (mensaje && mensaje.parentNode) {
                     // Elimina el mensaje de la página definitivamente
                     mensaje.parentNode.removeChild(mensaje);
-                // Cierra el if de verificación
                 }
-            // Cierra la función interna y fija su espera en 400 ms
             }, 400);
-        // Cierra la función externa y fija su espera en 3000 ms
         }, 3000);
-    // Cierra el recorrido de los mensajes
     });
-// Cierra la función del DOMContentLoaded
 });
 
 

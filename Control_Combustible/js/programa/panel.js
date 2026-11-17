@@ -12,20 +12,10 @@
    -------------------------------------- INICIO panel.js ------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
+// TITULO CONTROL DE UBICACION GPS
+// Contiene mostrarMensaje (aviso flotante) y obtenerUbicacion
+// (lee la ubicación GPS del navegador y la escribe en un campo).
 
-
-
-
-/* ============================================================================
-   BLOQUE 1 · CONTROL DE UBICACION GPS
-   ----------------------------------------------------------------------------
-   Qué hace : Contiene mostrarMensaje (aviso flotante) y obtenerUbicacion
-              (lee la ubicación GPS del navegador y la escribe en un campo).
-   ============================================================================ */
-
-/* ================================================= */
-/* CONTROL DE UBICACION GPS                          */
-/* ================================================= */
 
 // ---- Función mostrarMensaje: muestra un aviso flotante temporal ----
 // Define la función; "tipo" vale "error" si no se indica otro
@@ -42,7 +32,6 @@ function mostrarMensaje(texto, tipo = "error") {
         alerta.id = "mensajeSistema";
         // Lo inserta al comienzo del body
         document.body.prepend(alerta);
-    // Cierra el if de creación
     }
 
     // Asigna las clases CSS: la base más el tipo (error o success)
@@ -58,11 +47,8 @@ function mostrarMensaje(texto, tipo = "error") {
         if (alerta && alerta.parentNode) {
             // Elimina el aviso de la página
             alerta.remove();
-        // Cierra el if de verificación
         }
-    // Cierra la función del temporizador y fija su espera en 5000 ms
     }, 5000);
-// Cierra la función mostrarMensaje
 }
 
 // ---- Función obtenerUbicacion: pide el GPS y lo escribe en el campo indicado ----
@@ -80,7 +66,6 @@ function obtenerUbicacion(idInput) {
         mostrarMensaje("No se encontró el campo de ubicación GPS", "error");
         // Detiene la función
         return;
-    // Cierra el if del campo inexistente
     }
 
     // Si la página no es segura (no HTTPS) y tampoco es localhost ni 127.0.0.1
@@ -94,7 +79,6 @@ function obtenerUbicacion(idInput) {
         );
         // Detiene la función
         return;
-    // Cierra el if del contexto inseguro
     }
 
     // Si el navegador no tiene geolocalización
@@ -105,7 +89,6 @@ function obtenerUbicacion(idInput) {
         mostrarMensaje("Este navegador no permite obtener ubicación GPS", "error");
         // Detiene la función
         return;
-    // Cierra el if de la falta de geolocalización
     }
 
     // Muestra un texto de espera en el campo mientras se obtiene la ubicación
@@ -130,7 +113,6 @@ function obtenerUbicacion(idInput) {
                 mostrarMensaje("El navegador devolvió una ubicación inválida", "error");
                 // Detiene la función
                 return;
-            // Cierra el if de la ubicación inválida
             }
 
             // Escribe "latitud, longitud" con 6 decimales en el campo
@@ -152,9 +134,7 @@ function obtenerUbicacion(idInput) {
                     : "Ubicación obtenida correctamente",
                 // Tipo del mensaje
                 "success"
-            // Cierra la llamada a mostrarMensaje
             );
-        // Cierra la función de éxito
         },
         // ARGUMENTO 2: función que se ejecuta si ocurrió un error
         function (error) {
@@ -185,7 +165,6 @@ function obtenerUbicacion(idInput) {
                 default:
                     // Mensaje genérico
                     mensaje = "No fue posible obtener la ubicación GPS.";
-            // Cierra el switch
             }
 
             // Vacía el campo
@@ -200,7 +179,6 @@ function obtenerUbicacion(idInput) {
             mostrarMensaje(mensaje, "error");
             // Registra el error técnico en la consola
             console.error("Error de geolocalización:", error);
-        // Cierra la función de error
         },
         // ARGUMENTO 3: opciones de la búsqueda
         {
@@ -210,24 +188,15 @@ function obtenerUbicacion(idInput) {
             timeout: 30000,
             // No acepta posiciones guardadas antiguas
             maximumAge: 0
-        // Cierra las opciones
         }
-    // Cierra la llamada a getCurrentPosition
     );
-// Cierra la función obtenerUbicacion
 }
 
 
 
-/* ============================================================================
-   BLOQUE 2 · RELOJ CHILE
-   ----------------------------------------------------------------------------
-   Qué hace : Escribe la fecha y la hora de Chile en pantalla.
-   ============================================================================ */
+// TITULO RELOJ CHILE
+// Escribe la fecha y la hora de Chile en pantalla.
 
-/* ================================================= */
-/* RELOJ CHILE - ACTUALIZACION EN TIEMPO REAL        */
-/* ================================================= */
 // Define la función que actualiza la fecha y la hora
 function actualizarRelojChile() {
     // Busca el elemento donde se muestra la fecha
@@ -243,7 +212,6 @@ function actualizarRelojChile() {
     const partesFecha = new Intl.DateTimeFormat('es-CL', {
         // Opciones de formato: zona horaria, día, mes y año con 2 dígitos (año con 4)
         timeZone: 'America/Santiago', day: '2-digit', month: '2-digit', year: 'numeric'
-    // Cierra las opciones y obtiene la lista de partes
     }).formatToParts(ahora);
     // Función auxiliar: devuelve el valor de una parte según su tipo (o texto vacío)
     const get = (tipo) => partesFecha.find(p => p.type === tipo)?.value || '';
@@ -253,21 +221,13 @@ function actualizarRelojChile() {
     horaEl.textContent = new Intl.DateTimeFormat('es-CL', {
         // Opciones de formato: zona horaria, hora, minuto y segundo con 2 dígitos, sin AM/PM
         timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-    // Cierra las opciones y aplica el formato a la hora actual
     }).format(ahora);
-// Cierra la función actualizarRelojChile
 }
 
-/* ============================================================================
-   BLOQUE 3 · QR: INTERPRETACION Y CARGA AUTOMATICA
-   ----------------------------------------------------------------------------
-   Qué hace : Interpreta el texto leído desde un QR y completa los campos
-              del formulario que correspondan.
-   ============================================================================ */
+// TITULO QR: INTERPRETACION Y CARGA AUTOMATICA
+// Interpreta el texto leído desde un QR y completa los campos
+// del formulario que correspondan.
 
-/* ================================================= */
-/* QR: INTERPRETACION Y CARGA AUTOMATICA             */
-/* ================================================= */
 
 // ---- Función normalizarClaveQR: deja un nombre de campo en minúsculas y sin símbolos ----
 // Define la función; recibe el nombre del campo
@@ -278,7 +238,6 @@ function normalizarClaveQR(clave) {
         .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
         // Pasa a minúsculas y quita todo lo que no sea letra o número
         .toLowerCase().replace(/[^a-z0-9]/g, '');
-// Cierra la función normalizarClaveQR
 }
 
 // ---- Función parsearDatosQR: convierte el texto del QR en un objeto clave-valor ----
@@ -321,40 +280,14 @@ function parsearDatosQR(texto) {
         const m = parte.match(/^\s*([^:=]+?)\s*[:=]\s*(.*?)\s*$/);
         // Si encontró el patrón, guarda el nombre y el valor sin espacios
         if (m) objeto[m[1].trim()] = m[2].trim();
-    // Cierra el recorrido de las partes
     });
     // Devuelve el objeto armado
     return objeto;
-// Cierra la función parsearDatosQR
 }
 
 // ---- Función completarFormularioDesdeQR: rellena el formulario con los datos del QR ----
 // Define la función; recibe el texto leído del QR
-async function completarFormularioDesdeQR(texto) {
-    // Antes de usar los datos, el servidor comprueba que el QR pertenezca al usuario conectado.
-    const csrf = document.querySelector('input[name="csrf_token"]')?.value || '';
-    if (!csrf) {
-        if (window.Toast) Toast.error('No se pudo validar la sesión. Recarga la página e inténtalo nuevamente.');
-        return;
-    }
-
-    try {
-        const respuesta = await fetch('../../backend/validar_qr_identidad.php', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-            body: new URLSearchParams({ qr: String(texto || ''), csrf_token: csrf }).toString()
-        });
-        const validacion = await respuesta.json();
-        if (!respuesta.ok || !validacion.ok) {
-            if (window.Toast) Toast.error(validacion.mensaje || 'No fue posible validar la identidad del QR.');
-            return;
-        }
-    } catch (error) {
-        if (window.Toast) Toast.error('No se pudo comprobar la identidad con el servidor. Revisa tu conexión.');
-        return;
-    }
-
+function completarFormularioDesdeQR(texto) {
     // Convierte el texto del QR en un objeto de datos
     const datos = parsearDatosQR(texto);
     // Objeto donde se guardarán los datos con nombres normalizados
@@ -392,7 +325,6 @@ async function completarFormularioDesdeQR(texto) {
         litros: ['litros','cantidadlitros'],
         // Campo observación
         observacion: ['observacion','observaciones','comentario']
-    // Cierra la tabla de alias
     };
 
     // Define una función que busca el valor de un campo probando todos sus alias
@@ -401,11 +333,9 @@ async function completarFormularioDesdeQR(texto) {
         for (const k of alias[campo] || []) {
             // Si el QR contiene ese alias, devuelve su valor como texto sin espacios
             if (Object.prototype.hasOwnProperty.call(claves, k)) return String(claves[k] ?? '').trim();
-        // Cierra el for
         }
         // Si no encontró ningún alias, devuelve texto vacío
         return '';
-    // Cierra la función obtener
     };
 
     // Obtiene todos los formularios marcados como confirmables
@@ -437,7 +367,6 @@ async function completarFormularioDesdeQR(texto) {
         input.dispatchEvent(new Event('change', { bubbles: true }));
         // Suma uno al contador de campos completados
         completados++;
-    // Cierra la función asignar
     };
 
     // Completa el campo nombres
@@ -475,28 +404,20 @@ async function completarFormularioDesdeQR(texto) {
         if (window.Toast) Toast.error('El QR fue leído, pero no contiene campos reconocibles para este formulario.');
         // Detiene la función
         return;
-    // Cierra el if de cero campos
     }
 
     // Si existe Toast, muestra un aviso de éxito con la cantidad de campos completados
     if (window.Toast) Toast.success(`QR leído correctamente. Se completaron ${completados} campos.`);
     // Desplaza la pantalla suavemente hasta el formulario
     formulario.scrollIntoView({ behavior: 'smooth', block: 'start' });
-// Cierra la función completarFormularioDesdeQR
 }
 
 
-/* ============================================================================
-   BLOQUE 4 · INICIO DE LA PAGINA (DOM READY)
-   ----------------------------------------------------------------------------
-   Qué hace : Cuando la página termina de cargar, activa el reloj, el
-              escáner QR, los botones GPS, los mensajes de PHP, el menú, la
-              validación de RUT y el total de litros.
-   ============================================================================ */
+// TITULO INICIO DE LA PAGINA (DOM READY)
+// Cuando la página termina de cargar, activa el reloj, el
+// escáner QR, los botones GPS, los mensajes de PHP, el menú, la
+// validación de RUT y el total de litros.
 
-/* ================================================= */
-/* DOM READY                                         */
-/* ================================================= */
 
 // Ejecuta el código de abajo cuando el HTML terminó de cargarse
 document.addEventListener("DOMContentLoaded", () => {
@@ -508,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.setInterval(actualizarRelojChile, 1000);
 
     // ---- 4.2 Escáner QR: botón que abre el lector ----
-    /* ESCANER QR */
+    // TITULO ESCANER QR
     // Obtiene el botón que abre el escáner
     const btnQR = document.getElementById('btnQRScanner');
     // Si el módulo QRScanner está disponible
@@ -527,28 +448,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (menu) menu.classList.remove('active');
                 // Abre el escáner QR
                 QRScanner.start();
-            // Cierra el evento click
             });
-        // Cierra el if del botón
         }
-    // Cierra el if de QRScanner
     }
 
     // ---- 4.3 Botones GPS: cada botón obtiene la ubicación en su campo ----
-    /* BOTONES GPS */
+    // TITULO BOTONES GPS
     // Busca los botones .btn-location que tengan el atributo data-gps-target y recorre cada uno
     document.querySelectorAll(".btn-location[data-gps-target]").forEach(button => {
         // Escucha el clic del botón
         button.addEventListener("click", () => {
             // Pide la ubicación y la escribe en el campo indicado por data-gps-target
             obtenerUbicacion(button.dataset.gpsTarget);
-        // Cierra el evento click
         });
-    // Cierra el recorrido de los botones
     });
 
     // ---- 4.4 Mensajes de éxito y error que llegan desde PHP por la URL ----
-    /* MENSAJES DEVUELTOS POR PHP */
+    // TITULO MENSAJES DEVUELTOS POR PHP
     // Crea un lector de los parámetros de la dirección actual
     const parametros = new URLSearchParams(window.location.search);
 
@@ -558,7 +474,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const mensajesExito = {
             // Mensaje para el código password_actualizada
             password_actualizada: "Contraseña actualizada correctamente"
-        // Cierra la tabla
         };
         // Lee el código de éxito de la URL
         const codigoExito = parametros.get("success");
@@ -569,9 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (window.Toast && typeof Toast.success === "function") {
             // Muestra el aviso de éxito
             Toast.success(mensajeExito);
-        // Cierra el if de Toast
         }
-    // Cierra el if de éxito
     }
 
     // Si la URL trae el parámetro error
@@ -586,7 +499,6 @@ document.addEventListener("DOMContentLoaded", () => {
             acceso: "Acceso no autorizado",
             // Mensaje para el código demasiados_intentos
             demasiados_intentos: "Demasiados registros guardados en poco tiempo. Espera unos minutos e intenta de nuevo."
-        // Cierra la tabla
         };
 
         // Lee el código de error de la URL
@@ -598,13 +510,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (window.Toast && typeof Toast.error === "function") {
             // Muestra el aviso de error
             Toast.error(mensajeError);
-        // Cierra el if de Toast
         }
-    // Cierra el if de error
     }
 
     // ---- 4.5 Menú desplegable: abrir/cerrar ----
-    /* MENU */
+    // TITULO MENU
     // Obtiene el botón que abre y cierra el menú
     const btnMenu = document.getElementById("btnMenuToggle");
     // Obtiene el menú desplegable
@@ -618,36 +528,29 @@ document.addEventListener("DOMContentLoaded", () => {
             e.stopPropagation();
             // Abre el menú si estaba cerrado, o lo cierra si estaba abierto
             menu.classList.toggle("active");
-        // Cierra el evento click del botón
         });
 
         // Escucha los clics en todo el documento
         document.addEventListener("click", (e) => {
             // Si el clic fue fuera del botón y fuera del menú
             if (!btnMenu.contains(e.target) && !menu.contains(e.target)) {
-                // Cierra el menú
                 menu.classList.remove("active");
-            // Cierra el if del clic externo
             }
-        // Cierra el evento click del documento
         });
-    // Cierra el if del menú
     }
 
     // ---- 4.6 Validación de RUT en los campos del formulario ----
-    /* VALIDACION RUT */
+    // TITULO VALIDACION RUT
     // Función que comprueba el formato, por ejemplo 12.345.678-9 o 1.234.567-K
     function validarFormatoRut(rut) {
         // Devuelve true si cumple el patrón de puntos, guion y dígito verificador
         return /^\d{1,2}\.\d{3}\.\d{3}-[\dkK]{1}$/.test(rut);
-    // Cierra validarFormatoRut
     }
 
     // Función que comprueba el dígito verificador usando el módulo ValidadorRut
     function validarRut(rut) {
         // Si ValidadorRut existe, valida el RUT; si no existe, devuelve false
         return window.ValidadorRut ? window.ValidadorRut.validate(rut) : false;
-    // Cierra validarRut
     }
 
     // Función que activa la validación en un campo de RUT y su texto de error
@@ -673,7 +576,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.style.borderColor = "";
                 // Detiene la validación
                 return;
-            // Cierra el if del campo vacío
             }
 
             // Si el formato no es correcto
@@ -684,7 +586,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.style.borderColor = "#dc2626";
                 // Detiene la validación
                 return;
-            // Cierra el if del formato
             }
 
             // Si el dígito verificador no es correcto
@@ -695,7 +596,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.style.borderColor = "#dc2626";
                 // Detiene la validación
                 return;
-            // Cierra el if del dígito verificador
             }
 
             // Si todo es correcto, muestra el mensaje de RUT válido
@@ -704,9 +604,7 @@ document.addEventListener("DOMContentLoaded", () => {
             error.style.color = "#16a34a";
             // Pinta el borde de verde
             input.style.borderColor = "#16a34a";
-        // Cierra el evento input
         });
-    // Cierra activarValidadorRut
     }
 
     // Activa la validación para el RUT del cargador
@@ -715,7 +613,7 @@ document.addEventListener("DOMContentLoaded", () => {
     activarValidadorRut("rutOperador", "rutErrorOperador");
 
     // ---- 4.7 Total de litros acumulados ----
-    /* TOTAL LITROS ACUMULADOS */
+    // TITULO TOTAL LITROS ACUMULADOS
     // El total base viene desde la base de datos mediante panel.php.
     // Mientras se escribe un nuevo registro se muestra el total proyectado
     // (total guardado + litros que aún no se han confirmado).
@@ -736,7 +634,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Muestra la suma con 2 decimales
         totalElement.innerText = (totalGuardado + litrosActuales).toFixed(2);
-    // Cierra actualizarTotalAcumulado
     }
 
     // Recorre los campos de litros del cargador
@@ -745,9 +642,7 @@ document.addEventListener("DOMContentLoaded", () => {
         input.addEventListener("input", () => {
             // Recalcula el total del cargador
             actualizarTotalAcumulado(".litros-cargador", "totalLitrosCargador");
-        // Cierra el evento input
         });
-    // Cierra el recorrido de los campos del cargador
     });
 
     // Recorre los campos de litros del operador
@@ -756,11 +651,8 @@ document.addEventListener("DOMContentLoaded", () => {
         input.addEventListener("input", () => {
             // Recalcula el total del operador
             actualizarTotalAcumulado(".litros-operador", "totalLitrosOperador");
-        // Cierra el evento input
         });
-    // Cierra el recorrido de los campos del operador
     });
-// Cierra la función del DOMContentLoaded
 });
 
 

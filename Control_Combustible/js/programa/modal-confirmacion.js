@@ -12,16 +12,9 @@
    -------------------------------------- INICIO modal-confirmacion.js ------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
-
-
-
-
-/* ============================================================================
-   BLOQUE 1 · REFERENCIAS A ELEMENTOS Y ESTADO
-   ----------------------------------------------------------------------------
-   Qué hace : Obtiene los botones y las partes del modal de confirmación y
-              declara la variable que recuerda qué formulario está activo.
-   ============================================================================ */
+// TITULO REFERENCIAS A ELEMENTOS Y ESTADO
+// Obtiene los botones y las partes del modal de confirmación y
+// declara la variable que recuerda qué formulario está activo.
 
 // Obtiene todos los botones que abren el modal de confirmación
 const botonesAbrir = document.querySelectorAll(".btnAbrirModal");
@@ -43,16 +36,10 @@ let formularioActivo = null;
 
 
 
-/* ============================================================================
-   BLOQUE 2 · ABRIR MODAL
-   ----------------------------------------------------------------------------
-   Qué hace : Al pulsar un botón, toma los datos del formulario, los arma
-              en pantalla de forma segura y muestra el modal.
-   ============================================================================ */
+// TITULO ABRIR MODAL
+// Al pulsar un botón, toma los datos del formulario, los arma
+// en pantalla de forma segura y muestra el modal.
 
-/* ========================================= */
-/* ABRIR MODAL */
-/* ========================================= */
 
 // Recorre cada botón que abre el modal
 botonesAbrir.forEach(btn => {
@@ -68,13 +55,11 @@ botonesAbrir.forEach(btn => {
             "input, select, textarea"
         );
 
-        /*
-         * Se construye el contenido con nodos DOM (createElement + textContent)
-         * en vez de innerHTML con plantillas de texto. Los valores de estos
-         * campos pueden venir de un código QR escaneado o de texto libre
-         * (observación), por lo que no son datos de confianza: si se insertan
-         * como HTML permiten XSS. textContent nunca interpreta HTML/JS.
-         */
+        // Se construye el contenido con nodos DOM (createElement + textContent)
+        // en vez de innerHTML con plantillas de texto. Los valores de estos
+        // campos pueden venir de un código QR escaneado o de texto libre
+        // (observación), por lo que no son datos de confianza: si se insertan
+        // como HTML permiten XSS. textContent nunca interpreta HTML/JS.
         // Vacía el contenido anterior del modal
         contenido.replaceChildren();
 
@@ -109,30 +94,20 @@ botonesAbrir.forEach(btn => {
                 item.appendChild(valor);
                 // Agrega la fila completa al contenido del modal
                 contenido.appendChild(item);
-            // Cierra el if que filtra los tipos de campo
             }
-        // Cierra el recorrido de los campos
         });
 
         // Muestra el modal
         modal.style.display = "flex";
-    // Cierra el evento click
     });
-// Cierra el recorrido de los botones
 });
 
 
 
-/* ============================================================================
-   BLOQUE 3 · EDITAR (CERRAR EL MODAL)
-   ----------------------------------------------------------------------------
-   Qué hace : Verifica que el modal exista y, al pulsar Editar, lo oculta
-              para que el usuario siga modificando el formulario.
-   ============================================================================ */
+// TITULO EDITAR (CERRAR EL MODAL)
+// Verifica que el modal exista y, al pulsar Editar, lo oculta
+// para que el usuario siga modificando el formulario.
 
-/* ========================================= */
-/* EDITAR */
-/* ========================================= */
 
 // Si falta algún elemento del modal, avisa por consola (no detiene el programa)
 if (!modal || !contenido || !btnEditar || !btnConfirmar) { console.warn("Modal de confirmación no disponible"); }
@@ -143,21 +118,14 @@ if (btnEditar) btnEditar.addEventListener("click", () => {
     // Oculta el modal
     modal.style.display = "none";
 
-// Cierra el evento click
 });
 
 
 
-/* ============================================================================
-   BLOQUE 4 · CONFIRMAR (ENVIAR EL FORMULARIO)
-   ----------------------------------------------------------------------------
-   Qué hace : Al pulsar Confirmar, envía el formulario que se estaba
-              revisando.
-   ============================================================================ */
+// TITULO CONFIRMAR (ENVIAR EL FORMULARIO)
+// Al pulsar Confirmar, envía el formulario que se estaba
+// revisando.
 
-/* ========================================= */
-/* CONFIRMAR */
-/* ========================================= */
 
 // Si existe el botón Confirmar, escucha su clic
 if (btnConfirmar) btnConfirmar.addEventListener("click", () => {
@@ -165,21 +133,14 @@ if (btnConfirmar) btnConfirmar.addEventListener("click", () => {
     // Envía el formulario activo al servidor
     formularioActivo.submit();
 
-// Cierra el evento click
 });
 
 
 
-/* ============================================================================
-   BLOQUE 5 · CERRAR HACIENDO CLIC AFUERA
-   ----------------------------------------------------------------------------
-   Qué hace : Si se hace clic en el fondo oscuro fuera del cuadro, cierra
-              el modal.
-   ============================================================================ */
+// TITULO CERRAR HACIENDO CLIC AFUERA
+// Si se hace clic en el fondo oscuro fuera del cuadro, cierra
+// el modal.
 
-/* ========================================= */
-/* CERRAR AFUERA */
-/* ========================================= */
 
 // Escucha los clics en toda la ventana
 window.addEventListener("click", e => {
@@ -189,16 +150,11 @@ window.addEventListener("click", e => {
 
         // Oculta el modal
         modal.style.display = "none";
-    // Cierra el if
     }
-// Cierra el evento click de la ventana
 });
 
-/* ============================================================================
-   BLOQUE 6 · TIEMPO DE INACTIVIDAD
-   ----------------------------------------------------------------------------
-   Qué hace : Define el tiempo de inactividad. En este archivo no se usa.
-   ============================================================================ */
+// TITULO TIEMPO DE INACTIVIDAD
+// Define el tiempo de inactividad. En este archivo no se usa.
 
 // Guarda 15 minutos expresados en milisegundos (15 × 60 segundos × 1000 ms)
 let tiempoInactivo = 15 * 60 * 1000;

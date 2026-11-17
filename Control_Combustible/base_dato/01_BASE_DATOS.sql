@@ -1,32 +1,15 @@
--- ============================================================================
--- EMEX | CONTROL DE COMBUSTIBLE
--- BASE DE DATOS PROFESIONAL - INSTALACION LIMPIA
--- ============================================================================
--- Base de datos: base_dato_formulario
--- Motor: MySQL / MariaDB - InnoDB
--- Codificacion: utf8mb4
--- Zona horaria de la aplicacion: America/Santiago (se configura en PHP)
---
--- CONTENIDO
---  01. Creacion y configuracion de la base de datos
---  02. Usuarios, roles y control de acceso
---  03. Registro de operador cargador
---  04. Registro de operador
---  05. Recuperacion segura de contrasenas
---  06. Auditoria del sistema
---  07. Control de versiones de la base de datos
---  08. Vistas para reportes y estadisticas
---  09. Indices, integridad y rendimiento
---
--- IMPORTANTE
--- * Este archivo esta preparado para una INSTALACION NUEVA.
--- * Antes de reemplazar una base de datos existente, exporte un respaldo.
--- * No contiene usuarios ni contrasenas predeterminadas.
--- * El primer administrador se crea con backend/crear_primer_admin.php.
--- * No almacene contrasenas en texto plano.
--- ============================================================================
--- 01. CREACION Y CONFIGURACION DE LA BASE DE DATOS
--- ============================================================================
+-- Sitio Web Creado por ITred Spa.
+-- Direccion: Guido Reni #4190
+-- Pedro Aguirre Cerda - Santiago - Chile
+-- contacto@itred.cl o itred.spa@gmail.com
+-- https://www.itred.cl
+-- Creado, Programado y Diseñado por ITred Spa.
+-- BPPJ
+
+-- ---------------------------------------------
+-- INICIO 01_BASE_DATOS.sql
+-- ---------------------------------------------
+
 CREATE DATABASE IF NOT EXISTS `base_dato_formulario`
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
@@ -36,12 +19,10 @@ USE `base_dato_formulario`;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ============================================================================
+-- ---------------------------------------------
+
 -- 02. USUARIOS, ROLES Y CONTROL DE ACCESO
--- ============================================================================
--- Tabla central de autenticacion. El campo password almacena hashes creados
--- por password_hash() de PHP. Los roles existentes se conservan por
--- compatibilidad con el codigo actual: admin y operador.
+-- Estructura de las cuentas de acceso, credenciales, roles y estado de los usuarios.
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(50) NOT NULL,
@@ -62,11 +43,10 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Cuentas de acceso, roles y estado de usuarios';
 
--- ============================================================================
+-- ---------------------------------------------
+
 -- 03. REGISTRO DE OPERADOR CARGADOR
--- ============================================================================
--- Registra cargas efectuadas por operadores cargadores.
--- eliminado_at / eliminado_por implementan eliminacion logica y trazable.
+-- Estructura para registrar las cargas de combustible realizadas por operadores cargadores.
 CREATE TABLE IF NOT EXISTS `operador_cargador` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombres` VARCHAR(100) NOT NULL,
@@ -101,12 +81,10 @@ CREATE TABLE IF NOT EXISTS `operador_cargador` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Cargas de combustible registradas por operadores cargadores';
 
--- ============================================================================
+-- ---------------------------------------------
+
 -- 04. REGISTRO DE OPERADOR
--- ============================================================================
--- Registra consumo/carga asociado a operador, equipo y maquinaria.
--- horometro y kilometro aceptan NULL cuando el tipo de equipo no utiliza
--- alguno de esos indicadores.
+-- Estructura para registrar cargas y consumos asociados a operadores, equipos y maquinarias.
 CREATE TABLE IF NOT EXISTS `operador` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombres` VARCHAR(100) NOT NULL,
@@ -146,11 +124,10 @@ CREATE TABLE IF NOT EXISTS `operador` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Cargas y consumos asociados a operadores, equipos y maquinarias';
 
--- ============================================================================
+-- ---------------------------------------------
+
 -- 05. RECUPERACION SEGURA DE CONTRASENAS
--- ============================================================================
--- token_hash debe contener el hash del token, nunca el token original.
--- Los tokens deben tener vencimiento y marcarse como usados al consumirse.
+-- Estructura para almacenar solicitudes y tokens temporales de recuperacion de acceso.
 CREATE TABLE IF NOT EXISTS `recuperacion_password` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `usuario_id` INT UNSIGNED NOT NULL,
@@ -167,11 +144,10 @@ CREATE TABLE IF NOT EXISTS `recuperacion_password` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Tokens temporales para recuperacion de acceso';
 
--- ============================================================================
+-- ---------------------------------------------
+
 -- 06. AUDITORIA DEL SISTEMA
--- ============================================================================
--- Registro historico de acciones administrativas y operacionales.
--- Se conserva la auditoria aunque una cuenta sea eliminada.
+-- Estructura para conservar el historial de acciones y eventos del sistema.
 CREATE TABLE IF NOT EXISTS `auditoria` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `usuario_id` INT UNSIGNED DEFAULT NULL,
@@ -192,10 +168,10 @@ CREATE TABLE IF NOT EXISTS `auditoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Bitacora de seguridad y trazabilidad del sistema';
 
--- ============================================================================
+-- ---------------------------------------------
+
 -- 07. CONTROL DE VERSIONES Y MIGRACIONES
--- ============================================================================
--- Mantiene un registro de las mejoras estructurales aplicadas.
+-- Estructura para registrar las versiones y mejoras aplicadas a la base de datos.
 CREATE TABLE IF NOT EXISTS `mejoras_base_datos` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `codigo` VARCHAR(60) NOT NULL,
@@ -209,10 +185,12 @@ CREATE TABLE IF NOT EXISTS `mejoras_base_datos` (
 INSERT IGNORE INTO `mejoras_base_datos` (`codigo`,`descripcion`) VALUES
 ('EMEX_DB_2026_03','Esquema profesional consolidado para instalacion nueva');
 
--- ============================================================================
+-- ---------------------------------------------
+
 -- 08. VISTAS PARA REPORTES Y ESTADISTICAS
--- ============================================================================
--- Las vistas son de solo lectura y excluyen registros eliminados logicamente.
+-- Las vistas consolidan informacion de registros vigentes para facilitar consultas y reportes.
+
+-- ---------------------------------------------
 
 -- 08.1. Historial unificado de cargas vigentes.
 CREATE OR REPLACE VIEW `v_cargas_vigentes` AS
@@ -238,6 +216,8 @@ SELECT
 FROM `operador` o
 WHERE o.`eliminado_at` IS NULL;
 
+-- ---------------------------------------------
+
 -- 08.2. Totales mensuales por tipo de registro.
 CREATE OR REPLACE VIEW `v_litros_por_mes` AS
 SELECT
@@ -248,6 +228,8 @@ SELECT
   ROUND(AVG(`litros`),2) AS `litros_promedio`
 FROM `v_cargas_vigentes`
 GROUP BY DATE_FORMAT(`fecha_registro`,'%Y-%m'), `origen`;
+
+-- ---------------------------------------------
 
 -- 08.3. Consumo agrupado por patente y maquinaria.
 CREATE OR REPLACE VIEW `v_litros_por_maquinaria` AS
@@ -261,6 +243,8 @@ SELECT
   MAX(`horometro`) AS `horometro_maximo`
 FROM `v_cargas_vigentes`
 GROUP BY `patente`,`codigo_maquinaria`;
+
+-- ---------------------------------------------
 
 -- 08.4. Actividad y litros acumulados por usuario.
 CREATE OR REPLACE VIEW `v_resumen_por_usuario` AS
@@ -276,10 +260,10 @@ FROM `usuarios` u
 LEFT JOIN `v_cargas_vigentes` c ON c.`usuario_id` = u.`id`
 GROUP BY u.`id`,u.`username`,u.`rol`,u.`estado`;
 
--- ============================================================================
+-- ---------------------------------------------
+
 -- 09. CONSULTAS DE VERIFICACION POST-INSTALACION
--- ============================================================================
--- Ejecutar estas consultas para comprobar que las tablas y vistas existen.
+-- Consultas de lectura para comprobar las tablas, vistas y reglas de integridad creadas.
 SELECT
   TABLE_NAME AS `tabla`,
   TABLE_ROWS AS `filas_aproximadas`,
@@ -305,6 +289,17 @@ WHERE CONSTRAINT_SCHEMA = DATABASE()
   AND CONSTRAINT_TYPE IN ('FOREIGN KEY','CHECK')
 ORDER BY TABLE_NAME, CONSTRAINT_NAME;
 
--- ============================================================================
--- FIN DEL ESQUEMA EMEX
--- ============================================================================
+-- ---------------------------------------------
+
+-- ---------------------------------------------
+
+-- FIN 01_BASE_DATOS.sql
+-- ---------------------------------------------
+
+-- Sitio Web Creado por ITred Spa.
+-- Direccion: Guido Reni #4190
+-- Pedro Aguirre Cerda - Santiago - Chile
+-- contacto@itred.cl o itred.spa@gmail.com
+-- https://www.itred.cl
+-- Creado, Programado y Diseñado por ITred Spa.
+-- BPPJ
