@@ -1,0 +1,92 @@
+CONFIGURACION SEGURA - CONTROL DE COMBUSTIBLE
+
+1) XAMPP LOCAL
+   La aplicación mantiene compatibilidad con:
+   host localhost
+   usuario root
+   contraseña vacía
+   base_dato_formulario
+
+   Esta compatibilidad SOLO se activa cuando el cliente es localhost/127.0.0.1
+   y APP_ENV no es production.
+
+2) PRODUCCION
+   Defina variables de entorno del proceso PHP/Apache:
+
+   APP_ENV=production
+   APP_BASE_URL=https://tu-dominio.example/control_combustible
+   DB_HOST=127.0.0.1
+   DB_USER=control_combustible_app
+   DB_PASS=UNA_CLAVE_ALEATORIA_LARGA
+   DB_NAME=base_dato_formulario
+
+   No coloque credenciales reales dentro de los archivos PHP.
+
+3) USUARIO MYSQL
+   Ejemplo (ejecutar con una cuenta administrativa de MySQL):
+
+   CREATE USER 'control_combustible_app'@'localhost' IDENTIFIED BY 'CAMBIAR_POR_UNA_CLAVE_ALEATORIA_LARGA';
+   GRANT SELECT, INSERT, UPDATE, DELETE ON base_dato_formulario.* TO 'control_combustible_app'@'localhost';
+   FLUSH PRIVILEGES;
+
+   No usar root en producción.
+
+4) HTTPS
+   Producción debe utilizar exclusivamente HTTPS. El .htaccess raíz ya
+   incluye una regla de redirección automática HTTP -> HTTPS (excluye
+   localhost/127.0.0.1 para no romper el desarrollo local). Requiere que el
+   módulo mod_rewrite esté habilitado en Apache. HSTS se activa
+   automáticamente cuando PHP detecta HTTPS.
+
+5) CORREO (recuperación de contraseña)
+   recuperar.php usa PHPMailer (backend/libs/PHPMailer) con SMTP real.
+   Configure estas variables de entorno en producción:
+
+   SMTP_HOST=smtp.tu-proveedor.com
+   SMTP_PORT=587
+   SMTP_USER=usuario_smtp
+   SMTP_PASS=CLAVE_SMTP
+   SMTP_SECURE=tls            (o "ssl" si su proveedor usa el puerto 465)
+   SMTP_FROM_EMAIL=no-reply@tu-dominio.example
+   SMTP_FROM_NAME="Control de Combustible"
+
+   Si SMTP_HOST no está definido, el sistema usa mail() nativo como último
+   recurso y deja constancia en el log del servidor (a diferencia de la
+   versión anterior, que silenciaba los errores con @mail()). Revise
+   error_log si los usuarios reportan que no reciben el correo.
+
+6) PHP
+   En producción:
+   display_errors=Off
+   log_errors=On
+   expose_php=Off
+   session.use_strict_mode=1
+   session.use_only_cookies=1
+   session.use_trans_sid=0
+
+7) BACKUPS
+   Mantenga copias cifradas de la base de datos y pruebe periódicamente su
+   restauración.
+
+8) CAMBIO DE CONTRASEÑA
+   - Un usuario logueado puede cambiar su propia contraseña desde
+     html/programa/cambiar_password.php (sin salir de sesión).
+   - Un admin puede resetear la contraseña de otro usuario desde el panel
+     (superadmin.php -> "Resetear clave"). Se genera una contraseña
+     temporal aleatoria que se muestra una sola vez al admin (no se guarda
+     en base de datos ni en logs); el usuario afectado deberá cambiarla
+     obligatoriamente en su próximo inicio de sesión.
+   - Al cambiar la contraseña (propia o por reseteo), updated_at cambia y
+     todas las sesiones existentes del usuario quedan invalidadas en la
+     siguiente petición.
+
+9) RATE LIMIT
+   El sistema utiliza almacenamiento local protegido en backend/storage/rate_limit.
+   En un servidor con varios nodos se recomienda sustituirlo por Redis o un
+   almacén centralizado con bloqueo atómico.
+
+10) MIGRACIÓN DE BASES DE DATOS EXISTENTES
+    Ejecute base_dato/migracion_produccion_100.sql (con respaldo previo)
+    para agregar de forma segura la tabla de auditoría, la eliminación
+    lógica y la columna debe_cambiar_password si actualiza una instalación
+    previa a esta versión.

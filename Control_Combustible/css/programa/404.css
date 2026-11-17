@@ -1,0 +1,109 @@
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez 404.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+/* TÍTULO: ESTILO GENERAL DE LA PÁGINA */
+
+    /* Quita los espacios y ajusta el tamaño de todos los elementos */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Configura el fondo y la posición general de la página */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define el tipo de letra */
+        background: #f1f5f9;              /* Coloca un fondo gris claro */
+        min-height: 100vh;                  /* Hace que la página ocupe toda la altura de la pantalla */
+        display: flex;                      /* Permite ordenar el contenido */
+        align-items: center;                /* Centra el contenido de arriba hacia abajo */
+        justify-content: center;            /* Centra el contenido de izquierda a derecha */
+        padding: 30px;                      /* Deja espacio alrededor del contenido */
+    }
+
+/* TÍTULO: TARJETA DEL MENSAJE */
+
+    /* Da forma y estilo a la tarjeta principal */
+    .card {
+        background: #fff;                      /* Coloca el fondo blanco */
+        padding: 48px 40px;                      /* Deja espacio dentro de la tarjeta */
+        border-radius: 20px;                     /* Redondea las esquinas */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, .08); /* Agrega una sombra suave */
+        max-width: 480px;                        /* Define el ancho máximo de la tarjeta */
+        text-align: center;                      /* Centra el texto */
+    }
+
+
+/* TÍTULO: NÚMERO DEL ERROR */
+
+    /* Da estilo al número que muestra el error */
+    .codigo {
+        font-size: 64px;                         /* Define el tamaño del número */
+        font-weight: 800;                        /* Hace que el número se vea más grueso */
+        color: #2563eb;                        /* Coloca el número en color azul */
+        line-height: 1;                          /* Ajusta el espacio vertical del número */
+    }
+
+
+/* TÍTULO DEL MENSAJE */
+
+
+    /* Da estilo al título de la página */
+    h1 {
+        margin: 14px 0 10px;                     /* Deja espacio alrededor del título */
+        color: #0f172a;                        /* Coloca el título en un color oscuro */
+        font-size: 24px;                         /* Define el tamaño del título */
+    }
+
+/* TÍTULO: TEXTO DEL MENSAJE */
+
+    /* Da estilo al texto que aparece debajo del título */
+    p {
+        color: #64748b;                         /* Coloca el texto en color gris */
+        margin-bottom: 28px;                      /* Deja espacio debajo del texto */
+    }
+
+/* TÍTULO: BOTÓN O ENLACE */
+
+    /* Da apariencia de botón al enlace */
+    a {
+        display: inline-block;                   /* Permite aplicar tamaño y espacio al enlace */
+        background: #2563eb;                   /* Coloca el fondo azul */
+        color: #fff;                           /* Coloca el texto en color blanco */
+        text-decoration: none;                   /* Quita la línea debajo del enlace */
+        padding: 13px 26px;                      /* Deja espacio dentro del botón */
+        border-radius: 12px;                     /* Redondea las esquinas del botón */
+        font-weight: 600;                        /* Hace que el texto se vea más grueso */
+    }
+
+    /* Cambia el color del botón cuando se pasa el mouse */
+    a:hover {
+        background: #1d4ed8;                  /* Coloca un azul más oscuro */
+    }
+
+
+    /* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez 404.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/

@@ -1,0 +1,111 @@
+// Sitio Web Creado por ITred Spa.
+// Direccion: Guido Reni #4190
+// Pedro Aguirre Cerda - Santiago - Chile
+// contacto@itred.cl o itred.spa@gmail.com
+// https://www.itred.cl
+// Creado, Programado y Diseñado por ITred Spa.
+// BPPJ 
+
+// 
+
+/* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- INICIO admin.js ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+
+
+
+/* ============================================================================
+   BLOQUE 1 · INICIALIZACION DEL PANEL DE ADMINISTRACION
+   ----------------------------------------------------------------------------
+   Qué hace : Espera a que la página termine de cargar y luego activa las
+              funciones del panel (confirmar eliminaciones y ocultar mensajes).
+   ============================================================================ */
+
+// Registra una función que se ejecuta cuando el HTML terminó de cargarse
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ------------------------------------------------------------------------
+       BLOQUE 2 · CONFIRMACION ANTES DE ELIMINAR
+       ------------------------------------------------------------------------
+       Qué hace : Pide confirmación al administrador antes de eliminar un
+                  usuario o un registro de combustible.
+       ------------------------------------------------------------------------ */
+
+    // Busca los formularios que eliminan usuarios o registros y recorre cada uno
+    document.querySelectorAll('form[action$="eliminar_usuario.php"], form[action$="eliminar_registro.php"]').forEach(function (form) {
+
+        // Escucha el envío del formulario para poder detenerlo si hace falta
+        form.addEventListener('submit', function (event) {
+
+            // Guarda true si el formulario elimina un registro, o false si elimina un usuario
+            const esRegistro = form.action.endsWith('eliminar_registro.php');
+
+            // Elige el texto del cuadro de confirmación según lo que se va a eliminar
+            const mensaje = esRegistro
+                // Texto que se muestra cuando se elimina un registro de combustible
+                ? '¿Quieres confirmar la eliminación de este registro de combustible?\n\nEsta acción no se puede deshacer.'
+                // Texto que se muestra cuando se elimina un usuario
+                : '¿Quieres confirmar la eliminación de este usuario?\n\nEsta acción no se puede deshacer.';
+
+            // Muestra el cuadro de confirmación y entra al bloque si el usuario pulsa Cancelar
+            if (!window.confirm(mensaje)) {
+                // Cancela el envío del formulario, por lo que no se elimina nada
+                event.preventDefault();
+            // Cierra el if de la confirmación
+            }
+        // Cierra el evento submit
+        });
+    // Cierra el recorrido de los formularios
+    });
+
+
+    /* ------------------------------------------------------------------------
+       BLOQUE 3 · OCULTAR MENSAJES AUTOMATICAMENTE
+       ------------------------------------------------------------------------
+       Qué hace : Los mensajes de confirmación o error desaparecen solos
+                  después de unos segundos. La contraseña temporal se
+                  excluye para que siga visible.
+       ------------------------------------------------------------------------ */
+
+    // Los mensajes de confirmación/error se ocultan automáticamente después de unos segundos.
+    // La contraseña temporal se excluye porque debe permanecer visible una sola vez.
+    // Selecciona los .mensaje-admin que no tengan la clase .temp-password-flash y recorre cada uno
+    document.querySelectorAll('.mensaje-admin:not(.temp-password-flash)').forEach(function (mensaje) {
+        // Programa una acción que se ejecuta a los 3 segundos (3000 ms)
+        window.setTimeout(function () {
+            // Agrega la clase CSS que oculta el mensaje con una animación
+            mensaje.classList.add('mensaje-admin-oculto');
+
+            // Programa otra acción 400 ms después, cuando termina la animación
+            window.setTimeout(function () {
+                // Verifica que el mensaje exista y siga dentro de la página
+                if (mensaje && mensaje.parentNode) {
+                    // Elimina el mensaje de la página definitivamente
+                    mensaje.parentNode.removeChild(mensaje);
+                // Cierra el if de verificación
+                }
+            // Cierra la función interna y fija su espera en 400 ms
+            }, 400);
+        // Cierra la función externa y fija su espera en 3000 ms
+        }, 3000);
+    // Cierra el recorrido de los mensajes
+    });
+// Cierra la función del DOMContentLoaded
+});
+
+
+
+/* --------------------------------------------------------------------------------------------------------------
+   ---------------------------------------- FIN admin.js --------------------------------------
+   -------------------------------------------------------------------------------------------------------------- */
+
+
+// Sitio Web Creado por ITred Spa.
+// Direccion: Guido Reni #4190
+// Pedro Aguirre Cerda - Santiago - Chile
+// contacto@itred.cl o itred.spa@gmail.com
+// https://www.itred.cl
+// Creado, Programado y Diseñado por ITred Spa.
+// BPPJ

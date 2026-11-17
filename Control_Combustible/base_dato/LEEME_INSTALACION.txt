@@ -1,0 +1,18 @@
+EMEX - BASE DE DATOS PROFESIONAL
+
+INSTALACION NUEVA
+1. Iniciar MySQL desde XAMPP.
+2. Abrir http://localhost/phpmyadmin.
+3. Exportar primero cualquier base anterior que se quiera conservar.
+4. Importar el archivo 01_BASE_DATOS_EMEX_PROFESIONAL.sql.
+5. Verificar la creacion de la base base_dato_formulario.
+6. Crear el primer administrador desde backend/crear_primer_admin.php.
+
+DIAGNOSTICO
+- Importar o ejecutar 02_DIAGNOSTICO_BASE_DATOS.sql seleccionando la base.
+- Las consultas solo leen informacion; no modifican datos.
+
+ADVERTENCIA
+No importar el archivo principal encima de una instalacion en produccion como si fuera una migracion.
+No borra tablas existentes, pero CREATE TABLE IF NOT EXISTS tampoco actualiza estructuras antiguas.
+Respaldar siempre antes de aplicar cambios.

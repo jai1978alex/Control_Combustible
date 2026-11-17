@@ -1,0 +1,46 @@
+REPARACIÓN DE ACCESO - CONTROL DE COMBUSTIBLE EMEX
+====================================================
+
+Si el login falla (por ejemplo: "el usuario no existe" o error por falta
+de la columna debe_cambiar_password), o si perdiste el acceso a la única
+cuenta administradora, usa el script de línea de comandos incluido en
+esta entrega. A diferencia de versiones anteriores, este proceso YA NO
+usa una contraseña fija dentro del proyecto: cada vez que se ejecuta
+genera una contraseña aleatoria distinta, que solo se muestra una vez.
+
+CÓMO EJECUTARLO
+----------------
+1. Conéctate por SSH (o terminal) al servidor donde está instalado el
+   sistema, con las variables de entorno de base de datos ya configuradas
+   (las mismas que usa la aplicación: DB_HOST, DB_USER, DB_PASS, DB_NAME).
+2. Entra a la carpeta backend/ del proyecto.
+3. Ejecuta:
+
+     php reparar_acceso_superadmin.php
+
+4. Escribe "SI" para confirmar cuando se te pida.
+5. El script mostrará en pantalla una contraseña temporal para el usuario
+   "superadmin". Anótala: no se vuelve a mostrar ni se guarda en ningún
+   log ni en la base de datos.
+6. Entra al sistema con usuario "superadmin" y esa contraseña. El sistema
+   te obligará a cambiarla de inmediato desde "Cambiar mi contraseña".
+
+QUÉ HACE EL SCRIPT
+-------------------
+- Agrega la columna debe_cambiar_password si faltaba (compatibilidad con
+  instalaciones antiguas).
+- Crea la cuenta "superadmin" si no existe, o restaura su acceso (rol
+  admin, estado activo, contraseña nueva) si ya existía.
+- NO elimina tablas.
+- NO elimina registros de operadores/cargadores.
+- NO modifica registros de combustible.
+
+INSTALACIÓN NUEVA (sin ningún administrador todavía)
+------------------------------------------------------
+Si es una instalación nueva y todavía no existe ningún administrador, usa
+en cambio:
+
+     php crear_primer_admin.php
+
+Te pedirá un nombre de usuario (y opcionalmente un correo) y generará una
+contraseña temporal para esa cuenta, con el mismo criterio de seguridad.

@@ -1,0 +1,12 @@
+
+
+
+http://localhost/combustible/Control_Combustible-main/index.php
+
+
+Usuario:              superadmin
+Contraseña temporal:  Rw-cd*yDdAFW2ZC6
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+revisar base de datos
