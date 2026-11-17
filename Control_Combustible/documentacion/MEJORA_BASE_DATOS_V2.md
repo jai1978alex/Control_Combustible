@@ -1,3 +1,7 @@
+# Mejora de base de datos V2 — referencia no incluida
+
+**Importante:** esta documentación menciona `base_dato/MEJORA_BASE_DATOS_V2.sql`, pero ese archivo no está incluido en el ZIP recibido. No ejecutes ni busques esa migración en esta entrega. Las instrucciones de aplicación que aparecen más abajo no son utilizables hasta contar con el SQL real, revisarlo y probarlo en una copia de la base.
+
 # Mejora de la base de datos EMEX – Etapa 2 (V2)
 
 Archivo a ejecutar en instalaciones existentes: `base_dato/MEJORA_BASE_DATOS_V2.sql`

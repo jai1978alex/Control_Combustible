@@ -17,7 +17,7 @@
 3. **Documentación con un archivo SQL inexistente**:
    `CONFIGURACION_SEGURA_PRODUCCION.txt` indicaba ejecutar
    `migracion_seguridad.sql`, que no existe en el proyecto. Corregido para
-   referenciar `migracion_produccion_100.sql`, que es el archivo real.
+   referenciar los SQL realmente incluidos en `base_dato/`; la migración general mencionada anteriormente no forma parte de este ZIP.
 
 4. **`editar_registro.php` no mostraba el motivo de un error al guardar**
    (campos inválidos o fallo al guardar): el admin solo veía el formulario
@@ -104,5 +104,5 @@ verificación del envío SMTP con credenciales reales.
 
 ## Base de datos – etapa 2 (V2)
 
-- Nuevo `base_dato/MEJORA_BASE_DATOS_V2.sql`: FK en `eliminado_por`, reglas CHECK (condicionales a los datos), índices por patente/maquinaria, eliminación de índices redundantes, 4 vistas de reporte e informe de calidad de datos. Detalle en `documentacion/MEJORA_BASE_DATOS_V2.md`.
+- La documentación histórica menciona `base_dato/MEJORA_BASE_DATOS_V2.sql`, pero ese archivo no está incluido en el ZIP actual. El texto siguiente describe la mejora prevista, no una migración disponible: FK en `eliminado_por`, reglas CHECK (condicionales a los datos), índices por patente/maquinaria, eliminación de índices redundantes, 4 vistas de reporte e informe de calidad de datos. Detalle en `documentacion/MEJORA_BASE_DATOS_V2.md`.
 - `base_dato/base_dato_formulario` e `instalar.php` actualizados para que las instalaciones nuevas incluyan estas mejoras.

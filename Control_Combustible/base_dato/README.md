@@ -1,62 +1,41 @@
-# EMEX — Base de datos profesional
+# EMEX — Base de datos
 
-Este paquete contiene exclusivamente los archivos de base de datos del proyecto **Control de Combustible EMEX**.
+Este paquete contiene los archivos SQL incluidos en Control de Combustible EMEX.
 
-## Archivos
+## Archivos incluidos
 
-- `01_BASE_DATOS_EMEX_PROFESIONAL.sql`: esquema completo para una instalación nueva.
-- `02_DIAGNOSTICO_BASE_DATOS.sql`: consultas de comprobación para revisar tablas, índices, vistas y relaciones.
+- `01_BASE_DATOS.sql`: esquema completo para una instalación nueva.
+- `02_DIAGNOSTICO_BASE_DATOS.sql`: consultas de comprobación de tablas, índices, vistas y relaciones.
+- `03_MIGRACION_IDENTIDAD_QR.sql`: agrega el RUT maestro a cuentas existentes para habilitar la validación de identidad QR.
 - `LEEME_INSTALACION.txt`: instrucciones resumidas.
 
 ## Instalación nueva en XAMPP
 
-1. Inicia Apache y MySQL desde el panel de XAMPP.
+1. Inicia Apache y MySQL desde XAMPP.
 2. Abre `http://localhost/phpmyadmin`.
-3. Si necesitas conservar información de una base anterior, expórtala primero desde phpMyAdmin.
-4. Selecciona la pestaña **Importar**.
-5. Importa `01_BASE_DATOS_EMEX_PROFESIONAL.sql`.
-6. Comprueba que se creó `base_dato_formulario` y que aparecen sus tablas y vistas.
-7. Desde PowerShell, crea el primer administrador con el script PHP que ya incluye tu proyecto:
+3. Exporta cualquier base anterior que necesites conservar.
+4. Importa `01_BASE_DATOS.sql`.
+5. Comprueba que se creó `base_dato_formulario`.
+6. Crea el primer administrador con `backend/crear_primer_admin.php`, siguiendo las instrucciones de producción.
 
-   ```powershell
-   cd C:\xampp\htdocs\Control_Combustible\backend
-   C:\xampp\php\php.exe crear_primer_admin.php
-   ```
+## Instalación existente
 
-   El script genera una contraseña temporal aleatoria y obliga a cambiarla en el primer inicio de sesión.
+No importes el esquema principal encima de una base con información. Primero exporta un respaldo y revisa la estructura actual. La única migración incluida en este paquete es `03_MIGRACION_IDENTIDAD_QR.sql`; no reemplaza otras migraciones ni actualiza el resto del esquema.
 
-## Compatibilidad con el proyecto
+## Validación de identidad QR
 
-Se conservaron los nombres de base de datos, tablas y columnas que utiliza el código PHP revisado, entre ellos:
+Cada cuenta de trabajador debe tener asignado su RUT real en `usuarios.rut`. Al crear una cuenta desde el panel de administración, ahora se solicita el RUT y se valida su dígito verificador. En una base recién creada, la columna ya existe. En una base existente, respalda la base y ejecuta `03_MIGRACION_IDENTIDAD_QR.sql`. Para cuentas antiguas, el administrador debe asociar el RUT verificado:
 
-- `usuarios`
-- `operador_cargador`
-- `operador`
-- `recuperacion_password`
-- `auditoria`
-- `mejoras_base_datos`
+```sql
+UPDATE usuarios SET rut = '12345678-5' WHERE username = 'usuario_operador';
+```
 
-También se mantienen los nombres de columnas usados por los formularios y consultas PHP, como `usuario_id`, `eliminado_at`, `eliminado_por`, `fecha_registro`, `codigo_maquinaria`, `horometro`, `kilometro`, `litros` y `consumo`.
+Reemplaza los valores por los datos reales. El RUT es único por cuenta. Los operadores sin RUT asignado no podrán validar un QR ni registrar operaciones con un RUT distinto al suyo.
 
-## Importante para una base de datos que ya tiene información
+## Seguridad
 
-El archivo principal está pensado para una **instalación limpia**. `CREATE TABLE IF NOT EXISTS` no transforma automáticamente las tablas antiguas ni modifica sus columnas. No lo uses como sustituto de una migración sobre una instalación con datos.
-
-Para una instalación existente:
-
-1. Haz una exportación completa de la base actual.
-2. No elimines ni recrees la base de datos.
-3. Revisa las migraciones existentes del proyecto (`migracion_produccion_100.sql`, `MEJORA_BASE_DATOS_EMEX.sql` y `MEJORA_BASE_DATOS_V2.sql`) y ejecútalas solo después de verificar su compatibilidad con la estructura real.
-
-## Seguridad de producción
-
-- No uses `root` como usuario de conexión de la aplicación en producción.
-- No guardes contraseñas en texto plano ni incluyas credenciales reales en este paquete.
-- Configura `DB_HOST`, `DB_NAME`, `DB_USER` y `DB_PASS` en el `.env` del proyecto.
-- Usa una contraseña robusta y permisos mínimos para el usuario MySQL de la aplicación.
-- Restringe el acceso web a la carpeta donde guardes archivos SQL y respaldos.
-- Programa respaldos automáticos y prueba periódicamente su restauración.
-
-## Nota de revisión
-
-El esquema se preparó a partir de la estructura SQL y de las consultas PHP incluidas en el ZIP recibido. Se priorizó mantener la compatibilidad con el código existente. La importación debe probarse en la versión concreta de MySQL/MariaDB instalada en tu XAMPP antes de usarla en producción.
+- No uses `root` como usuario de conexión en producción.
+- No guardes contraseñas en texto plano ni incluyas credenciales reales en el ZIP.
+- Configura las variables de conexión mediante el entorno o el instalador.
+- Restringe el acceso web a los archivos SQL y respaldos.
+- Programa respaldos y prueba su restauración.

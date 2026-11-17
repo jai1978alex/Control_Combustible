@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(50) NOT NULL,
   `email` VARCHAR(100) DEFAULT NULL,
+  `rut` VARCHAR(12) DEFAULT NULL COMMENT 'RUT maestro asociado a la cuenta para validar identidad mediante QR',
   `password` VARCHAR(255) NOT NULL,
   `rol` ENUM('admin','operador') NOT NULL DEFAULT 'operador',
   `estado` ENUM('activo','inactivo') NOT NULL DEFAULT 'activo',
@@ -55,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_usuarios_username` (`username`),
   UNIQUE KEY `uq_usuarios_email` (`email`),
+  UNIQUE KEY `uq_usuarios_rut` (`rut`),
   KEY `idx_usuarios_estado_rol` (`estado`,`rol`),
   KEY `idx_usuarios_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci

@@ -1,21 +1,3 @@
-<!--
-    TÍTULO: INFORMACIÓN DEL SITIO WEB
-
-    Sitio Web Creado por Jerez.
-    Dirección: Miraflorez #1280
-    Quintero - Chile
-    jaime.jerez1978@gmail.com
-    https://www.
-    Creado, Programado y Diseñado por Jerez.
-    JJA
--->
-
-
-<!-- -------------------------------------------------------------------------------------------------------------
-   ------------------------------------- INICIO Jerez Exception.php ------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
-
-
 <?php
 
 /**
@@ -89,24 +71,3 @@ class Exception extends \Exception
         return '<strong>' . htmlspecialchars($this->getMessage(), ENT_COMPAT | ENT_HTML401) . "</strong><br />\n";
     }
 }
-
-
-?>
-
-
-<!-- -------------------------------------------------------------------------------------------------------------
-   -------------------------------------- FIN Jerez Exception.php --------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
-
-
-<!--
-    TÍTULO: INFORMACIÓN DEL SITIO WEB
-    Sitio Web Creado por Jerez.
-    Dirección: Miraflorez #1280
-    Quintero - Chile
-    jaime.jerez1978@gmail.com
-    https://www.
-    Creado, Programado y Diseñado por Jerez.
-    JJA
--->
-

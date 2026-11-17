@@ -3,9 +3,9 @@
 ## Instalación — dos caminos
 
 ### Opción A: tienes acceso SSH/terminal al hosting (recomendada)
-1. Crear la base usando `base_dato/base_dato_formulario`.
-2. En una instalación existente ejecutar `base_dato/migracion_produccion_100.sql` con respaldo previo.
-3. Crear un usuario MySQL de mínimos privilegios con `base_dato/usuario_mysql_produccion.sql`, cambiando la contraseña.
+1. Crear la base usando `base_dato/01_BASE_DATOS.sql`.
+2. Para una instalación existente, no ejecutes una migración general que no está incluida. La única migración de esta entrega es `base_dato/03_MIGRACION_IDENTIDAD_QR.sql` y solo agrega el RUT maestro para la validación QR.
+3. Crear un usuario MySQL de mínimos privilegios desde el panel del hosting o con las instrucciones SQL del apartado USUARIO MYSQL de `documentacion/CONFIGURACION_SEGURA_PRODUCCION.txt`.
 4. Configurar las variables de `.env.example` como variables de entorno reales del servidor; no guardar secretos en el proyecto. `APP_NAME` controla el nombre de marca mostrado en títulos y logo (por defecto "EMEX"); `APP_BASE_URL` controla la ruta base para los enlaces de correo y, si el sistema no logra detectarla solo, también para las redirecciones internas.
 5. Activar HTTPS y mantener `display_errors=Off`.
 6. Configurar SMTP real para recuperación de contraseña.
@@ -59,3 +59,17 @@ php reparar_acceso_superadmin.php
 ```
 
 El script genera una contraseña temporal aleatoria nueva en cada ejecución (no hay ninguna contraseña fija dentro del proyecto), crea o restaura la cuenta `superadmin` y obliga a cambiar la contraseña en el siguiente inicio de sesión. Es acotado: no elimina registros de combustible ni tablas. Ver `REPARAR_ACCESO_SUPERADMIN.txt` para el detalle paso a paso.
+
+
+## Validación de identidad QR
+
+La cuenta del trabajador debe tener asignado su RUT maestro en `usuarios.rut`.
+En instalaciones nuevas el campo se crea con el esquema principal. En bases
+existentes, respalda la base y ejecuta `base_dato/03_MIGRACION_IDENTIDAD_QR.sql`.
+Después, el administrador debe asignar a cada cuenta el RUT que verificó por
+un canal independiente. El servidor compara el RUT del QR con el RUT maestro
+de la sesión y rechaza discrepancias. No basta con leer el QR en el navegador.
+
+## Usuarios y validación QR
+
+Al crear cuentas desde el panel de administración, ingresa el RUT verificado del titular. Para cuentas antiguas de una base existente, asígnalo después de ejecutar la migración QR. El lector envía el contenido al servidor; el servidor compara el RUT del QR con `usuarios.rut` de la sesión activa. Una discrepancia se rechaza y queda registrada en auditoría. Además, los usuarios con rol operador no pueden guardar registros con un RUT diferente al suyo.

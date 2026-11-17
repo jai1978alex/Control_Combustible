@@ -7,6 +7,18 @@ $nombres=trim((string)($_POST['nombres']??'')); $ap=trim((string)($_POST['apelli
 $turno=trim((string)($_POST['turno']??'')); $ubicacion=trim((string)($_POST['ubicacion']??'')); $codigo=trim((string)($_POST['codigoMaquinaria']??'')); $patente=strtoupper(trim((string)($_POST['patente']??''))); $equipo=trim((string)($_POST['equipo']??''));
 $horometro=trim((string)($_POST['horometro']??'')); $kilometro=trim((string)($_POST['kilometro']??'')); $litros=trim((string)($_POST['litros']??'')); $observacion=trim((string)($_POST['observacion']??''));
 $fechaRegistro=date('Y-m-d H:i:s');
+
+/* Los operadores solo pueden registrar operaciones asociadas a su propio RUT maestro. */
+if (($_SESSION['rol'] ?? '') === 'operador') {
+    $stmtIdentidad = $conn->prepare('SELECT rut FROM usuarios WHERE id = ? AND estado = \'activo\' LIMIT 1');
+    $stmtIdentidad->bind_param('i', $usuarioId);
+    $stmtIdentidad->execute();
+    $identidad = $stmtIdentidad->get_result()->fetch_assoc();
+    if (!$identidad || empty($identidad['rut']) || normalizeRut((string)$identidad['rut']) !== $rut) {
+        http_response_code(403);
+        exit('Identidad no válida: el RUT del registro debe coincidir con el usuario conectado.');
+    }
+}
 if (!validText($nombres,100)||!validText($ap,100)||!validText($am,100)||!validText($rut,12)||!validText($ubicacion,100)||!validText($codigo,50)||!validText($patente,10)||!validText($equipo,100)||!in_array($turno,['A','B','C','D'],true)||!validDecimal($horometro,0,100000000)||!validDecimal($kilometro,0,100000000)||!validDecimal($litros,0.01,1000000)||mb_strlen($observacion)>2000||!validarFormatoRut($rut)||!validarRut($rut)||!validGps($ubicacion)||!preg_match('/^[A-Z0-9 .-]{2,10}$/', $patente)) { header('Location: ../html/programa/panel.php?error=campos'); exit; }
 $conn->begin_transaction();
 try {

@@ -1,18 +1,3 @@
-<!--
-Sitio Web Creado por Jerez.
-Direccion: Miraflorez #1280
-Quintero - Chile
-jaime.jerez1978@gmail.com
-https://www.
-Creado, Programado y Diseñado por Jerez.
-JJA 
--->
-
-<!-- -------------------------------------------------------------------------------------------------------------
-   ------------------------------------- INICIO Jerez actualizar_registro.php ------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
-
-
 <?php
 
 /* TÍTULO: EDITAR REGISTRO DE OPERADOR */

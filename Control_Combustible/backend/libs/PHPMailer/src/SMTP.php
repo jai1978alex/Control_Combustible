@@ -1,25 +1,5 @@
-<!--
-    TÍTULO: CLASE SMTP PARA ENVÍO DE CORREO
-
-    Sitio Web Creado por Jerez.
-    Dirección: Miraflorez #1280
-    Quintero - Chile
-    jaime.jerez1978@gmail.com
-    https://www.
-    Creado, Programado y Diseñado por Jerez.
-    JJA
--->
-
-
-<!-- -------------------------------------------------------------------------------------------------------------
-   ------------------------------------- INICIO Jerez SMTP.php ------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
-
 <?php
 namespace PHPMailer\PHPMailer;
-?>
-
-<?php
 
 /*
  * Clase de transporte de correo SMTP de PHPMailer basada en RFC821.
@@ -1527,21 +1507,3 @@ class SMTP
         return $this->last_smtp_transaction_id;
     }
 }
-
-?>
-
-<!-- -------------------------------------------------------------------------------------------------------------
-   -------------------------------------- FIN Jerez SMTP.php --------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
-
-
-<!--
-    TÍTULO: CLASE SMTP PARA ENVÍO DE CORREO
-    Sitio Web Creado por Jerez.
-    Dirección: Miraflorez #1280
-    Quintero - Chile
-    jaime.jerez1978@gmail.com
-    https://www.
-    Creado, Programado y Diseñado por Jerez.
-    JJA
--->

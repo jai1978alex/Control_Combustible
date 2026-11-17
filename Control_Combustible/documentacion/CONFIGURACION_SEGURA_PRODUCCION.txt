@@ -86,7 +86,7 @@ CONFIGURACION SEGURA - CONTROL DE COMBUSTIBLE
    almacén centralizado con bloqueo atómico.
 
 10) MIGRACIÓN DE BASES DE DATOS EXISTENTES
-    Ejecute base_dato/migracion_produccion_100.sql (con respaldo previo)
+    Ejecute base_dato/03_MIGRACION_IDENTIDAD_QR.sql solo para agregar el RUT maestro de identidad QR (con respaldo previo). No es una migración general del esquema.
     para agregar de forma segura la tabla de auditoría, la eliminación
     lógica y la columna debe_cambiar_password si actualiza una instalación
     previa a esta versión.

@@ -330,7 +330,31 @@ function parsearDatosQR(texto) {
 
 // ---- Función completarFormularioDesdeQR: rellena el formulario con los datos del QR ----
 // Define la función; recibe el texto leído del QR
-function completarFormularioDesdeQR(texto) {
+async function completarFormularioDesdeQR(texto) {
+    // Antes de usar los datos, el servidor comprueba que el QR pertenezca al usuario conectado.
+    const csrf = document.querySelector('input[name="csrf_token"]')?.value || '';
+    if (!csrf) {
+        if (window.Toast) Toast.error('No se pudo validar la sesión. Recarga la página e inténtalo nuevamente.');
+        return;
+    }
+
+    try {
+        const respuesta = await fetch('../../backend/validar_qr_identidad.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+            body: new URLSearchParams({ qr: String(texto || ''), csrf_token: csrf }).toString()
+        });
+        const validacion = await respuesta.json();
+        if (!respuesta.ok || !validacion.ok) {
+            if (window.Toast) Toast.error(validacion.mensaje || 'No fue posible validar la identidad del QR.');
+            return;
+        }
+    } catch (error) {
+        if (window.Toast) Toast.error('No se pudo comprobar la identidad con el servidor. Revisa tu conexión.');
+        return;
+    }
+
     // Convierte el texto del QR en un objeto de datos
     const datos = parsearDatosQR(texto);
     // Objeto donde se guardarán los datos con nombres normalizados

@@ -1,20 +1,3 @@
-<!--
-Sitio Web Creado por Jerez.
-Direccion: Miraflorez #1280
-Quintero - Chile
-jaime.jerez1978@gmail.com
-https://www.
-Creado, Programado y Diseñado por Jerez.
-JJA 
--->
-
-<!-- -------------------------------------------------------------------------------------------------------------
-   ------------------------------------- INICIO Jerez instalar.php ------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
-
-
-
-
 <?php
 declare(strict_types=1);
 
@@ -188,12 +171,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $conn->query("CREATE TABLE IF NOT EXISTS usuarios (
                     id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50) NOT NULL UNIQUE, email VARCHAR(100) UNIQUE,
+                    rut VARCHAR(12) DEFAULT NULL,
                     password VARCHAR(255) NOT NULL, rol ENUM('admin','operador') NOT NULL DEFAULT 'operador',
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     estado ENUM('activo','inactivo') NOT NULL DEFAULT 'activo',
                     debe_cambiar_password TINYINT(1) NOT NULL DEFAULT 0,
-                    INDEX idx_estado_rol(estado,rol)
+                    UNIQUE KEY uq_usuarios_rut (rut), INDEX idx_estado_rol(estado,rol)
                 ) ENGINE=InnoDB");
+
+                // Agrega el RUT maestro si la tabla ya existía de una instalación anterior.
+                $columnaRut = $conn->query("SHOW COLUMNS FROM usuarios LIKE 'rut'");
+                if ($columnaRut && $columnaRut->num_rows === 0) {
+                    $conn->query("ALTER TABLE usuarios ADD COLUMN rut VARCHAR(12) DEFAULT NULL");
+                }
+                $indiceRut = $conn->query("SHOW INDEX FROM usuarios WHERE Key_name = 'uq_usuarios_rut'");
+                if ($indiceRut && $indiceRut->num_rows === 0) {
+                    $conn->query("ALTER TABLE usuarios ADD UNIQUE KEY uq_usuarios_rut (rut)");
+                }
 
                 $conn->query("CREATE TABLE IF NOT EXISTS operador_cargador (
                     id INT AUTO_INCREMENT PRIMARY KEY, nombres VARCHAR(100) NOT NULL, apellido_paterno VARCHAR(100) NOT NULL, apellido_materno VARCHAR(100) NOT NULL,

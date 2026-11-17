@@ -1,22 +1,3 @@
-<!--
-    TÍTULO: INFORMACIÓN DEL SITIO WEB
-
-    Sitio Web Creado por Jerez.
-    Dirección: Miraflorez #1280
-    Quintero - Chile
-    jaime.jerez1978@gmail.com
-    https://www.
-    Creado, Programado y Diseñado por Jerez.
-    JJA
--->
-
-
-<!-- -------------------------------------------------------------------------------------------------------------
-   ------------------------------------- INICIO Jerez PHPMailer.php ------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
-
-
-
 <?php
 /** TÍTULO: PHPMAILER - CLASE PARA CREAR Y ENVIAR CORREOS ELECTRÓNICOS CON PHP
  *
@@ -5683,21 +5664,3 @@ class PHPMailer
         $this->oauth = $oauth;
     }
 }
-
-?>
-
-<!-- -------------------------------------------------------------------------------------------------------------
-   -------------------------------------- FIN Jerez PHPMailer.php --------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
-
-
-<!--
-    TÍTULO: INFORMACIÓN DEL SITIO WEB
-    Sitio Web Creado por Jerez.
-    Dirección: Miraflorez #1280
-    Quintero - Chile
-    jaime.jerez1978@gmail.com
-    https:// www.
-    Creado, Programado y Diseñado por Jerez.
-    JJA
--->

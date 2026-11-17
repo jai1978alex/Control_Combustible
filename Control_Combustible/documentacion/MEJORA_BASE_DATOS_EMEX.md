@@ -14,7 +14,7 @@ El proyecto ya tenía claves primarias, relaciones con usuarios, `utf8mb4` y alg
 
 ## Mejoras agregadas
 
-El archivo `MEJORA_BASE_DATOS_EMEX.sql` agrega índices complementarios para acelerar:
+La documentación original describe un archivo `MEJORA_BASE_DATOS_EMEX.sql`, pero ese archivo no está incluido en este ZIP. Por lo tanto, las mejoras descritas abajo no deben considerarse instaladas ni ejecutarse desde esta entrega. No se proporciona un SQL inexistente.
 
 - Historiales y paginación ordenados por fecha.
 - Búsquedas de registros vigentes (no eliminados).
@@ -24,15 +24,15 @@ El archivo `MEJORA_BASE_DATOS_EMEX.sql` agrega índices complementarios para ace
 
 También crea `mejoras_base_datos`, una tabla pequeña que registra qué mejora fue aplicada.
 
-## Cómo aplicarla en XAMPP
+## Estado del archivo SQL\n\nNo importes ni busques `MEJORA_BASE_DATOS_EMEX.sql` dentro de este paquete: no está incluido. Esta página queda como referencia de una mejora documentada anteriormente, no como instrucción de instalación vigente.\n\n## Cómo aplicarla en XAMPP
 
-1. Inicia Apache y MySQL desde XAMPP.
-2. Abre `http://localhost/phpmyadmin`.
-3. Selecciona `base_dato_formulario`.
-4. Entra a **Exportar** y descarga primero un respaldo SQL completo.
-5. Abre la pestaña **Importar** y selecciona `MEJORA_BASE_DATOS_EMEX.sql` (o copia su contenido en la pestaña SQL).
-6. Ejecuta y comprueba que el resultado final indique que la mejora fue aplicada.
-7. No ejecutes el archivo sobre otra base de datos sin cambiar y revisar primero el `USE`.
+1. No sigas los pasos de importación siguientes hasta disponer del archivo SQL real y revisado.\n2. Inicia Apache y MySQL desde XAMPP.
+3. Abre `http://localhost/phpmyadmin`.
+4. Selecciona `base_dato_formulario`.
+5. Entra a **Exportar** y descarga primero un respaldo SQL completo.
+6. No es posible importar el archivo porque no está incluido en el ZIP.
+7. No ejecutes una migración que no hayas recibido y revisado.
+
 
 ## Importante
 
