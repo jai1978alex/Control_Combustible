@@ -1,10 +1,10 @@
-// Sitio Web Creado por ITred Spa.
-// Direccion: Guido Reni #4190
-// Pedro Aguirre Cerda - Santiago - Chile
-// contacto@itred.cl o itred.spa@gmail.com
-// https://www.itred.cl
-// Creado, Programado y Diseñado por ITred Spa.
-// BPPJ 
+// Sitio Web Creado por Jerez.
+// Direccion: Miraflorez #1280
+// Quintero - Chile
+// jaime.jerez1978@gmail.com
+// https://www.
+// Creado, Programado y Diseñado por Jerez.
+// JJA 
 
 // 
 
@@ -12,33 +12,21 @@
    -------------------------------------- INICIO qr-scanner.js ------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
+// TITULO DESCRIPCION GENERAL DEL ESCANER QR
+// Define el objeto QRScanner, que lee códigos QR con la cámara o
+// desde una imagen. Usa la librería html5-qrcode y, si no está
+// disponible, el lector nativo BarcodeDetector del navegador.
 
-
-
-
-/* ============================================================================
-   BLOQUE 1 · DESCRIPCION GENERAL DEL ESCANER QR
-   ----------------------------------------------------------------------------
-   Qué hace : Define el objeto QRScanner, que lee códigos QR con la cámara o
-              desde una imagen. Usa la librería html5-qrcode y, si no está
-              disponible, el lector nativo BarcodeDetector del navegador.
-   ============================================================================ */
-
-/* ==========================================================
- * ESCANER QR
- * Usa html5-qrcode en Windows/Chrome y BarcodeDetector como
- * alternativa cuando el navegador lo soporte.
- * ========================================================== */
+// TITULO ESCANER QR
+// Usa html5-qrcode en Windows/Chrome y BarcodeDetector como
+// alternativa cuando el navegador lo soporte.
 // Envuelve todo en una función que se ejecuta sola, para no ensuciar el espacio global
 (function () {
     // Activa el modo estricto de JavaScript (detecta errores comunes)
     'use strict';
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 2 · ESTADO DEL ESCANER
-       ------------------------------------------------------------------------
-       Qué hace : Declara el objeto QRScanner y sus propiedades iniciales.
-       ------------------------------------------------------------------------ */
+    // TITULO ESTADO DEL ESCANER
+    // Declara el objeto QRScanner y sus propiedades iniciales.
 
     // Declara el objeto que agrupa todo el escáner
     const QRScanner = {
@@ -67,12 +55,9 @@
         // Identificador de la cámara elegida
         selectedCameraId: null,
 
-        /* --------------------------------------------------------------------
-           BLOQUE 3 · INICIALIZAR (init)
-           --------------------------------------------------------------------
-           Qué hace : Busca los elementos del modal y conecta los eventos de
-                      cerrar y de subir imagen.
-           -------------------------------------------------------------------- */
+        // TITULO INICIALIZAR (init)
+        // Busca los elementos del modal y conecta los eventos de
+        // cerrar y de subir imagen.
 
         // Define init; recibe la función que se llamará al leer un QR
         init(onScanSuccess) {
@@ -93,7 +78,6 @@
                 console.error('Elementos del escáner QR no encontrados.');
                 // Detiene la función
                 return;
-            // Cierra el if de elementos faltantes
             }
 
             // Al pulsar el botón de cerrar, detiene el escáner
@@ -108,18 +92,12 @@
                     if (file) this.scanImage(file);
                     // Limpia el campo para poder elegir el mismo archivo otra vez
                     event.target.value = '';
-                // Cierra el evento change
                 });
-            // Cierra el if del campo de imagen
             }
-        // Cierra init
         },
 
-        /* --------------------------------------------------------------------
-           BLOQUE 4 · MOSTRAR ESTADO (setStatus)
-           --------------------------------------------------------------------
-           Qué hace : Escribe un mensaje de estado en el modal con su tipo.
-           -------------------------------------------------------------------- */
+        // TITULO MOSTRAR ESTADO (setStatus)
+        // Escribe un mensaje de estado en el modal con su tipo.
 
         // Define setStatus; recibe el texto y el tipo (por defecto 'info')
         setStatus(text, type = 'info') {
@@ -129,15 +107,11 @@
             this.status.textContent = text;
             // Asigna las clases CSS según el tipo
             this.status.className = 'qr-scanner-status ' + type;
-        // Cierra setStatus
         },
 
-        /* --------------------------------------------------------------------
-           BLOQUE 5 · CARGAR LA LIBRERIA (loadLibraryFallback)
-           --------------------------------------------------------------------
-           Qué hace : Si la librería html5-qrcode no está cargada, la descarga
-                      desde internet. Devuelve una promesa true/false.
-           -------------------------------------------------------------------- */
+        // TITULO CARGAR LA LIBRERIA (loadLibraryFallback)
+        // Si la librería html5-qrcode no está cargada, la descarga
+        // desde internet. Devuelve una promesa true/false.
 
         // Define loadLibraryFallback
         loadLibraryFallback() {
@@ -160,20 +134,15 @@
                 script.onerror = () => resolve(false);
                 // Agrega el script a la página para iniciar la descarga
                 document.head.appendChild(script);
-            // Cierra la promesa
             });
 
             // Devuelve la promesa
             return this._libraryPromise;
-        // Cierra loadLibraryFallback
         },
 
-        /* --------------------------------------------------------------------
-           BLOQUE 6 · INICIAR EL ESCANEO (start)
-           --------------------------------------------------------------------
-           Qué hace : Abre el modal y elige el método de lectura: primero la
-                      librería y, si no está disponible, el lector nativo.
-           -------------------------------------------------------------------- */
+        // TITULO INICIAR EL ESCANEO (start)
+        // Abre el modal y elige el método de lectura: primero la
+        // librería y, si no está disponible, el lector nativo.
 
         // Define start (asíncrona, espera operaciones lentas)
         async start() {
@@ -193,7 +162,6 @@
                 this.setStatus('Preparando lector QR...');
                 // Espera a que se descargue la librería
                 await this.loadLibraryFallback();
-            // Cierra el if de la librería
             }
 
             // Si la librería quedó disponible
@@ -202,22 +170,17 @@
                 await this.startHtml5QrCode();
                 // Termina la función
                 return;
-            // Cierra el if de la librería disponible
             }
 
             // Si las librerías externas no están disponibles, intentamos el lector nativo.
             // Inicia el escaneo con el lector nativo del navegador
             await this.startNative();
-        // Cierra start
         },
 
-        /* --------------------------------------------------------------------
-           BLOQUE 7 · ESCANEO CON LA LIBRERIA (startHtml5QrCode)
-           --------------------------------------------------------------------
-           Qué hace : Busca la cámara, pide permiso, inicia el video y
-                      entrega el texto del QR cuando lo detecta. Si falla,
-                      muestra un mensaje de error comprensible.
-           -------------------------------------------------------------------- */
+        // TITULO ESCANEO CON LA LIBRERIA (startHtml5QrCode)
+        // Busca la cámara, pide permiso, inicia el video y
+        // entrega el texto del QR cuando lo detecta. Si falla,
+        // muestra un mensaje de error comprensible.
 
         // Define startHtml5QrCode (asíncrona)
         async startHtml5QrCode() {
@@ -249,7 +212,6 @@
                 } catch (cameraError) {
                     // Registra una advertencia en la consola
                     console.warn('No se pudo enumerar cámaras; se intentará selección automática.', cameraError);
-                // Cierra el catch de las cámaras
                 }
 
                 // Si la lista tiene al menos una cámara
@@ -264,7 +226,6 @@
                     }) || cameras[0];
                     // Guarda el identificador de la cámara elegida
                     this.selectedCameraId = preferida.id;
-                // Cierra el if de las cámaras
                 }
 
                 // Muestra el estado de solicitud de permiso
@@ -293,13 +254,11 @@
                             const size = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.65);
                             // Devuelve un cuadrado de al menos 180 px
                             return { width: Math.max(180, size), height: Math.max(180, size) };
-                        // Cierra la función qrbox
                         },
                         // Usa una proporción cuadrada (1:1)
                         aspectRatio: 1.0,
                         // Permite leer códigos espejados
                         disableFlip: false
-                    // Cierra las opciones
                     },
                     // ARGUMENTO 3: función que se ejecuta al detectar un QR
                     async (decodedText) => {
@@ -313,15 +272,12 @@
                         if (typeof this.onScanCallback === 'function') {
                             // Entrega el texto leído
                             this.onScanCallback(texto);
-                        // Cierra el if de la función de resultado
                         }
                         // Detiene el escáner y cierra el modal
                         await this.stop();
-                    // Cierra la función de detección
                     },
                     // ARGUMENTO 4: función de error de lectura por imagen (vacía a propósito)
                     () => {}
-                // Cierra la llamada a scanner.start
                 );
 
                 // Muestra que la cámara quedó activa
@@ -353,21 +309,15 @@
                 } else if (/secure|https/i.test(nombre)) {
                     // Mensaje de contexto seguro
                     mensaje = 'La cámara requiere un contexto seguro. En XAMPP usa http://localhost/ o configura HTTPS.';
-                // Cierra la cadena de if
                 }
                 // Muestra el mensaje elegido como error
                 this.setStatus(mensaje, 'error');
-            // Cierra el catch
             }
-        // Cierra startHtml5QrCode
         },
 
-        /* --------------------------------------------------------------------
-           BLOQUE 8 · ESCANEO CON EL LECTOR NATIVO (startNative)
-           --------------------------------------------------------------------
-           Qué hace : Si la librería no está disponible, usa BarcodeDetector
-                      con la cámara del navegador.
-           -------------------------------------------------------------------- */
+        // TITULO ESCANEO CON EL LECTOR NATIVO (startNative)
+        // Si la librería no está disponible, usa BarcodeDetector
+        // con la cámara del navegador.
 
         // Define startNative (asíncrona)
         async startNative() {
@@ -377,19 +327,16 @@
                 if (!window.isSecureContext && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
                     // Lanza un error de contexto seguro
                     throw new Error('La cámara requiere HTTPS o localhost.');
-                // Cierra el if del contexto
                 }
                 // Si el navegador no permite acceder a la cámara
                 if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
                     // Lanza un error de acceso a la cámara
                     throw new Error('Este navegador no permite acceder a la cámara.');
-                // Cierra el if de la cámara
                 }
                 // Si el navegador no tiene BarcodeDetector
                 if (!('BarcodeDetector' in window)) {
                     // Lanza un error indicando que no hay lector disponible
                     throw new Error('El lector QR no está disponible. Comprueba que exista conexión a Internet para cargar el módulo html5-qrcode.');
-                // Cierra el if de BarcodeDetector
                 }
                 // Obtiene los formatos de código que soporta el navegador
                 const formats = await BarcodeDetector.getSupportedFormats();
@@ -404,7 +351,6 @@
                     video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
                     // No pide audio
                     audio: false
-                // Cierra las opciones de getUserMedia
                 });
 
                 // Obtiene el área donde se mostrará el video
@@ -443,16 +389,11 @@
                 await this.stop(false);
                 // Muestra el mensaje del error (o uno genérico)
                 this.setStatus(error.message || 'No fue posible iniciar el escáner QR.', 'error');
-            // Cierra el catch
             }
-        // Cierra startNative
         },
 
-        /* --------------------------------------------------------------------
-           BLOQUE 9 · CICLO DE LECTURA NATIVA (nativeLoop)
-           --------------------------------------------------------------------
-           Qué hace : Analiza el video una y otra vez hasta encontrar un QR.
-           -------------------------------------------------------------------- */
+        // TITULO CICLO DE LECTURA NATIVA (nativeLoop)
+        // Analiza el video una y otra vez hasta encontrar un QR.
 
         // Define nativeLoop; recibe el elemento de video
         async nativeLoop(video) {
@@ -472,24 +413,18 @@
                     await this.stop();
                     // Termina el ciclo
                     return;
-                // Cierra el if del código encontrado
                 }
             // Si hay un error de lectura, lo ignora y sigue
             } catch (error) {
                 // Registra el error solo en el nivel de depuración
                 console.debug('Lectura QR nativa:', error);
-            // Cierra el catch
             }
             // Programa la siguiente lectura en el próximo cuadro de animación
             this.timer = requestAnimationFrame(() => this.nativeLoop(video));
-        // Cierra nativeLoop
         },
 
-        /* --------------------------------------------------------------------
-           BLOQUE 10 · ESCANEAR UNA IMAGEN (scanImage)
-           --------------------------------------------------------------------
-           Qué hace : Lee un código QR desde un archivo de imagen.
-           -------------------------------------------------------------------- */
+        // TITULO ESCANEAR UNA IMAGEN (scanImage)
+        // Lee un código QR desde un archivo de imagen.
 
         // Define scanImage (asíncrona); recibe el archivo
         async scanImage(file) {
@@ -497,7 +432,6 @@
             if (typeof window.Html5QrcodeScanner === 'function') {
                 // No se usa el widget permanente; html5-qrcode permite escaneo
                 // de archivo con una instancia normal.
-            // Cierra el if vacío
             }
             // Intenta leer la imagen; si falla, salta al catch
             try {
@@ -505,7 +439,6 @@
                 if (typeof window.Html5Qrcode !== 'function') {
                     // Lanza un error indicando que no hay módulo de lectura
                     throw new Error('El módulo de lectura QR no está disponible.');
-                // Cierra el if de la librería
                 }
                 // Define el id del contenedor temporal
                 const tempId = 'qr-file-reader';
@@ -521,7 +454,6 @@
                     temp.hidden = true;
                     // Lo agrega a la página
                     document.body.appendChild(temp);
-                // Cierra el if de creación
                 }
                 // Crea un lector de la librería sobre ese contenedor
                 const scanner = new Html5Qrcode(tempId, { verbose: false });
@@ -539,17 +471,12 @@
                 console.error('Error leyendo imagen QR:', error);
                 // Avisa que no se encontró un QR válido
                 this.setStatus('No se encontró un QR válido en la imagen.', 'error');
-            // Cierra el catch
             }
-        // Cierra scanImage
         },
 
-        /* --------------------------------------------------------------------
-           BLOQUE 11 · DETENER EL ESCANER (stop)
-           --------------------------------------------------------------------
-           Qué hace : Apaga la cámara, libera recursos y, si se indica,
-                      cierra el modal.
-           -------------------------------------------------------------------- */
+        // TITULO DETENER EL ESCANER (stop)
+        // Apaga la cámara, libera recursos y, si se indica,
+        // cierra el modal.
 
         // Define stop (asíncrona); closeModal vale true por defecto
         async stop(closeModal = true) {
@@ -574,9 +501,7 @@
                 } catch (error) {
                     // Registra el error solo en el nivel de depuración
                     console.debug('Cierre del lector QR:', error);
-                // Cierra el catch
                 }
-            // Cierra el if del escáner
             }
             // Borra la referencia al escáner
             this.scanner = null;
@@ -589,7 +514,6 @@
                 this.stream.getTracks().forEach(track => track.stop());
                 // Borra la referencia al flujo
                 this.stream = null;
-            // Cierra el if del flujo
             }
             // Borra la referencia al detector nativo
             this.detector = null;
@@ -605,22 +529,15 @@
                 this.modal.classList.remove('active');
                 // Indica a lectores de pantalla que el modal está oculto
                 this.modal.setAttribute('aria-hidden', 'true');
-            // Cierra el if del modal
             }
-        // Cierra stop
         }
-    // Cierra el objeto QRScanner
     };
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 12 · DISPONIBILIDAD GLOBAL
-       ------------------------------------------------------------------------
-       Qué hace : Publica QRScanner en window para usarlo desde otros archivos.
-       ------------------------------------------------------------------------ */
+    // TITULO DISPONIBILIDAD GLOBAL
+    // Publica QRScanner en window para usarlo desde otros archivos.
 
     // Asigna el objeto a window para que otros scripts puedan usarlo
     window.QRScanner = QRScanner;
-// Cierra la función que se ejecuta sola
 })();
 
 
@@ -630,10 +547,10 @@
    -------------------------------------------------------------------------------------------------------------- */
 
 
-// Sitio Web Creado por ITred Spa.
-// Direccion: Guido Reni #4190
-// Pedro Aguirre Cerda - Santiago - Chile
-// contacto@itred.cl o itred.spa@gmail.com
-// https://www.itred.cl
-// Creado, Programado y Diseñado por ITred Spa.
-// BPPJ
+// Sitio Web Creado por Jerez.
+// Direccion: Miraflorez #1280
+// Quintero - Chile
+// jaime.jerez1978@gmail.com
+// https://www.
+// Creado, Programado y Diseñado por Jerez.
+// JJA

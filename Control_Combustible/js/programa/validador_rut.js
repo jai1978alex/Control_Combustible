@@ -1,10 +1,10 @@
-// Sitio Web Creado por ITred Spa.
-// Direccion: Guido Reni #4190
-// Pedro Aguirre Cerda - Santiago - Chile
-// contacto@itred.cl o itred.spa@gmail.com
-// https://www.itred.cl
-// Creado, Programado y Diseñado por ITred Spa.
-// BPPJ 
+// Sitio Web Creado por Jerez.
+// Direccion: Miraflorez #1280
+// Quintero - Chile
+// jaime.jerez1978@gmail.com
+// https://www.
+// Creado, Programado y Diseñado por Jerez.
+// JJA 
 
 // 
 
@@ -12,27 +12,17 @@
    -------------------------------------- INICIO validador_rut.js ------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
-
-
-
-
-/* ============================================================================
-   BLOQUE 1 · MODULO VALIDADOR DE RUT
-   ----------------------------------------------------------------------------
-   Qué hace : Define el objeto ValidadorRut con dos funciones: format (da
-              formato al RUT) y validate (comprueba el dígito verificador).
-   ============================================================================ */
+// TITULO MODULO VALIDADOR DE RUT
+// Define el objeto ValidadorRut con dos funciones: format (da
+// formato al RUT) y validate (comprueba el dígito verificador).
 
 // RUT Validation Module
 
 // Declara el objeto que agrupa las funciones del validador
 const ValidadorRut = {
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 2 · FORMATEAR RUT
-       ------------------------------------------------------------------------
-       Qué hace : Limpia el texto y deja el RUT con la forma CUERPO-DV.
-       ------------------------------------------------------------------------ */
+    // TITULO FORMATEAR RUT
+    // Limpia el texto y deja el RUT con la forma CUERPO-DV.
 
     // Format RUT with hyphen
     // Define la función format, que recibe el texto escrito
@@ -50,20 +40,15 @@ const ValidadorRut = {
             const dv = cleaned.slice(-1);
             // Devuelve el cuerpo, un guion y el dígito verificador
             return `${body}-${dv}`;
-        // Cierra el if
         }
 
         // Si hay 0 o 1 caracteres, devuelve el texto limpio sin guion
         return cleaned;
-    // Cierra la función format
     },
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 3 · VALIDAR RUT
-       ------------------------------------------------------------------------
-       Qué hace : Calcula el dígito verificador con el algoritmo Módulo 11
-                  y lo compara con el ingresado. Devuelve true o false.
-       ------------------------------------------------------------------------ */
+    // TITULO VALIDAR RUT
+    // Calcula el dígito verificador con el algoritmo Módulo 11
+    // y lo compara con el ingresado. Devuelve true o false.
 
     // Validate RUT using Chilean algorithm (Modulo 11)
     // Define la función validate, que recibe el RUT completo
@@ -96,7 +81,6 @@ const ValidadorRut = {
             sum += parseInt(body[i]) * multiplier;
             // El multiplicador sube de 2 a 7 y luego vuelve a 2
             multiplier = multiplier === 7 ? 2 : multiplier + 1;
-        // Cierra el for
         }
 
         // Calcula el valor esperado: 11 menos el resto de dividir la suma por 11
@@ -116,21 +100,15 @@ const ValidadorRut = {
         } else {
             // Convierte el número a texto
             expectedDVStr = expectedDV.toString();
-        // Cierra el if/else if/else
         }
 
         // Devuelve true si el dígito ingresado coincide con el esperado
         return dv === expectedDVStr;
-    // Cierra la función validate
     }
-// Cierra el objeto ValidadorRut
 };
 
-/* ============================================================================
-   BLOQUE 4 · DISPONIBILIDAD GLOBAL
-   ----------------------------------------------------------------------------
-   Qué hace : Publica el validador en window para usarlo desde otros archivos.
-   ============================================================================ */
+// TITULO DISPONIBILIDAD GLOBAL
+// Publica el validador en window para usarlo desde otros archivos.
 
 // Make ValidadorRut available globally
 // Asigna el objeto a window para que otros scripts puedan usarlo
@@ -143,10 +121,10 @@ window.ValidadorRut = ValidadorRut;
    -------------------------------------------------------------------------------------------------------------- */
 
 
-// Sitio Web Creado por ITred Spa.
-// Direccion: Guido Reni #4190
-// Pedro Aguirre Cerda - Santiago - Chile
-// contacto@itred.cl o itred.spa@gmail.com
-// https://www.itred.cl
-// Creado, Programado y Diseñado por ITred Spa.
-// BPPJ
+// Sitio Web Creado por Jerez.
+// Direccion: Miraflorez #1280
+// Quintero - Chile
+// jaime.jerez1978@gmail.com
+// https://www.
+// Creado, Programado y Diseñado por Jerez.
+// JJA

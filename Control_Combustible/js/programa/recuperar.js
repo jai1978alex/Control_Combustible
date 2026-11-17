@@ -1,10 +1,10 @@
-// Sitio Web Creado por ITred Spa.
-// Direccion: Guido Reni #4190
-// Pedro Aguirre Cerda - Santiago - Chile
-// contacto@itred.cl o itred.spa@gmail.com
-// https://www.itred.cl
-// Creado, Programado y Diseñado por ITred Spa.
-// BPPJ 
+// Sitio Web Creado por Jerez.
+// Direccion: Miraflorez #1280
+// Quintero - Chile
+// jaime.jerez1978@gmail.com
+// https://www.
+// Creado, Programado y Diseñado por Jerez.
+// JJA 
 
 // 
 
@@ -12,27 +12,17 @@
    -------------------------------------- INICIO recuperar.js ------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
 
-
-
-
-
-/* ============================================================================
-   BLOQUE 1 · INICIALIZACION
-   ----------------------------------------------------------------------------
-   Qué hace : Espera a que la página cargue y activa el formulario de
-              recuperación de contraseña.
-   ============================================================================ */
+// TITULO INICIALIZACION
+// Espera a que la página cargue y activa el formulario de
+// recuperación de contraseña.
 
 // recuperar.js
 
 // Ejecuta el código de abajo cuando el HTML terminó de cargarse
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 2 · REFERENCIAS A LOS ELEMENTOS DE LA PAGINA
-       ------------------------------------------------------------------------
-       Qué hace : Obtiene el formulario y el campo de correo.
-       ------------------------------------------------------------------------ */
+    // TITULO REFERENCIAS A LOS ELEMENTOS DE LA PAGINA
+    // Obtiene el formulario y el campo de correo.
 
     // Obtiene el formulario de recuperación
     const form = document.getElementById("recuperarForm");
@@ -42,12 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Si el formulario no existe en esta página, termina
     if (!form) return;
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 3 · ENVIO DEL FORMULARIO
-       ------------------------------------------------------------------------
-       Qué hace : Valida el correo, lo envía al servidor y muestra el
-                  resultado.
-       ------------------------------------------------------------------------ */
+    // TITULO ENVIO DEL FORMULARIO
+    // Valida el correo, lo envía al servidor y muestra el
+    // resultado.
 
     // Escucha el envío del formulario (función asíncrona porque espera al servidor)
     form.addEventListener("submit", async (e) => {
@@ -64,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
             mostrarMensaje("Ingrese un correo electrónico", "error");
             // Detiene el proceso
             return;
-        // Cierra el if del correo vacío
         }
 
         // Si el formato del correo no es válido
@@ -73,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
             mostrarMensaje("Correo no válido", "error");
             // Detiene el proceso
             return;
-        // Cierra el if del formato inválido
         }
 
         // Intenta comunicarse con el servidor
@@ -86,11 +71,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: {
                     // Indica que el cuerpo se envía en formato JSON
                     "Content-Type": "application/json"
-                // Cierra las cabeceras
                 },
                 // Convierte el correo a texto JSON y lo envía como cuerpo
                 body: JSON.stringify({ email })
-            // Cierra las opciones y la llamada a fetch
             });
 
             // Convierte la respuesta del servidor de JSON a objeto
@@ -108,30 +91,21 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error(error);
             // Muestra un mensaje de error de conexión
             mostrarMensaje("Error al conectar con el servidor", "error");
-        // Cierra el catch
         }
-    // Cierra el evento submit
     });
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 4 · VALIDAR CORREO
-       ------------------------------------------------------------------------
-       Qué hace : Comprueba que el texto tenga forma de correo electrónico.
-       ------------------------------------------------------------------------ */
+    // TITULO VALIDAR CORREO
+    // Comprueba que el texto tenga forma de correo electrónico.
 
     // Define la función que valida el formato del correo
     function validarEmail(email) {
         // Devuelve true si el texto tiene la forma algo@dominio.ext, sin espacios
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    // Cierra la función validarEmail
     }
 
-    /* ------------------------------------------------------------------------
-       BLOQUE 5 · MOSTRAR MENSAJES
-       ------------------------------------------------------------------------
-       Qué hace : Muestra un mensaje bajo el formulario, en rojo si es
-                  error o en verde si es éxito.
-       ------------------------------------------------------------------------ */
+    // TITULO MOSTRAR MENSAJES
+    // Muestra un mensaje bajo el formulario, en rojo si es
+    // error o en verde si es éxito.
 
     // Define la función que muestra un mensaje con su tipo (error o success)
     function mostrarMensaje(mensaje, tipo) {
@@ -146,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
             div.id = "mensaje";
             // Lo agrega al final del formulario
             form.appendChild(div);
-        // Cierra el if de creación
         }
 
         // Escribe el texto del mensaje
@@ -172,12 +145,9 @@ document.addEventListener("DOMContentLoaded", () => {
             div.style.backgroundColor = "#d4edda";
             // Texto verde oscuro
             div.style.color = "#155724";
-        // Cierra el if/else de colores
         }
-    // Cierra la función mostrarMensaje
     }
 
-// Cierra la función del DOMContentLoaded
 });
 
 
@@ -187,10 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
    -------------------------------------------------------------------------------------------------------------- */
 
 
-// Sitio Web Creado por ITred Spa.
-// Direccion: Guido Reni #4190
-// Pedro Aguirre Cerda - Santiago - Chile
-// contacto@itred.cl o itred.spa@gmail.com
-// https://www.itred.cl
-// Creado, Programado y Diseñado por ITred Spa.
-// BPPJ
+// Sitio Web Creado por Jerez.
+// Direccion: Miraflorez #1280
+// Quintero - Chile
+// jaime.jerez1978@gmail.com
+// https://www.
+// Creado, Programado y Diseñado por Jerez.
+// JJA
