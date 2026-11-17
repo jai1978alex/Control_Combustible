@@ -1,0 +1,213 @@
+/*
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------ INICIO Jerez instalar.CSS -----------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* Este archivo contiene todos los estilos (colores, tamaños y espacios) de la página instalar.php. */
+/* Antes estaban escritos dentro del propio instalar.php; ahora viven aquí, como el resto del sistema. */
+
+
+
+/* TÍTULO: PÁGINA CUANDO EL SISTEMA YA ESTÁ INSTALADO */
+
+    /* Da formato a la página que avisa que el sistema ya fue instalado */
+    .instalar-ya-instalado {
+        font-family: sans-serif;    /* Usa una letra simple y fácil de leer */
+        max-width: 640px;           /* Evita que el texto se estire demasiado a lo ancho */
+        margin: 60px auto;          /* Deja espacio arriba y abajo, y centra el texto en la pantalla */
+        line-height: 1.5;           /* Separa un poco las líneas para que se lean mejor */
+    }
+
+
+
+/* TÍTULO: PÁGINA DEL INSTALADOR (FORMULARIO Y MENSAJE FINAL) */
+
+    /* Da formato a toda la página donde se instala el sistema */
+    .instalar-page {
+        font-family: system-ui, sans-serif; /* Usa la letra propia del equipo de la persona, o una simple si no existe */
+        background: #f3f4f6;                /* Pone un fondo gris muy clarito */
+        margin: 0;                          /* Quita el espacio que el navegador deja por defecto alrededor */
+        padding: 24px;                      /* Deja un espacio entre el contenido y los bordes de la pantalla */
+    }
+
+
+
+/* TÍTULO: CAJA BLANCA PRINCIPAL */
+
+    /* Crea la caja blanca donde se muestra el formulario o el mensaje final */
+    .instalar-page .card {
+        max-width: 640px;                           /* Evita que la caja sea demasiado ancha */
+        margin: 0 auto;                             /* Centra la caja en la pantalla */
+        background: #fff;                           /* Pone el fondo de la caja en blanco */
+        border-radius: 10px;                        /* Redondea las esquinas de la caja */
+        padding: 28px;                              /* Deja espacio entre el contenido y los bordes de la caja */
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .08);   /* Agrega una sombra suave alrededor de la caja */
+    }
+
+
+
+/* TÍTULO: TÍTULOS DE LA PÁGINA */
+
+    /* Da formato al título grande de la página */
+    .instalar-page h1 {
+        font-size: 1.4rem;      /* Define el tamaño del título grande */
+        margin-top: 0;          /* Quita el espacio que hay encima del título */
+    }
+
+    /* Da formato a los títulos de cada grupo de datos (Base de datos, Administrador, etc.) */
+    .instalar-page h2 {
+        font-size: 1rem;        /* Define el tamaño de estos títulos más pequeños */
+        margin: 24px 0 8px;     /* Deja espacio arriba (más grande) y abajo (más chico) */
+        color: #374151;         /* Coloca el texto en un gris oscuro */
+    }
+
+
+
+/* TÍTULO: NOMBRES DE LOS CAMPOS */
+
+    /* Da formato al nombre que aparece sobre cada casilla del formulario */
+    .instalar-page label {
+        display: block;         /* Hace que cada nombre ocupe su propia línea */
+        font-size: .85rem;      /* Define el tamaño del texto */
+        font-weight: 600;       /* Hace que el texto se vea un poco más grueso */
+        margin: 12px 0 4px;     /* Deja espacio arriba y un poquito abajo */
+        color: #374151;         /* Coloca el texto en un gris oscuro */
+    }
+
+
+
+/* TÍTULO: CASILLAS PARA ESCRIBIR Y LISTAS DE OPCIONES */
+
+    /* Da formato a las casillas donde se escribe y a las listas donde se elige una opción */
+    .instalar-page input,
+    .instalar-page select {
+        width: 100%;                    /* Hace que ocupen todo el ancho disponible */
+        box-sizing: border-box;         /* Hace que el borde y el espacio interior no agranden la casilla */
+        padding: 9px 10px;              /* Deja espacio entre el texto escrito y el borde de la casilla */
+        border: 1px solid #d1d5db;      /* Dibuja un borde fino de color gris */
+        border-radius: 6px;             /* Redondea las esquinas de la casilla */
+        font-size: .95rem;              /* Define el tamaño del texto escrito */
+    }
+
+
+
+/* TÍTULO: TEXTOS DE AYUDA PEQUEÑOS */
+
+    /* Da formato a las frases de ayuda que aparecen bajo algunas casillas */
+    .instalar-page small {
+        color: #6b7280;         /* Coloca el texto en un gris medio, para que no llame tanto la atención */
+    }
+
+
+
+/* TÍTULO: FILAS CON DOS CASILLAS LADO A LADO */
+
+    /* Acomoda dos casillas una al lado de la otra (por ejemplo Host y Puerto) */
+    .instalar-page .fila {
+        display: grid;                      /* Permite ordenar el contenido como una tabla invisible */
+        grid-template-columns: 1fr 1fr;     /* Crea dos columnas del mismo tamaño */
+        gap: 12px;                          /* Deja un espacio entre una casilla y la otra */
+    }
+
+
+
+/* TÍTULO: BOTÓN INSTALAR */
+
+    /* Da formato al botón azul que inicia la instalación */
+    .instalar-page button {
+        margin-top: 22px;           /* Deja espacio entre el botón y lo que está sobre él */
+        width: 100%;                /* Hace que el botón ocupe todo el ancho disponible */
+        padding: 12px;              /* Deja espacio entre el texto del botón y sus bordes */
+        background: #2563eb;        /* Pone el fondo del botón en color azul */
+        color: #fff;                /* Coloca el texto del botón en blanco */
+        border: 0;                  /* Quita el borde del botón */
+        border-radius: 6px;         /* Redondea las esquinas del botón */
+        font-size: 1rem;            /* Define el tamaño del texto del botón */
+        cursor: pointer;            /* Muestra la manito cuando se pasa el mouse por encima */
+    }
+
+
+
+/* TÍTULO: MENSAJES DE ERROR, ÉXITO Y AVISO */
+
+    /* Da formato al mensaje rojo que avisa que algo salió mal */
+    .instalar-page .error {
+        background: #fef2f2;        /* Pone un fondo rojo muy clarito */
+        color: #991b1b;             /* Coloca el texto en rojo oscuro */
+        padding: 12px;              /* Deja espacio entre el texto y los bordes del mensaje */
+        border-radius: 6px;         /* Redondea las esquinas del mensaje */
+        margin-bottom: 16px;        /* Deja espacio debajo del mensaje */
+        font-size: .9rem;           /* Define el tamaño del texto */
+    }
+
+    /* Da formato al mensaje verde que avisa que todo salió bien */
+    .instalar-page .ok {
+        background: #f0fdf4;        /* Pone un fondo verde muy clarito */
+        color: #166534;             /* Coloca el texto en verde oscuro */
+        padding: 16px;              /* Deja espacio entre el texto y los bordes del mensaje */
+        border-radius: 6px;         /* Redondea las esquinas del mensaje */
+        font-size: .9rem;           /* Define el tamaño del texto */
+    }
+
+    /* Da formato al mensaje amarillo con una advertencia importante */
+    .instalar-page .aviso {
+        background: #fffbeb;        /* Pone un fondo amarillo muy clarito */
+        color: #92400e;             /* Coloca el texto en café oscuro */
+        padding: 12px;              /* Deja espacio entre el texto y los bordes del mensaje */
+        border-radius: 6px;         /* Redondea las esquinas del mensaje */
+        font-size: .85rem;          /* Define el tamaño del texto */
+        margin-top: 16px;           /* Deja espacio encima del mensaje */
+    }
+
+
+
+/* TÍTULO: NOMBRES DE ARCHIVOS RESALTADOS */
+
+    /* Da formato a los nombres de archivos que se muestran resaltados dentro de los textos */
+    .instalar-page code {
+        background: #f3f4f6;        /* Pone un fondo gris clarito detrás del nombre */
+        padding: 2px 6px;           /* Deja un pequeño espacio alrededor del nombre */
+        border-radius: 4px;         /* Redondea las esquinas del fondo */
+    }
+
+
+
+/* TÍTULO: TEXTOS EXPLICATIVOS */
+
+    /* Da formato a la frase de explicación que aparece bajo el título principal */
+    .instalar-intro {
+        color: #4b5563;         /* Coloca el texto en un gris oscuro */
+        font-size: .9rem;       /* Define el tamaño del texto */
+    }
+
+    /* Da formato a la nota que explica qué pasa si no se llena el correo */
+    .instalar-nota-smtp {
+        font-size: .82rem;      /* Define el tamaño del texto */
+        color: #6b7280;         /* Coloca el texto en un gris medio */
+        margin: 0 0 8px;        /* Quita el espacio de arriba y deja un poco debajo */
+    }
+
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez instalar.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/*
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/
