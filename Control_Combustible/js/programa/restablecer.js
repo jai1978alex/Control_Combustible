@@ -13,6 +13,7 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO INICIALIZACION
+
 // Espera a que la página cargue y activa el formulario para
 // restablecer la contraseña mediante un token.
 
@@ -20,6 +21,7 @@
 document.addEventListener('DOMContentLoaded',()=> {
 
     // TITULO REFERENCIAS A LOS ELEMENTOS DE LA PAGINA
+
     // Obtiene el formulario (f) y el espacio de mensajes (m).
 
     // Obtiene el formulario con id resetForm (f) y el contenedor de mensajes con id mensaje (m)
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded',()=> {
     if(!f)return;
 
     // TITULO LECTURA DEL TOKEN DE LA URL
+
     // Toma el token del enlace y lo borra de la barra de
     // direcciones para que no quede visible.
 
@@ -39,6 +42,7 @@ document.addEventListener('DOMContentLoaded',()=> {
     if(t){ history.replaceState(null,'',location.pathname); }
 
     // TITULO ENVIO DEL FORMULARIO
+
     // Valida el token y la nueva contraseña, la envía al
     // servidor y redirige al inicio si todo sale bien.
 

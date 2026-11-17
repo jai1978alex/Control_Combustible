@@ -13,6 +13,7 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO INICIALIZACION
+
 // Espera a que la página cargue y activa los botones de la
 // vista de impresión.
 
@@ -20,6 +21,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // TITULO REFERENCIAS A LOS BOTONES
+
     // Obtiene el botón Imprimir y el botón Cerrar.
 
     // Obtiene el botón que imprime la página
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cerrar = document.getElementById('btnCerrar');
 
     // TITULO ACCIONES DE LOS BOTONES
+
     // Al hacer clic, imprime o cierra la ventana (solo si el
     // botón existe en la página).
 

@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 -- ---------------------------------------------
 
--- 02. USUARIOS, ROLES Y CONTROL DE ACCESO
+-- USUARIOS, ROLES Y CONTROL DE ACCESO
 -- Estructura de las cuentas de acceso, credenciales, roles y estado de los usuarios.
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 
 -- ---------------------------------------------
 
--- 03. REGISTRO DE OPERADOR CARGADOR
+-- REGISTRO DE OPERADOR CARGADOR
 -- Estructura para registrar las cargas de combustible realizadas por operadores cargadores.
 CREATE TABLE IF NOT EXISTS `operador_cargador` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `operador_cargador` (
 
 -- ---------------------------------------------
 
--- 04. REGISTRO DE OPERADOR
+-- REGISTRO DE OPERADOR
 -- Estructura para registrar cargas y consumos asociados a operadores, equipos y maquinarias.
 CREATE TABLE IF NOT EXISTS `operador` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `operador` (
 
 -- ---------------------------------------------
 
--- 05. RECUPERACION SEGURA DE CONTRASENAS
+-- RECUPERACION SEGURA DE CONTRASENAS
 -- Estructura para almacenar solicitudes y tokens temporales de recuperacion de acceso.
 CREATE TABLE IF NOT EXISTS `recuperacion_password` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `recuperacion_password` (
 
 -- ---------------------------------------------
 
--- 06. AUDITORIA DEL SISTEMA
+-- AUDITORIA DEL SISTEMA
 -- Estructura para conservar el historial de acciones y eventos del sistema.
 CREATE TABLE IF NOT EXISTS `auditoria` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `auditoria` (
 
 -- ---------------------------------------------
 
--- 07. CONTROL DE VERSIONES Y MIGRACIONES
+-- CONTROL DE VERSIONES Y MIGRACIONES
 -- Estructura para registrar las versiones y mejoras aplicadas a la base de datos.
 CREATE TABLE IF NOT EXISTS `mejoras_base_datos` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -187,12 +187,12 @@ INSERT IGNORE INTO `mejoras_base_datos` (`codigo`,`descripcion`) VALUES
 
 -- ---------------------------------------------
 
--- 08. VISTAS PARA REPORTES Y ESTADISTICAS
+-- VISTAS PARA REPORTES Y ESTADISTICAS
 -- Las vistas consolidan informacion de registros vigentes para facilitar consultas y reportes.
 
 -- ---------------------------------------------
 
--- 08.1. Historial unificado de cargas vigentes.
+-- Historial unificado de cargas vigentes.
 CREATE OR REPLACE VIEW `v_cargas_vigentes` AS
 SELECT
   'cargador' AS `origen`,
@@ -218,7 +218,7 @@ WHERE o.`eliminado_at` IS NULL;
 
 -- ---------------------------------------------
 
--- 08.2. Totales mensuales por tipo de registro.
+-- Totales mensuales por tipo de registro.
 CREATE OR REPLACE VIEW `v_litros_por_mes` AS
 SELECT
   DATE_FORMAT(`fecha_registro`,'%Y-%m') AS `mes`,
@@ -231,7 +231,7 @@ GROUP BY DATE_FORMAT(`fecha_registro`,'%Y-%m'), `origen`;
 
 -- ---------------------------------------------
 
--- 08.3. Consumo agrupado por patente y maquinaria.
+-- Consumo agrupado por patente y maquinaria.
 CREATE OR REPLACE VIEW `v_litros_por_maquinaria` AS
 SELECT
   `patente`,
@@ -246,7 +246,7 @@ GROUP BY `patente`,`codigo_maquinaria`;
 
 -- ---------------------------------------------
 
--- 08.4. Actividad y litros acumulados por usuario.
+-- Actividad y litros acumulados por usuario.
 CREATE OR REPLACE VIEW `v_resumen_por_usuario` AS
 SELECT
   u.`id` AS `usuario_id`,
@@ -262,7 +262,7 @@ GROUP BY u.`id`,u.`username`,u.`rol`,u.`estado`;
 
 -- ---------------------------------------------
 
--- 09. CONSULTAS DE VERIFICACION POST-INSTALACION
+-- CONSULTAS DE VERIFICACION POST-INSTALACION
 -- Consultas de lectura para comprobar las tablas, vistas y reglas de integridad creadas.
 SELECT
   TABLE_NAME AS `tabla`,

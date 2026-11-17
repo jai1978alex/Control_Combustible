@@ -13,6 +13,7 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO INICIALIZACION DEL PANEL DE ADMINISTRACION
+
 // Espera a que la página termine de cargar y luego activa las
 // funciones del panel (confirmar eliminaciones y ocultar mensajes).
 
@@ -20,6 +21,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // TITULO CONFIRMACION ANTES DE ELIMINAR
+
     // Pide confirmación al administrador antes de eliminar un
     // usuario o un registro de combustible.
 
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // TITULO OCULTAR MENSAJES AUTOMATICAMENTE
+
     // Los mensajes de confirmación o error desaparecen solos
     // después de unos segundos. La contraseña temporal se
     // excluye para que siga visible.

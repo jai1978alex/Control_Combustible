@@ -13,6 +13,7 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO MODULO DE NOTIFICACIONES (TOAST)
+
 // Define el objeto Toast, que muestra avisos temporales de tipo
 // éxito, error o información en una esquina de la pantalla.
 
@@ -22,6 +23,7 @@
 const Toast = {
 
     // TITULO CONTENEDOR
+
     // Guarda y busca el elemento donde se muestran los avisos.
 
     // Propiedad que guardará el contenedor de avisos (empieza vacía)
@@ -34,6 +36,7 @@ const Toast = {
     },
 
     // TITULO MOSTRAR UN AVISO
+
     // Crea el aviso con su ícono y mensaje, lo agrega a la
     // pantalla y lo quita solo después de 3 segundos.
 
@@ -117,6 +120,7 @@ const Toast = {
     },
 
     // TITULO ATAJOS POR TIPO
+
     // Funciones cortas para mostrar cada tipo de aviso.
 
     // Define el atajo para avisos de éxito
@@ -139,6 +143,7 @@ const Toast = {
 };
 
 // TITULO DISPONIBILIDAD GLOBAL
+
 // Publica Toast en window para usarlo desde otros archivos.
 
 // Make Toast available globally

@@ -13,6 +13,7 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO INICIALIZACION
+
 // Espera a que la página cargue y activa el formulario de
 // recuperación de contraseña.
 
@@ -22,6 +23,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // TITULO REFERENCIAS A LOS ELEMENTOS DE LA PAGINA
+
     // Obtiene el formulario y el campo de correo.
 
     // Obtiene el formulario de recuperación
@@ -33,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!form) return;
 
     // TITULO ENVIO DEL FORMULARIO
+
     // Valida el correo, lo envía al servidor y muestra el
     // resultado.
 
@@ -95,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // TITULO VALIDAR CORREO
+
     // Comprueba que el texto tenga forma de correo electrónico.
 
     // Define la función que valida el formato del correo
@@ -104,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // TITULO MOSTRAR MENSAJES
+
     // Muestra un mensaje bajo el formulario, en rojo si es
     // error o en verde si es éxito.
 

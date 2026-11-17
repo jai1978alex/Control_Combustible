@@ -13,6 +13,7 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO REFERENCIAS A ELEMENTOS Y ESTADO
+
 // Obtiene los botones y las partes del modal de confirmación y
 // declara la variable que recuerda qué formulario está activo.
 
@@ -37,9 +38,9 @@ let formularioActivo = null;
 
 
 // TITULO ABRIR MODAL
+
 // Al pulsar un botón, toma los datos del formulario, los arma
 // en pantalla de forma segura y muestra el modal.
-
 
 // Recorre cada botón que abre el modal
 botonesAbrir.forEach(btn => {
@@ -105,9 +106,9 @@ botonesAbrir.forEach(btn => {
 
 
 // TITULO EDITAR (CERRAR EL MODAL)
+
 // Verifica que el modal exista y, al pulsar Editar, lo oculta
 // para que el usuario siga modificando el formulario.
-
 
 // Si falta algún elemento del modal, avisa por consola (no detiene el programa)
 if (!modal || !contenido || !btnEditar || !btnConfirmar) { console.warn("Modal de confirmación no disponible"); }
@@ -123,9 +124,9 @@ if (btnEditar) btnEditar.addEventListener("click", () => {
 
 
 // TITULO CONFIRMAR (ENVIAR EL FORMULARIO)
+
 // Al pulsar Confirmar, envía el formulario que se estaba
 // revisando.
-
 
 // Si existe el botón Confirmar, escucha su clic
 if (btnConfirmar) btnConfirmar.addEventListener("click", () => {
@@ -138,9 +139,9 @@ if (btnConfirmar) btnConfirmar.addEventListener("click", () => {
 
 
 // TITULO CERRAR HACIENDO CLIC AFUERA
+
 // Si se hace clic en el fondo oscuro fuera del cuadro, cierra
 // el modal.
-
 
 // Escucha los clics en toda la ventana
 window.addEventListener("click", e => {
@@ -154,6 +155,7 @@ window.addEventListener("click", e => {
 });
 
 // TITULO TIEMPO DE INACTIVIDAD
+
 // Define el tiempo de inactividad. En este archivo no se usa.
 
 // Guarda 15 minutos expresados en milisegundos (15 × 60 segundos × 1000 ms)

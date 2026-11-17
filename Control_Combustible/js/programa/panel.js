@@ -13,9 +13,9 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO CONTROL DE UBICACION GPS
+
 // Contiene mostrarMensaje (aviso flotante) y obtenerUbicacion
 // (lee la ubicación GPS del navegador y la escribe en un campo).
-
 
 // ---- Función mostrarMensaje: muestra un aviso flotante temporal ----
 // Define la función; "tipo" vale "error" si no se indica otro
@@ -195,6 +195,7 @@ function obtenerUbicacion(idInput) {
 
 
 // TITULO RELOJ CHILE
+
 // Escribe la fecha y la hora de Chile en pantalla.
 
 // Define la función que actualiza la fecha y la hora
@@ -225,9 +226,9 @@ function actualizarRelojChile() {
 }
 
 // TITULO QR: INTERPRETACION Y CARGA AUTOMATICA
+
 // Interpreta el texto leído desde un QR y completa los campos
 // del formulario que correspondan.
-
 
 // ---- Función normalizarClaveQR: deja un nombre de campo en minúsculas y sin símbolos ----
 // Define la función; recibe el nombre del campo
@@ -287,31 +288,7 @@ function parsearDatosQR(texto) {
 
 // ---- Función completarFormularioDesdeQR: rellena el formulario con los datos del QR ----
 // Define la función; recibe el texto leído del QR
-async function completarFormularioDesdeQR(texto) {
-    // Antes de usar los datos, el servidor comprueba que el QR pertenezca al usuario conectado.
-    const csrf = document.querySelector('input[name="csrf_token"]')?.value || '';
-    if (!csrf) {
-        if (window.Toast) Toast.error('No se pudo validar la sesión. Recarga la página e inténtalo nuevamente.');
-        return;
-    }
-
-    try {
-        const respuesta = await fetch('../../backend/validar_qr_identidad.php', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-            body: new URLSearchParams({ qr: String(texto || ''), csrf_token: csrf }).toString()
-        });
-        const validacion = await respuesta.json();
-        if (!respuesta.ok || !validacion.ok) {
-            if (window.Toast) Toast.error(validacion.mensaje || 'No fue posible validar la identidad del QR.');
-            return;
-        }
-    } catch (error) {
-        if (window.Toast) Toast.error('No se pudo comprobar la identidad con el servidor. Revisa tu conexión.');
-        return;
-    }
-
+function completarFormularioDesdeQR(texto) {
     // Convierte el texto del QR en un objeto de datos
     const datos = parsearDatosQR(texto);
     // Objeto donde se guardarán los datos con nombres normalizados
@@ -438,22 +415,23 @@ async function completarFormularioDesdeQR(texto) {
 
 
 // TITULO INICIO DE LA PAGINA (DOM READY)
+
 // Cuando la página termina de cargar, activa el reloj, el
 // escáner QR, los botones GPS, los mensajes de PHP, el menú, la
 // validación de RUT y el total de litros.
 
-
 // Ejecuta el código de abajo cuando el HTML terminó de cargarse
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ---- 4.1 Reloj: se muestra al cargar y se actualiza cada segundo ----
+    // ---- Reloj: se muestra al cargar y se actualiza cada segundo ----
     // Muestra la fecha y hora de inmediato
     actualizarRelojChile();
     // Repite la actualización cada 1000 ms (1 segundo)
     window.setInterval(actualizarRelojChile, 1000);
 
-    // ---- 4.2 Escáner QR: botón que abre el lector ----
+    // ---- Escáner QR: botón que abre el lector ----
     // TITULO ESCANER QR
+
     // Obtiene el botón que abre el escáner
     const btnQR = document.getElementById('btnQRScanner');
     // Si el módulo QRScanner está disponible
@@ -476,8 +454,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ---- 4.3 Botones GPS: cada botón obtiene la ubicación en su campo ----
+    // ---- Botones GPS: cada botón obtiene la ubicación en su campo ----
     // TITULO BOTONES GPS
+
     // Busca los botones .btn-location que tengan el atributo data-gps-target y recorre cada uno
     document.querySelectorAll(".btn-location[data-gps-target]").forEach(button => {
         // Escucha el clic del botón
@@ -487,8 +466,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // ---- 4.4 Mensajes de éxito y error que llegan desde PHP por la URL ----
+    // ---- Mensajes de éxito y error que llegan desde PHP por la URL ----
     // TITULO MENSAJES DEVUELTOS POR PHP
+
     // Crea un lector de los parámetros de la dirección actual
     const parametros = new URLSearchParams(window.location.search);
 
@@ -537,8 +517,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ---- 4.5 Menú desplegable: abrir/cerrar ----
+    // ---- Menú desplegable: abrir/cerrar ----
     // TITULO MENU
+
     // Obtiene el botón que abre y cierra el menú
     const btnMenu = document.getElementById("btnMenuToggle");
     // Obtiene el menú desplegable
@@ -563,8 +544,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ---- 4.6 Validación de RUT en los campos del formulario ----
+    // ---- Validación de RUT en los campos del formulario ----
     // TITULO VALIDACION RUT
+
     // Función que comprueba el formato, por ejemplo 12.345.678-9 o 1.234.567-K
     function validarFormatoRut(rut) {
         // Devuelve true si cumple el patrón de puntos, guion y dígito verificador
@@ -636,11 +618,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Activa la validación para el RUT del operador
     activarValidadorRut("rutOperador", "rutErrorOperador");
 
-    // ---- 4.7 Total de litros acumulados ----
+    // ---- Total de litros acumulados ----
     // TITULO TOTAL LITROS ACUMULADOS
+
     // El total base viene desde la base de datos mediante panel.php.
     // Mientras se escribe un nuevo registro se muestra el total proyectado
     // (total guardado + litros que aún no se han confirmado).
+
     // Función que recalcula y muestra el total; recibe el selector del campo de litros y el id del total
     function actualizarTotalAcumulado(inputSelector, totalId) {
         // Obtiene el campo de litros

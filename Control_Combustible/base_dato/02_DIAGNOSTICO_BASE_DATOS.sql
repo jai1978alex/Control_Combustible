@@ -14,7 +14,7 @@ USE `base_dato_formulario`;
 
 -- ---------------------------------------------
 
--- 01. TABLAS Y MOTOR DE ALMACENAMIENTO
+-- TABLAS Y MOTOR DE ALMACENAMIENTO
 -- Consulta las tablas existentes, su motor, cotejamiento y cantidad aproximada de filas.
 SELECT TABLE_NAME, ENGINE, TABLE_COLLATION, TABLE_ROWS
 FROM information_schema.TABLES
@@ -23,7 +23,7 @@ ORDER BY TABLE_NAME;
 
 -- ---------------------------------------------
 
--- 02. COLUMNAS DE LAS TABLAS PRINCIPALES
+-- COLUMNAS DE LAS TABLAS PRINCIPALES
 -- Consulta la definicion y el orden de las columnas de las tablas principales.
 SELECT TABLE_NAME, ORDINAL_POSITION, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE,
        COLUMN_DEFAULT, EXTRA
@@ -35,7 +35,7 @@ ORDER BY TABLE_NAME, ORDINAL_POSITION;
 
 -- ---------------------------------------------
 
--- 03. INDICES
+-- INDICES
 -- Consulta los indices definidos y las columnas que componen cada indice.
 SELECT TABLE_NAME, INDEX_NAME, NON_UNIQUE,
        GROUP_CONCAT(COLUMN_NAME ORDER BY SEQ_IN_INDEX) AS columnas
@@ -46,7 +46,7 @@ ORDER BY TABLE_NAME, INDEX_NAME;
 
 -- ---------------------------------------------
 
--- 04. RELACIONES Y REGLAS DE INTEGRIDAD
+-- RELACIONES Y REGLAS DE INTEGRIDAD
 -- Consulta las restricciones de integridad registradas en la base de datos.
 SELECT TABLE_NAME, CONSTRAINT_NAME, CONSTRAINT_TYPE
 FROM information_schema.TABLE_CONSTRAINTS
@@ -55,7 +55,7 @@ ORDER BY TABLE_NAME, CONSTRAINT_TYPE, CONSTRAINT_NAME;
 
 -- ---------------------------------------------
 
--- 05. CANTIDAD DE USUARIOS POR ROL Y ESTADO
+-- CANTIDAD DE USUARIOS POR ROL Y ESTADO
 -- Agrupa las cuentas segun su rol y estado actual.
 SELECT rol, estado, COUNT(*) AS total
 FROM usuarios
@@ -64,7 +64,7 @@ ORDER BY rol, estado;
 
 -- ---------------------------------------------
 
--- 06. CALIDAD BASICA DE REGISTROS DE COMBUSTIBLE
+-- CALIDAD BASICA DE REGISTROS DE COMBUSTIBLE
 -- Cuenta los registros que presentan cantidades de litros no validas.
 SELECT 'operador_cargador' AS tabla, COUNT(*) AS litros_no_validos
 FROM operador_cargador WHERE litros <= 0
@@ -73,7 +73,7 @@ SELECT 'operador', COUNT(*) FROM operador WHERE litros <= 0;
 
 -- ---------------------------------------------
 
--- 07. REFERENCIAS DE USUARIO INEXISTENTES
+-- REFERENCIAS DE USUARIO INEXISTENTES
 -- Comprueba referencias a usuarios que no tengan una cuenta asociada; el resultado esperado es cero.
 SELECT 'operador_cargador.usuario_id' AS referencia, COUNT(*) AS huerfanos
 FROM operador_cargador oc LEFT JOIN usuarios u ON u.id = oc.usuario_id

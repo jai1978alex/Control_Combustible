@@ -13,6 +13,7 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO INICIALIZACION
+
 // Espera a que la página cargue y activa la validación del
 // formulario de creación de usuario.
 
@@ -20,6 +21,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // TITULO REFERENCIAS A LOS ELEMENTOS DE LA PAGINA
+
     // Obtiene los campos de contraseña, el texto de error y
     // el formulario.
 
@@ -35,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!nueva || !confirmar || !error || !form) return;
 
     // TITULO FUNCION DE VALIDACION
+
     // Comprueba que ambas contraseñas coincidan y muestra o
     // limpia el mensaje de error. Devuelve true si son válidas.
 
@@ -54,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // TITULO EVENTOS
+
     // Valida mientras se escribe y bloquea el envío del
     // formulario si las contraseñas no coinciden.
 

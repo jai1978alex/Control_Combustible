@@ -13,19 +13,23 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO DESCRIPCION GENERAL DEL ESCANER QR
+
 // Define el objeto QRScanner, que lee códigos QR con la cámara o
 // desde una imagen. Usa la librería html5-qrcode y, si no está
 // disponible, el lector nativo BarcodeDetector del navegador.
 
 // TITULO ESCANER QR
+
 // Usa html5-qrcode en Windows/Chrome y BarcodeDetector como
 // alternativa cuando el navegador lo soporte.
+
 // Envuelve todo en una función que se ejecuta sola, para no ensuciar el espacio global
 (function () {
     // Activa el modo estricto de JavaScript (detecta errores comunes)
     'use strict';
 
     // TITULO ESTADO DEL ESCANER
+
     // Declara el objeto QRScanner y sus propiedades iniciales.
 
     // Declara el objeto que agrupa todo el escáner
@@ -56,6 +60,7 @@
         selectedCameraId: null,
 
         // TITULO INICIALIZAR (init)
+
         // Busca los elementos del modal y conecta los eventos de
         // cerrar y de subir imagen.
 
@@ -97,6 +102,7 @@
         },
 
         // TITULO MOSTRAR ESTADO (setStatus)
+
         // Escribe un mensaje de estado en el modal con su tipo.
 
         // Define setStatus; recibe el texto y el tipo (por defecto 'info')
@@ -110,6 +116,7 @@
         },
 
         // TITULO CARGAR LA LIBRERIA (loadLibraryFallback)
+
         // Si la librería html5-qrcode no está cargada, la descarga
         // desde internet. Devuelve una promesa true/false.
 
@@ -141,6 +148,7 @@
         },
 
         // TITULO INICIAR EL ESCANEO (start)
+
         // Abre el modal y elige el método de lectura: primero la
         // librería y, si no está disponible, el lector nativo.
 
@@ -178,6 +186,7 @@
         },
 
         // TITULO ESCANEO CON LA LIBRERIA (startHtml5QrCode)
+
         // Busca la cámara, pide permiso, inicia el video y
         // entrega el texto del QR cuando lo detecta. Si falla,
         // muestra un mensaje de error comprensible.
@@ -316,6 +325,7 @@
         },
 
         // TITULO ESCANEO CON EL LECTOR NATIVO (startNative)
+
         // Si la librería no está disponible, usa BarcodeDetector
         // con la cámara del navegador.
 
@@ -393,6 +403,7 @@
         },
 
         // TITULO CICLO DE LECTURA NATIVA (nativeLoop)
+
         // Analiza el video una y otra vez hasta encontrar un QR.
 
         // Define nativeLoop; recibe el elemento de video
@@ -424,6 +435,7 @@
         },
 
         // TITULO ESCANEAR UNA IMAGEN (scanImage)
+
         // Lee un código QR desde un archivo de imagen.
 
         // Define scanImage (asíncrona); recibe el archivo
@@ -475,6 +487,7 @@
         },
 
         // TITULO DETENER EL ESCANER (stop)
+
         // Apaga la cámara, libera recursos y, si se indica,
         // cierra el modal.
 
@@ -534,6 +547,7 @@
     };
 
     // TITULO DISPONIBILIDAD GLOBAL
+
     // Publica QRScanner en window para usarlo desde otros archivos.
 
     // Asigna el objeto a window para que otros scripts puedan usarlo

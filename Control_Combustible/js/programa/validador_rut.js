@@ -13,6 +13,7 @@
    ------------------------------------------------------------------------------------------------------------- */
 
 // TITULO MODULO VALIDADOR DE RUT
+
 // Define el objeto ValidadorRut con dos funciones: format (da
 // formato al RUT) y validate (comprueba el dígito verificador).
 
@@ -22,6 +23,7 @@
 const ValidadorRut = {
 
     // TITULO FORMATEAR RUT
+
     // Limpia el texto y deja el RUT con la forma CUERPO-DV.
 
     // Format RUT with hyphen
@@ -47,6 +49,7 @@ const ValidadorRut = {
     },
 
     // TITULO VALIDAR RUT
+
     // Calcula el dígito verificador con el algoritmo Módulo 11
     // y lo compara con el ingresado. Devuelve true o false.
 
@@ -108,6 +111,7 @@ const ValidadorRut = {
 };
 
 // TITULO DISPONIBILIDAD GLOBAL
+
 // Publica el validador en window para usarlo desde otros archivos.
 
 // Make ValidadorRut available globally
