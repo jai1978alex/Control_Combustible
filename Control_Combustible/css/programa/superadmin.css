@@ -548,7 +548,11 @@ JJA
     }
 
 
-
+    /* TÍTULO: FILTROS DE AUDITORÍA (fecha y RUT) */
+    .auditoria-filtros .campo-filtro { display: flex; flex-direction: column; gap: 6px; }
+    .auditoria-filtros .campo-filtro label { width: auto; }
+    .auditoria-filtros .campo-filtro input { min-width: 200px; }
+    
 
 
         /* -------------------------------------------------------------------------------------------------------------
@@ -565,7 +569,4 @@ Creado, Programado y Diseñado por Jerez.
 JJA
 */ 
 
-/* TÍTULO: FILTROS DE AUDITORÍA (fecha y RUT) */
-.auditoria-filtros .campo-filtro { display: flex; flex-direction: column; gap: 6px; }
-.auditoria-filtros .campo-filtro label { width: auto; }
-.auditoria-filtros .campo-filtro input { min-width: 200px; }
+

@@ -1,19 +1,186 @@
-/* Vista de impresión de la auditoría (todas las filas del filtro) */
-@page { size: A4 landscape; margin: 10mm; }
-body { background: #fff; color: #0f172a; font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 16px; }
-.hoja-auditoria { max-width: 100%; }
-.cabecera-auditoria { display: flex; justify-content: space-between; gap: 16px; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin-bottom: 12px; }
-.cabecera-auditoria h1 { margin: 0 0 4px; font-size: 20px; }
-.cabecera-auditoria p { margin: 0; color: #475569; }
-.meta-auditoria { text-align: right; font-size: 13px; line-height: 1.5; }
-.aviso-impresion { background: #fef3c7; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
-.tabla-auditoria { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: auto; }
-.tabla-auditoria th, .tabla-auditoria td { border: 1px solid #cbd5e1; padding: 4px 6px; text-align: left; vertical-align: top; word-break: break-word; }
-.tabla-auditoria th { background: #eff6ff; }
-.tabla-auditoria thead { display: table-header-group; }   /* repite el encabezado en cada hoja */
-.tabla-auditoria tr { page-break-inside: avoid; }
-.sin-datos { text-align: center; padding: 16px; color: #64748b; }
-.acciones-impresion { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
-.acciones-impresion button { border: 0; border-radius: 10px; padding: 12px 20px; cursor: pointer; background: #2563eb; color: #fff; font-weight: 700; }
-.acciones-impresion .secundario { background: #64748b; }
-@media print { body { padding: 0; } .acciones-impresion { display: none; } }
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez auditoria_imprimir.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+
+
+/* TÍTULO: DISEÑO E IMPRESIÓN DEL INFORME DE AUDITORÍA
+   Descripción: Define la apariencia de la hoja, los textos,
+   la tabla de información y los botones de impresión. */
+
+
+/* CONFIGURACIÓN DE LA HOJA PARA IMPRIMIR */
+    @page {
+        size: A4 landscape;                /* Establece el tamaño de papel A4 horizontal */
+        margin: 10mm;                      /* Deja un espacio de 10 milímetros en los bordes */
+    }
+
+
+/* DISEÑO GENERAL DE LA PÁGINA */
+    body {
+        background: #fff;                 /* Coloca un fondo blanco */
+        color: #0f172a;                   /* Establece el color principal de los textos */
+        font-family: Arial, Helvetica, sans-serif; /* Define el tipo de letra */
+        margin: 0;                          /* Elimina los espacios exteriores de la página */
+        padding: 16px;                      /* Deja espacio entre el contenido y los bordes */
+    }
+
+
+/* CONTENEDOR PRINCIPAL DEL INFORME */
+    .hoja-auditoria {
+        max-width: 100%;                    /* Permite que el informe ocupe todo el ancho disponible */
+    }
+
+
+/* ENCABEZADO DEL INFORME */
+    .cabecera-auditoria {
+        display: flex;                      /* Organiza los elementos del encabezado en una misma fila */
+        justify-content: space-between;     /* Separa los elementos hacia ambos lados */
+        gap: 16px;                          /* Deja espacio entre los elementos del encabezado */
+        border-bottom: 2px solid #2563eb; /* Agrega una línea azul debajo del encabezado */
+        padding-bottom: 10px;               /* Deja espacio debajo del contenido del encabezado */
+        margin-bottom: 12px;                /* Separa el encabezado del resto del informe */
+    }
+
+
+/* TÍTULO PRINCIPAL DEL INFORME */
+    .cabecera-auditoria h1 {
+        margin: 0 0 4px;                    /* Ajusta el espacio alrededor del título */
+        font-size: 20px;                    /* Define el tamaño de las letras del título */
+    }
+
+
+/* TEXTO DESCRIPTIVO DEL ENCABEZADO */
+    .cabecera-auditoria p {
+        margin: 0;                          /* Elimina los espacios adicionales del párrafo */
+        color: #475569;                   /* Utiliza un color gris para el texto */
+    }
+
+
+/* INFORMACIÓN ADICIONAL DEL INFORME */
+    .meta-auditoria {
+        text-align: right;                  /* Alinea la información hacia la derecha */
+        font-size: 13px;                    /* Define el tamaño de las letras */
+        line-height: 1.5;                   /* Deja espacio entre las líneas de texto */
+    }
+
+
+/* AVISO QUE APARECE EN EL INFORME */
+    .aviso-impresion {
+        background: #fef3c7;             /* Coloca un fondo amarillo claro */
+        padding: 8px 12px;                 /* Deja espacio alrededor del mensaje */
+        border-radius: 6px;                /* Redondea las esquinas del aviso */
+        font-size: 13px;                   /* Define el tamaño de las letras del aviso */
+    }
+
+
+/* TABLA PRINCIPAL DE AUDITORÍA */
+    .tabla-auditoria {
+        width: 100%;                       /* Hace que la tabla ocupe todo el ancho disponible */
+        border-collapse: collapse;         /* Une los bordes de las celdas */
+        font-size: 11px;                   /* Define el tamaño de las letras de la tabla */
+        table-layout: auto;                /* Permite ajustar el ancho según el contenido */
+    }
+
+
+/* BORDES Y CONTENIDO DE LAS CELDAS */
+    .tabla-auditoria th,
+    .tabla-auditoria td {
+        border: 1px solid #cbd5e1;      /* Agrega bordes a las celdas */
+        padding: 4px 6px;                 /* Deja espacio dentro de cada celda */
+        text-align: left;                 /* Alinea el texto hacia la izquierda */
+        vertical-align: top;              /* Coloca el contenido en la parte superior */
+        word-break: break-word;           /* Permite dividir palabras largas para que no se salgan */
+    }
+
+
+/* ENCABEZADOS DE LA TABLA */
+    .tabla-auditoria th {
+        background: #eff6ff;            /* Coloca un fondo azul claro en los títulos de las columnas */
+    }
+
+
+/* REPETIR LOS TÍTULOS DE LA TABLA AL IMPRIMIR */
+    .tabla-auditoria thead {
+        display: table-header-group;      /* Repite el encabezado en cada hoja */
+    }
+
+
+/* EVITAR QUE UNA FILA SE SEPARE ENTRE DOS HOJAS */
+    .tabla-auditoria tr {
+        page-break-inside: avoid;         /* Mantiene cada fila junta al imprimir */
+    }
+
+
+/* MENSAJE CUANDO NO EXISTEN REGISTROS */
+    .sin-datos {
+        text-align: center;               /* Centra el mensaje */
+        padding: 16px;                    /* Deja espacio alrededor del mensaje */
+        color: #64748b;                 /* Muestra el mensaje en color gris */
+    }
+
+
+/* BOTONES DE LAS OPCIONES DE IMPRESIÓN */
+    .acciones-impresion {
+        display: flex;                    /* Coloca los botones en una misma fila */
+        justify-content: center;          /* Centra los botones en la página */
+        gap: 12px;                        /* Deja espacio entre los botones */
+        margin-top: 20px;                 /* Separa los botones del contenido anterior */
+    }
+
+
+/* APARIENCIA GENERAL DE LOS BOTONES */
+    .acciones-impresion button {
+        border: 0;                        /* Quita los bordes de los botones */
+        border-radius: 10px;              /* Redondea las esquinas de los botones */
+        padding: 12px 20px;               /* Ajusta el espacio interior de los botones */
+        cursor: pointer;                  /* Muestra que los botones se pueden presionar */
+        background: #2563eb;            /* Coloca un fondo azul */
+        color: #fff;                    /* Coloca las letras en color blanco */
+        font-weight: 700;                 /* Hace que el texto aparezca en negrita */
+    }
+
+
+/* BOTÓN SECUNDARIO */
+    .acciones-impresion .secundario {
+        background: #64748b;            /* Coloca un fondo gris en el botón secundario */
+    }
+
+
+/* AJUSTES ESPECIALES PARA IMPRIMIR */
+    @media print {
+        body {
+            padding: 0;                   /* Elimina el espacio exterior al momento de imprimir */
+        }
+
+        .acciones-impresion {
+            display: none;                /* Oculta los botones para que no aparezcan en el papel */
+        }
+    }
+
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez auditoria_imprimir.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/    
