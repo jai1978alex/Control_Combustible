@@ -1,178 +1,258 @@
 <?php
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
 
-/* TÍTULO: EDITAR REGISTRO DE OPERADOR */
-    
-  /* Este archivo permite modificar los datos de un registro.
-  * Solo puede ser usado por un administrador.
-  * También revisa que los datos sean correctos y guarda
-  * un registro de la modificación realizada. */
-  declare(strict_types=1);
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez actualizar_registro.php ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
 
-/* TÍTULO: CARGAR ARCHIVOS NECESARIOS */
-  
-  /* conexion.php    = conecta con la base de datos. security.php    = controla la seguridad.
-    rut_helper.php  = ayuda a revisar y ordenar el RUT.*/
-  require_once __DIR__ . '/conexion.php';
-  require_once __DIR__ . '/security.php';
-  require_once __DIR__ . '/rut_helper.php';
+// TITULO EDITAR REGISTRO DE OPERADOR
 
-/* TÍTULO: REVISAR SEGURIDAD  */
+// Este archivo permite modificar los datos de un registro.
+// Solo puede ser usado por un administrador.
+// También revisa que los datos sean correctos y guarda
+// un registro de la modificación realizada.
 
-  /* requireAdmin() = permite entrar solo al administrador. requirePost() = permite recibir datos enviados 
-  por POST. verifyCsrf()   = revisa que el envío sea seguro.  */
-  requireAdmin();
-  requirePost();
-  verifyCsrf();
+// Activa el modo estricto de tipos para todo este archivo
+declare(strict_types=1);
 
-/* TÍTULO: RECIBIR DATOS PRINCIPALES */
-  
-  /* tipo = indica si el registro es de un cargador o de un operador. id = número del registro que se quiere editar. */
-  $tipo = (string) ($_POST['tipo'] ?? '');
-  $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 
-/* TÍTULO: NOMBRE DE LAS TABLAS */
-  
-  /* Aquí se indica qué tabla corresponde a cada tipo de registro. */
-  $tablas = [
-      'cargador' => 'operador_cargador',
-      'operador' => 'operador'
-  ];
+// TITULO CARGAR ARCHIVOS NECESARIOS
 
-/* TÍTULO: REVISAR TIPO E ID */
-    
-  /* Si no existe un ID válido o el tipo no corresponde, se vuelve a la página del administrador. */
-  if (!$id || !isset($tablas[$tipo])) {
-      header(
-          'Location: ../html/login/seguridad_login/superadmin.php?error=editar_registro'
-      );
-      exit;
-  }
+// conexion.php   = conecta con la base de datos
+// security.php   = controla la seguridad
+// rut_helper.php = ayuda a revisar y ordenar el RUT
 
-/* TÍTULO: RECIBIR LOS DATOS DEL FORMULARIO  */
+// Carga la conexion a la base de datos
+require_once __DIR__ . '/conexion.php';
 
-  /* trim() quita espacios innecesarios. strtoupper() convierte algunos datos a mayúsculas.  */
-  $nombres = trim((string) ($_POST['nombres'] ?? ''));
+// Carga las funciones de seguridad
+require_once __DIR__ . '/security.php';
 
-  $ap = trim((string) ($_POST['apellidoPaterno'] ?? ''));
+// Carga las funciones que revisan y ordenan el RUT
+require_once __DIR__ . '/rut_helper.php';
 
-  $am = trim((string) ($_POST['apellidoMaterno'] ?? ''));
 
-  $rut = normalizeRut((string) ($_POST['rut'] ?? ''));
+// TITULO REVISAR SEGURIDAD
 
-  $turno = strtoupper(
-      trim((string) ($_POST['turno'] ?? ''))
-  );
+// requireAdmin() = permite entrar solo al administrador
+// requirePost()  = permite recibir datos enviados por POST
+// verifyCsrf()   = revisa que el envío sea seguro
 
-  $ubicacion = trim((string) ($_POST['ubicacion'] ?? ''));
+// Permite el paso solo a administradores
+requireAdmin();
 
-  $patente = strtoupper(
-      trim((string) ($_POST['patente'] ?? ''))
-  );
+// Exige que la solicitud llegue por el metodo POST
+requirePost();
 
-  $horometro = trim((string) ($_POST['horometro'] ?? ''));
+// Valida el token CSRF del formulario
+verifyCsrf();
 
-  $litros = trim((string) ($_POST['litros'] ?? ''));
 
-  $observacion = trim((string) ($_POST['observacion'] ?? ''));
+// TITULO RECIBIR DATOS PRINCIPALES
 
-  $codigo = trim((string) ($_POST['codigo'] ?? ''));
+// tipo = indica si el registro es de un cargador o de un operador
+// id   = número del registro que se quiere editar
 
-  $codigoMaquinaria = trim(
-      (string) ($_POST['codigoMaquinaria'] ?? '')
-  );
+// Lee el tipo enviado por POST y lo convierte a texto (vacio si no llega)
+$tipo = (string) ($_POST['tipo'] ?? '');
 
-  $equipo = trim((string) ($_POST['equipo'] ?? ''));
+// Lee el id enviado por POST y lo valida como numero entero
+$id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 
-  $kilometro = trim((string) ($_POST['kilometro'] ?? ''));
 
-  $remananente = trim(
-      (string) ($_POST['remanente'] ?? '0')
-  );
+// TITULO NOMBRE DE LAS TABLAS
 
-/* TÍTULO: REVISAR QUE LOS DATOS SEAN CORRECTOS */
-  
-  /* Aquí se revisan los nombres, RUT, turno, ubicación, patente, horómetro, litros y observaciones.
-      También se revisa que el RUT sea válido y que la patente tenga un formato permitido. */
-  $baseOk =
-      validText($nombres, 100)
-      && validText($ap, 100)
-      && validText($am, 100)
-      && validText($rut, 12)
-      && in_array($turno, ['A', 'B', 'C', 'D'], true)
-      && validText($ubicacion, 100)
-      && validText($patente, 10)
-      && validDecimal($horometro, 0, 100000000)
-      && validDecimal($litros, 0.01, 1000000)
-      && mb_strlen($observacion) <= 2000
-      && validarFormatoRut($rut)
-      && validarRut($rut)
-      && validGps($ubicacion)
-      && preg_match(
-          '/^[A-Z0-9 .-]{2,10}$/',
-          $patente
-      );
+// Aquí se indica qué tabla corresponde a cada tipo de registro
 
-/* TÍTULO: SI HAY UN DATO INCORRECTO */
+// Lista de tipos permitidos y su tabla correspondiente
+$tablas = [
+    'cargador' => 'operador_cargador',
+    'operador' => 'operador'
+];
 
-  /* Se vuelve al formulario para que los datos puedan ser revisados nuevamente. */
-  if (!$baseOk) {
-      header(
-          'Location: ../html/login/seguridad_login/editar_registro.php?tipo='
-          . urlencode($tipo)
-          . '&id='
-          . $id
-          . '&error=campos'
-      );
-      exit;
-  }
 
-/* TÍTULO: INICIAR CAMBIO EN LA BASE DE DATOS */
-  
-  /* La transacción permite realizar el cambio de forma segura. Si algo falla, los cambios se pueden cancelar. */
-  $conn->begin_transaction();
+// TITULO REVISAR TIPO E ID
 
-  /* saber qué tabla se va a modificar */
-  try {
-      $tabla = $tablas[$tipo];
+// Si no existe un ID válido o el tipo no corresponde, se vuelve a la página del administrador
 
-/* TÍTULO: BUSCAR EL REGISTRO ACTUAL */
-      
-      /* Se obtiene el RUT y los litros que tenía antes de realizar el cambio.  */
-      $st = $conn->prepare(
-          "SELECT rut,litros
+// Entra al bloque si no hay id valido o si el tipo no esta en la lista
+if (!$id || !isset($tablas[$tipo])) {
+
+    header(
+        'Location: ../html/login/seguridad_login/superadmin.php?error=editar_registro'
+    );
+
+    exit;
+}
+
+
+// TITULO RECIBIR LOS DATOS DEL FORMULARIO
+
+// trim() quita espacios innecesarios
+// strtoupper() convierte algunos datos a mayúsculas
+
+// Nombres: se leen como texto y se quitan los espacios sobrantes
+$nombres = trim((string) ($_POST['nombres'] ?? ''));
+
+// Apellido paterno: se lee como texto y se quitan los espacios sobrantes
+$ap = trim((string) ($_POST['apellidoPaterno'] ?? ''));
+
+// Apellido materno: se lee como texto y se quitan los espacios sobrantes
+$am = trim((string) ($_POST['apellidoMaterno'] ?? ''));
+
+// RUT: se lee como texto y se ordena con el formato estandar
+$rut = normalizeRut((string) ($_POST['rut'] ?? ''));
+
+// Turno: se lee como texto, se quitan espacios y se pasa a mayusculas
+$turno = strtoupper(
+    trim((string) ($_POST['turno'] ?? ''))
+);
+
+// Ubicacion: se lee como texto y se quitan los espacios sobrantes
+$ubicacion = trim((string) ($_POST['ubicacion'] ?? ''));
+
+// Patente: se lee como texto, se quitan espacios y se pasa a mayusculas
+$patente = strtoupper(
+    trim((string) ($_POST['patente'] ?? ''))
+);
+
+// Horometro: se lee como texto y se quitan los espacios sobrantes
+$horometro = trim((string) ($_POST['horometro'] ?? ''));
+
+// Litros: se lee como texto y se quitan los espacios sobrantes
+$litros = trim((string) ($_POST['litros'] ?? ''));
+
+// Observacion: se lee como texto y se quitan los espacios sobrantes
+$observacion = trim((string) ($_POST['observacion'] ?? ''));
+
+// Codigo (solo cargador): se lee como texto y se quitan los espacios sobrantes
+$codigo = trim((string) ($_POST['codigo'] ?? ''));
+
+// Codigo de maquinaria (solo operador): se lee como texto y se quitan los espacios sobrantes
+$codigoMaquinaria = trim(
+    (string) ($_POST['codigoMaquinaria'] ?? '')
+);
+
+// Equipo (solo operador): se lee como texto y se quitan los espacios sobrantes
+$equipo = trim((string) ($_POST['equipo'] ?? ''));
+
+// Kilometro (solo operador): se lee como texto y se quitan los espacios sobrantes
+$kilometro = trim((string) ($_POST['kilometro'] ?? ''));
+
+// Remanente (solo cargador): se lee como texto (por defecto 0) y se quitan los espacios sobrantes
+$remananente = trim(
+    (string) ($_POST['remanente'] ?? '0')
+);
+
+
+// TITULO REVISAR QUE LOS DATOS SEAN CORRECTOS
+
+// Aquí se revisan los nombres, RUT, turno, ubicación, patente, horómetro, litros y observaciones
+// También se revisa que el RUT sea válido y que la patente tenga un formato permitido
+
+// Guarda true solo si TODAS las condiciones siguientes se cumplen
+$baseOk =
+    validText($nombres, 100)
+    && validText($ap, 100)
+    && validText($am, 100)
+    && validText($rut, 12)
+    && in_array($turno, ['A', 'B', 'C', 'D'], true)
+    && validText($ubicacion, 100)
+    && validText($patente, 10)
+    && validDecimal($horometro, 0, 100000000)
+    && validDecimal($litros, 0.01, 1000000)
+    && mb_strlen($observacion) <= 2000
+    && validarFormatoRut($rut)
+    && validarRut($rut)
+    && validGps($ubicacion)
+    && preg_match(
+        '/^[A-Z0-9 .-]{2,10}$/',
+        $patente
+    );
+
+
+// TITULO SI HAY UN DATO INCORRECTO
+
+// Se vuelve al formulario para que los datos puedan ser revisados nuevamente
+
+// Entra al bloque si algun dato no es correcto
+if (!$baseOk) {
+
+    header(
+        'Location: ../html/login/seguridad_login/editar_registro.php?tipo='
+        . urlencode($tipo)
+        . '&id='
+        . $id
+        . '&error=campos'
+    );
+
+    exit;
+}
+
+
+// TITULO INICIAR CAMBIO EN LA BASE DE DATOS
+
+// La transacción permite realizar el cambio de forma segura
+// Si algo falla, los cambios se pueden cancelar
+
+// Inicia la transaccion
+$conn->begin_transaction();
+
+// Intenta realizar la edicion y captura cualquier error
+try {
+
+    $tabla = $tablas[$tipo];
+
+
+    // TITULO BUSCAR EL REGISTRO ACTUAL
+
+    // Se obtiene el RUT y los litros que tenía antes de realizar el cambio
+
+    $st = $conn->prepare(
+        "SELECT rut,litros
           FROM {$tabla}
           WHERE id=?
           AND eliminado_at IS NULL
           LIMIT 1"
-      );
+    );
 
-      $st->bind_param('i', $id);
+    $st->bind_param('i', $id);
 
-      $st->execute();
+    $st->execute();
 
-      $actual = $st->get_result()->fetch_assoc();
+    $actual = $st->get_result()->fetch_assoc();
 
-      /*  revisar si existe el registro */
-      if (!$actual) {
-          throw new RuntimeException('Registro no encontrado');
-      }
+    if (!$actual) {
 
-      /* si el registro es de un cargador */
-      if ($tipo === 'cargador') {
-
-          /* revvisar codigo y remanente */
-          if (
-              !validText($codigo, 50)
-              || !validDecimal($remananente, 0, 100000000)
-          ) {
-              throw new RuntimeException('Campos inválidos');
-          }
+        throw new RuntimeException('Registro no encontrado');
+    }
 
 
-/* TÍTULO: ACTUALIZAR DATOS DEL CARGADOR */
-            
-          $stmt = $conn->prepare(
-              'UPDATE operador_cargador
+    // TITULO EDICION SEGUN EL TIPO DE REGISTRO
+
+    if ($tipo === 'cargador') {
+
+        if (
+            !validText($codigo, 50)
+            || !validDecimal($remananente, 0, 100000000)
+        ) {
+
+            throw new RuntimeException('Campos inválidos');
+        }
+
+
+        // TITULO ACTUALIZAR DATOS DEL CARGADOR
+
+        $stmt = $conn->prepare(
+            'UPDATE operador_cargador
               SET nombres=?,
                   apellido_paterno=?,
                   apellido_materno=?,
@@ -187,52 +267,52 @@
                   observacion=?
               WHERE id=?
               AND eliminado_at IS NULL'
-          );
+        );
 
-          /* convertir los valores numéricos */
-          $h = (float) $horometro;
-          $l = (float) $litros;
-          $r = (float) $remananente;
+        $h = (float) $horometro;
 
-          /* enviar datos a la base de datos */
-          $stmt->bind_param(
-              'ssssssssdddsi',
-              $nombres,
-              $ap,
-              $am,
-              $rut,
-              $turno,
-              $codigo,
-              $ubicacion,
-              $patente,
-              $h,
-              $l,
-              $r,
-              $observacion,
-              $id
-          );
+        $l = (float) $litros;
 
-          $stmt->execute();
+        $r = (float) $remananente;
 
-          /* indicar tabla para el registro de seguridad */
-          $tablaAudit = 'operador_cargador';
+        $stmt->bind_param(
+            'ssssssssdddsi',
+            $nombres,
+            $ap,
+            $am,
+            $rut,
+            $turno,
+            $codigo,
+            $ubicacion,
+            $patente,
+            $h,
+            $l,
+            $r,
+            $observacion,
+            $id
+        );
 
-      /* si el registro es de un cargador */
-      } else {
+        $stmt->execute();
 
-          /* revisar datos propios del operador */ 
-          if (
-              !validText($codigoMaquinaria, 50)
-              || !validText($equipo, 100)
-              || !validDecimal($kilometro, 0, 100000000)
-          ) {
-              throw new RuntimeException('Campos inválidos');
-          }
+        $tablaAudit = 'operador_cargador';
 
-/* TÍTULO: ACTUALIZAR DATOS DEL OPERADOR */ 
-            
-          $stmt = $conn->prepare(
-              'UPDATE operador
+    // Si el registro no es de un cargador, entonces es de un operador
+    } else {
+
+        if (
+            !validText($codigoMaquinaria, 50)
+            || !validText($equipo, 100)
+            || !validDecimal($kilometro, 0, 100000000)
+        ) {
+
+            throw new RuntimeException('Campos inválidos');
+        }
+
+
+        // TITULO ACTUALIZAR DATOS DEL OPERADOR
+
+        $stmt = $conn->prepare(
+            'UPDATE operador
               SET nombres=?,
                   apellido_paterno=?,
                   apellido_materno=?,
@@ -248,106 +328,112 @@
                   observacion=?
               WHERE id=?
               AND eliminado_at IS NULL'
-          );
+        );
+
+        $h = (float) $horometro;
+
+        $km = (float) $kilometro;
+
+        $l = (float) $litros;
 
 
-          /* convertir los valores numéricos */
-          $h = (float) $horometro;
-          $km = (float) $kilometro;
-          $l = (float) $litros;
+        // TITULO ENVIAR LOS DATOS A LA BASE DE DATOS
+
+        $stmt->bind_param(
+            'sssssssssdddsi',
+            $nombres,
+            $ap,
+            $am,
+            $rut,
+            $turno,
+            $ubicacion,
+            $codigoMaquinaria,
+            $patente,
+            $equipo,
+            $h,
+            $km,
+            $l,
+            $observacion,
+            $id
+        );
+
+        $stmt->execute();
+
+        $tablaAudit = 'operador';
+    }
 
 
-/* TÍTULO: ENVIAR LOS DATOS A LA BASE DE DATOS */
-            
-          $stmt->bind_param(
-              'sssssssssdddsi',
-              $nombres,
-              $ap,
-              $am,
-              $rut,
-              $turno,
-              $ubicacion,
-              $codigoMaquinaria,
-              $patente,
-              $equipo,
-              $h,
-              $km,
-              $l,
-              $observacion,
-              $id
-          );
+    // TITULO GUARDAR REGISTRO DE AUDITORIA
 
-          $stmt->execute();
+    // Se guarda quién hizo el cambio y qué datos fueron modificados
 
-          /* indicar tabla para el registro de seguridad */
-          $tablaAudit = 'operador';
-      }
-
-/* TÍTULO: VOLVER AL PANEL DEL ADMINISTRADOR */
-      
-      /* Se guarda quién hizo el cambio y qué datos fueron modificados. */
-      audit(
-          $conn,
-          (int) $_SESSION['usuario_id'],
-          'EDITAR_REGISTRO',
-          $tablaAudit,
-          $id,
-          'RUT anterior '
-          . $actual['rut']
-          . ' -> '
-          . $rut
-          . '; litros anteriores '
-          . $actual['litros']
-          . ' -> '
-          . $litros
-      );
+    audit(
+        $conn,
+        (int) $_SESSION['usuario_id'],
+        'EDITAR_REGISTRO',
+        $tablaAudit,
+        $id,
+        'RUT anterior '
+        . $actual['rut']
+        . ' -> '
+        . $rut
+        . '; litros anteriores '
+        . $actual['litros']
+        . ' -> '
+        . $litros
+    );
 
 
-      /* confirmar los cambios  */     
-      $conn->commit();
+    // TITULO CONFIRMAR LOS CAMBIOS
 
-/* TÍTULO: VOLVER AL PANEL DEL ADMINISTRADOR */
-      
-      /* Se informa que el registro fue editado correctamente. */
-      header(
-          'Location: ../html/login/seguridad_login/superadmin.php?success=registro_editado'
-      );
-
-      exit;
+    $conn->commit();
 
 
-  } catch (Throwable $e) {
+    // TITULO VOLVER AL PANEL DEL ADMINISTRADOR
 
-/* TÍTULO: SI OCURRE UN ERROR */
-      
-      /* Se cancelan los cambios realizados. El error también se guarda para poder revisarlo. */
-      $conn->rollback();
+    // Se informa que el registro fue editado correctamente
 
-      error_log(
-          'Error actualizando registro: '
-          . $e->getMessage()
-      );
+    header(
+        'Location: ../html/login/seguridad_login/superadmin.php?success=registro_editado'
+    );
 
-/* TÍTULO: VOLVER AL FORMULARIO CON MENSAJE DE ERROR */
+    exit;
 
-      header(
-          'Location: ../html/login/seguridad_login/editar_registro.php?tipo='
-          . urlencode($tipo)
-          . '&id='
-          . $id
-          . '&error=guardar'
-      );
 
-      exit;
-  }
+// Si ocurre cualquier error dentro del bloque anterior
+} catch (Throwable $e) {
 
-?>
+    // TITULO SI OCURRE UN ERROR
 
-<!-- -------------------------------------------------------------------------------------------------------------
-   -------------------------------------- FIN Jerez actualizar_registro.php --------------------------------------
-   ------------------------------------------------------------------------------------------------------------- -->
+    // Se cancelan los cambios realizados
+    // El error también se guarda para poder revisarlo
 
-<!-- 
+    $conn->rollback();
+
+    error_log(
+        'Error actualizando registro: '
+        . $e->getMessage()
+    );
+
+
+    // TITULO VOLVER AL FORMULARIO CON MENSAJE DE ERROR
+
+    header(
+        'Location: ../html/login/seguridad_login/editar_registro.php?tipo='
+        . urlencode($tipo)
+        . '&id='
+        . $id
+        . '&error=guardar'
+    );
+
+    exit;
+}
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- FIN Jerez actualizar_registro.php --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
 Sitio Web Creado por Jerez.
 Direccion: Miraflorez #1280
 Quintero - Chile
@@ -355,4 +441,6 @@ jaime.jerez1978@gmail.com
 https://www.
 Creado, Programado y Diseñado por Jerez.
 JJA
---
+*/
+
+?>
