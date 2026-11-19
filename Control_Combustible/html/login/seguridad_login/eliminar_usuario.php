@@ -18,11 +18,13 @@ JJA
 declare(strict_types=1);
 
 // TÍTULO: ARCHIVOS QUE NECESITA ESTA PÁGINA
+
 // Se cargan las herramientas de apoyo: la conexión a la base de datos y la seguridad.
 require_once __DIR__.'/../../../backend/conexion.php';
 require_once __DIR__.'/../../../backend/security.php';
 
 // TÍTULO: REVISIONES DE SEGURIDAD
+
 // Solo puede entrar un administrador, solo se acepta el envío desde el formulario
 // y se comprueba que ese formulario realmente viene de esta aplicación.
 requireAdmin();
@@ -30,6 +32,7 @@ requirePost();
 verifyCsrf();
 
 // TÍTULO: QUÉ USUARIO SE QUIERE DESACTIVAR
+
 // Se lee el número del usuario elegido.
 $id=filter_input(INPUT_POST,'id',FILTER_VALIDATE_INT);
 
@@ -41,6 +44,7 @@ if(!$id || $id===$_SESSION['usuario_id']) {
 }
 
 // TÍTULO: BUSCAR EL USUARIO
+
 // Se busca en la base de datos el nombre y el tipo de cuenta del usuario elegido.
 $stmt=$conn->prepare('SELECT username,rol FROM usuarios WHERE id=?');
 $stmt->bind_param('i',$id);
@@ -54,6 +58,7 @@ if(!$u){
 }
 
 // TÍTULO: PROTEGER AL ÚLTIMO ADMINISTRADOR
+
 // Si el usuario es administrador, se cuenta cuántos administradores activos hay.
 // Si es el único que queda, no se puede desactivar, para que el sistema nunca se quede sin administrador.
 if($u['rol']==='admin') {
@@ -65,6 +70,7 @@ if($u['rol']==='admin') {
 }
 
 // TÍTULO: DESACTIVAR LA CUENTA
+
 // La cuenta no se borra: solo se marca como inactiva.
 $stmt=$conn->prepare("UPDATE usuarios SET estado='inactivo' WHERE id=?");
 $stmt->bind_param('i',$id);
@@ -74,9 +80,13 @@ $stmt->execute();
 audit($conn,(int)$_SESSION['usuario_id'],'DESACTIVAR_USUARIO','usuarios',$id,'username='.$u['username']);
 
 // TÍTULO: VOLVER AL PANEL
+
 // Se regresa al panel con un aviso de que todo salió bien.
 header('Location: superadmin.php?success=usuario');
 exit;
+
+
+
 
 /* -------------------------------------------------------------------------------------------------------------
    -------------------------------------- FIN Jerez eliminar_usuario.php ---------------------------------------

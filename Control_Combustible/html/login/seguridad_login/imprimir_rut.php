@@ -18,12 +18,14 @@ JJA
 declare(strict_types=1);
 
 // TÍTULO: ARCHIVOS QUE NECESITA ESTA PÁGINA
+
 // Se cargan las herramientas de apoyo: la conexión a la base de datos, la seguridad y los cálculos de consumo.
 require_once __DIR__.'/../../../backend/conexion.php';
 require_once __DIR__.'/../../../backend/security.php';
 require_once __DIR__.'/../../../backend/consumo_helper.php';
 
 // TÍTULO: SOLO ADMINISTRADORES
+
 // Si la persona no es administradora, no puede estar en esta página.
 requireAdmin();
 
@@ -32,6 +34,7 @@ header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Pragma: no-cache');
 
 // TÍTULO: QUÉ RUT SE QUIERE IMPRIMIR
+
 // Se lee el RUT desde la dirección web. Si está vacío o es demasiado largo, se detiene todo con un aviso.
 $rut=normalizeRut((string)($_GET['rut']??''));
 if($rut===''||mb_strlen($rut)>12){
@@ -40,6 +43,7 @@ if($rut===''||mb_strlen($rut)>12){
 }
 
 // TÍTULO: BUSCAR LOS REGISTROS
+
 // Primero se buscan los registros de cargador de ese RUT, del más nuevo al más antiguo.
 $stmt=$conn->prepare('SELECT oc.*,u.username FROM operador_cargador oc LEFT JOIN usuarios u ON oc.usuario_id=u.id WHERE oc.eliminado_at IS NULL AND oc.rut=? ORDER BY oc.fecha_registro DESC');
 $stmt->bind_param('s',$rut);
@@ -62,6 +66,7 @@ if(!$cargadores&&!$operadores){
 audit($conn,(int)$_SESSION['usuario_id'],'IMPRIMIR_RUT','',null,'RUT '.$rut);
 
 // TÍTULO: AYUDAS PARA ARMAR LAS TABLAS
+
 // Dibuja una fila de la tabla con un título a la izquierda y su dato a la derecha.
 function fila(string $e1,mixed $v):void{
     echo '<tr><th>'.e($e1).'</th><td>'.e($v).'</td></tr>';
@@ -180,6 +185,9 @@ function n(mixed $v):string{
 
 </html>
 <?php
+
+
+
 /* -------------------------------------------------------------------------------------------------------------
    --------------------------------------- FIN Jerez imprimir_rut.php ------------------------------------------
    ------------------------------------------------------------------------------------------------------------- */

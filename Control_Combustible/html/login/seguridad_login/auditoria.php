@@ -14,21 +14,26 @@ JJA
    ------------------------------------------------------------------------------------------------------------- */
 
 // TÍTULO: REGLAS DE FUNCIONAMIENTO DE LA PÁGINA
+
 // pide que el programa sea más exigente para evitar errores con los datos
 declare(strict_types=1);
+
 // TÍTULO: ARCHIVOS QUE LA PÁGINA NECESITA PARA FUNCIONAR
+
 // trae el archivo que permite conectarse a la base de datos
 require_once __DIR__.'/../../../backend/conexion.php';
 // trae el archivo con las reglas de seguridad del sistema
 require_once __DIR__.'/../../../backend/security.php';
+
 // TÍTULO: CONTROL DE ACCESO A LA PÁGINA
+
 // solo deja entrar a las personas que son administradoras
 requireAdmin();
 // crea la clave de seguridad que protege los formularios
 $csrf = csrfToken();
 
-
 // TÍTULO: DATOS QUE LA PERSONA ESCRIBE EN LOS FILTROS
+
 // guarda la fecha escrita en el buscador, sin espacios de más
 $fechaBusqueda = trim((string)($_GET['fecha'] ?? ''));
 // guarda el RUT escrito en el buscador, sin espacios de más
@@ -38,8 +43,8 @@ $modoImprimir  = ((string)($_GET['imprimir'] ?? '') === '1');
 // deja preparado el espacio para avisos sobre filtros mal escritos
 $avisoFiltro   = '';
 
-
 // TÍTULO: REVISIÓN DE LA FECHA ESCRITA
+
 // deja vacío el comienzo y el final del rango de fechas
 $fechaInicio = $fechaFin = null;
 // revisa si la persona escribió una fecha
@@ -61,8 +66,8 @@ if ($fechaBusqueda !== '') {
     }
 }
 
-
 // TÍTULO: REVISIÓN DEL RUT ESCRITO
+
 // deja el RUT limpio vacío por ahora
 $rutLimpio = '';
 // revisa si la persona escribió un RUT
@@ -80,43 +85,50 @@ if ($rutBusqueda !== '') {
     }
 }
 
-
 // TÍTULO: REVISIÓN DE LA CUENTA DE USUARIOS
+
 // supone por ahora que las cuentas no tienen RUT guardado
 $tieneRutCuenta = false;
 // consulta si las cuentas de usuarios guardan un RUT
 $colRut = $conn->query("SHOW COLUMNS FROM usuarios LIKE 'rut'");
 // si la consulta funcionó y encontró el dato, lo anota
-if ($colRut && $colRut->num_rows > 0) { $tieneRutCuenta = true; }
+if ($colRut && $colRut->num_rows > 0) {
+    $tieneRutCuenta = true;
+}
 // elige qué dato mostrar como RUT de la cuenta
 $campoRutCuenta = $tieneRutCuenta ? 'u.rut' : 'NULL';
 
-
 // TÍTULO: ARMADO DE LA BÚSQUEDA
+
 // deja vacías las condiciones, los tipos de datos y los valores de la búsqueda
-$where = []; $tipos = ''; $params = [];
+$where = [];
+$tipos = '';
+$params = [];
 // si hay una fecha para buscar
 if ($fechaInicio !== null) {
     // agrega la condición de que el registro esté dentro de ese día
     $where[] = 'a.fecha_registro >= ? AND a.fecha_registro < ?';
     // anota los valores del día buscado
-    $tipos  .= 'ss'; $params[] = $fechaInicio; $params[] = $fechaFin;
+    $tipos  .= 'ss';
+    $params[] = $fechaInicio;
+    $params[] = $fechaFin;
 }
 // si hay un RUT para buscar
 if ($rutLimpio !== '') {
-    
     // prepara el RUT para buscarlo en cualquier parte del texto
     $like = '%'.$rutLimpio.'%';
     // arma la condición que busca el RUT dentro del detalle de la acción
     $cond = "(REPLACE(REPLACE(IFNULL(a.detalle,''),'.',''),'-','') LIKE ? AND a.detalle LIKE '%RUT%')";
     // anota el valor del RUT buscado
-    $tipos .= 's'; $params[] = $like;
+    $tipos .= 's';
+    $params[] = $like;
     // si las cuentas guardan RUT
     if ($tieneRutCuenta) {
         // agrega la búsqueda también en el RUT de la cuenta
         $cond .= " OR REPLACE(REPLACE(IFNULL(u.rut,''),'.',''),'-','') LIKE ?";
         // anota otra vez el valor del RUT buscado
-        $tipos .= 's'; $params[] = $like;
+        $tipos .= 's';
+        $params[] = $like;
     }
     // agrega la condición completa a la búsqueda
     $where[] = '('.$cond.')';
@@ -126,18 +138,21 @@ $sqlWhere = $where ? ('WHERE '.implode(' AND ', $where)) : '';
 // indica de qué tablas se sacan los registros
 $sqlFrom  = 'FROM auditoria a LEFT JOIN usuarios u ON a.usuario_id=u.id';
 
-
 // TÍTULO: CONTEO DE REGISTROS ENCONTRADOS
+
 // prepara la consulta que cuenta cuántos registros hay
 $stc = $conn->prepare("SELECT COUNT(*) c $sqlFrom $sqlWhere");
 // si hay filtros, los entrega a la consulta
-if ($params) { $stc->bind_param($tipos, ...$params); }
+if ($params) {
+    $stc->bind_param($tipos, ...$params);
+}
 // ejecuta el conteo
 $stc->execute();
 // guarda el total de registros encontrados
 $totalFilas = (int)$stc->get_result()->fetch_assoc()['c'];
 
 // TÍTULO: OBTENCIÓN DE LOS REGISTROS A MOSTRAR
+
 // define el máximo de registros que se pueden imprimir
 $limiteImpresion = 10000;
 // define cuántos registros se ven por página en pantalla
@@ -151,7 +166,8 @@ if ($modoImprimir) {
     // prepara la consulta limitada al máximo de impresión
     $st = $conn->prepare($sqlSelect.' LIMIT ?');
     // reúne los valores de la búsqueda y el máximo de impresión
-    $t2 = $tipos.'i'; $p2 = array_merge($params, [$limiteImpresion]);
+    $t2 = $tipos.'i';
+    $p2 = array_merge($params, [$limiteImpresion]);
     // entrega los valores a la consulta
     $st->bind_param($t2, ...$p2);
     // deja anotado en la auditoría que alguien imprimió, con los filtros usados
@@ -168,7 +184,8 @@ if ($modoImprimir) {
     // prepara la consulta de solo una página
     $st = $conn->prepare($sqlSelect.' LIMIT ? OFFSET ?');
     // reúne los valores de la búsqueda y de la página
-    $t2 = $tipos.'ii'; $p2 = array_merge($params, [$limite, $offset]);
+    $t2 = $tipos.'ii';
+    $p2 = array_merge($params, [$limite, $offset]);
     // entrega los valores a la consulta
     $st->bind_param($t2, ...$p2);
 }
@@ -178,10 +195,13 @@ $st->execute();
 $filas = $st->get_result()->fetch_all(MYSQLI_ASSOC);
 
 // TÍTULO: FUNCIÓN QUE ENCUENTRA RUT DENTRO DEL DETALLE
+
 // función que recibe el texto del detalle y devuelve los RUT que aparecen en él
 function rutsDelDetalle(?string $detalle): string {
     // si no hay detalle, no devuelve nada
-    if ($detalle === null || $detalle === '') { return ''; }
+    if ($detalle === null || $detalle === '') {
+        return '';
+    }
     // busca en el texto todo lo que tenga forma de RUT
     preg_match_all('/\b\d{1,2}\.?\d{3}\.?\d{3}-?[0-9kK]\b/', $detalle, $m);
     // devuelve los RUT encontrados, sin repetir y separados por coma
@@ -189,6 +209,7 @@ function rutsDelDetalle(?string $detalle): string {
 }
 
 // TÍTULO: ENLACES QUE CONSERVAN LOS FILTROS
+
 // guarda solo los filtros que la persona realmente usó
 $qsFiltros = array_filter([
     // filtro de fecha
@@ -206,19 +227,32 @@ $urlPagina = static function (int $p) use ($qsFiltros): string {
 $urlImprimir = 'auditoria.php?'.http_build_query($qsFiltros + ['imprimir' => 1]);
 
 // TÍTULO: TEXTO QUE DESCRIBE LOS FILTROS USADOS
+
 // deja vacía la lista de descripciones
 $descFiltro = [];
 // si hay fecha, agrega su descripción con formato día-mes-año
-if ($fechaBusqueda !== '') { $descFiltro[] = 'Fecha: '.date('d-m-Y', strtotime($fechaBusqueda)); }
+if ($fechaBusqueda !== '') {
+    $descFiltro[] = 'Fecha: '.date('d-m-Y', strtotime($fechaBusqueda));
+}
 // si hay RUT, agrega su descripción
-if ($rutBusqueda !== '')   { $descFiltro[] = 'RUT: '.$rutBusqueda; }
+if ($rutBusqueda !== '') {
+    $descFiltro[] = 'RUT: '.$rutBusqueda;
+}
 // une las descripciones o indica que no hay filtros
 $textoFiltro = $descFiltro ? implode(' · ', $descFiltro) : 'Sin filtros (todos los registros)';
+
 // TÍTULO: COMIENZO DE LA PÁGINA QUE VE LA PERSONA
+
 ?><!doctype html>
+
 <!-- TÍTULO: ENCABEZADO DE LA PÁGINA -->
+
 <!-- datos generales de la página: idioma, letras y tamaño en el celular -->
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="es">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <!-- título que se ve en la pestaña del navegador -->
 <title>Auditoría - <?=e(appName())?></title>
 <!-- estilos generales de la página -->
@@ -231,8 +265,13 @@ $textoFiltro = $descFiltro ? implode(' · ', $descFiltro) : 'Sin filtros (todos 
 <script src="../../../js/programa/imprimir.js" defer></script>
 <?php endif; ?>
 <!-- fin del encabezado e inicio del cuerpo de la página -->
-</head><body>
-<?php // TÍTULO: VERSIÓN PARA IMPRIMIR ?>
+</head>
+
+<body>
+
+<!-- TÍTULO: VERSIÓN PARA IMPRIMIR -->
+
+<?php?>
 <?php if ($modoImprimir): ?>
 <!-- hoja principal que se imprime -->
 <main class="hoja-auditoria">
@@ -255,7 +294,9 @@ $textoFiltro = $descFiltro ? implode(' · ', $descFiltro) : 'Sin filtros (todos 
       <div>Registros: <strong><?=e(count($filas))?></strong><?php if ($totalFilas > count($filas)): ?> de <?=e($totalFilas)?><?php endif; ?></div>
     </div>
   </header>
-  <?php // si hay más registros que el máximo, avisa que solo se imprimen los más recientes ?>
+
+  <!-- si hay más registros que el máximo, avisa que solo se imprimen los más recientes -->
+  <?php?>
   <?php if ($totalFilas > $limiteImpresion): ?>
     <!-- aviso de que la hoja no trae todos los registros -->
     <p class="aviso-impresion">Se imprimen los <?=e($limiteImpresion)?> registros más recientes de <?=e($totalFilas)?>. Afina el filtro para ver el resto.</p>
@@ -263,31 +304,55 @@ $textoFiltro = $descFiltro ? implode(' · ', $descFiltro) : 'Sin filtros (todos 
   <!-- tabla con los registros de la hoja impresa -->
   <table class="tabla-auditoria">
     <!-- títulos de las columnas de la tabla -->
-    <thead><tr><th>Fecha</th><th>Usuario</th><th>RUT cuenta</th><th>Acción</th><th>Tabla</th><th>ID</th><th>RUT en detalle</th><th>Detalle</th><th>IP</th></tr></thead>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Usuario</th>
+        <th>RUT cuenta</th>
+        <th>Acción</th>
+        <th>Tabla</th>
+        <th>ID</th>
+        <th>RUT en detalle</th>
+        <th>Detalle</th>
+        <th>IP</th>
+      </tr>
+    </thead>
     <!-- cuerpo de la tabla donde van los registros -->
     <tbody>
-    <?php // si no hay registros, muestra un mensaje en la tabla ?>
+
+    <!-- si no hay registros, muestra un mensaje en la tabla -->
+    <?php?>
     <?php if (!$filas): ?><tr><td colspan="9" class="sin-datos">No hay registros para el filtro indicado.</td></tr><?php endif; ?>
-    <?php // repite una fila por cada registro encontrado ?>
+    <!-- repite una fila por cada registro encontrado -->
+    <?php?>
     <?php foreach ($filas as $a): ?>
       <tr>
-        <?php // fecha y hora del registro ?>
+        <!-- fecha y hora del registro -->
+        <?php?>
         <td><?=e($a['fecha_registro'])?></td>
-        <?php // usuario que hizo la acción, o Sistema si fue automática ?>
+        <!-- usuario que hizo la acción, o Sistema si fue automática -->
+        <?php?>
         <td><?=e($a['username'] ?? 'Sistema')?></td>
-        <?php // RUT de la cuenta del usuario ?>
+        <!-- RUT de la cuenta del usuario -->
+        <?php?>
         <td><?=e($a['rut_cuenta'] ?? '')?></td>
-        <?php // acción realizada ?>
+        <!-- acción realizada -->
+        <?php?>
         <td><?=e($a['accion'])?></td>
-        <?php // tabla donde se hizo el cambio ?>
+        <!-- tabla donde se hizo el cambio -->
+        <?php?>
         <td><?=e($a['tabla_afectada'])?></td>
-        <?php // número del registro que cambió ?>
+        <!-- número del registro que cambió -->
+        <?php  ?>
         <td><?=e($a['registro_id'])?></td>
-        <?php // RUT que aparecen escritos dentro del detalle ?>
+        <!-- RUT que aparecen en el detalle de la acción -->
+        <?php?>
         <td><?=e(rutsDelDetalle($a['detalle'] ?? null))?></td>
-        <?php // texto con el detalle de la acción ?>
+        <!-- texto con el detalle de la acción -->
+        <?php?>
         <td><?=e($a['detalle'])?></td>
-        <?php // dirección desde donde se hizo la acción ?>
+        <!-- dirección desde donde se hizo la acción -->
+        <?php?>
         <td><?=e($a['ip'])?></td>
       </tr>
     <?php endforeach; ?>
@@ -301,18 +366,25 @@ $textoFiltro = $descFiltro ? implode(' · ', $descFiltro) : 'Sin filtros (todos 
     <button type="button" class="secundario" id="btnCerrar">Cerrar</button>
   </div>
 </main>
-<?php // TÍTULO: VERSIÓN NORMAL EN PANTALLA ?>
+
+<!-- TÍTULO: VERSIÓN NORMAL EN PANTALLA -->
+
+<?php?>
 <?php else: ?>
 <!-- contenedor principal y tarjeta de búsqueda -->
-<main class="admin-container"><section class="busqueda-card">
+<main class="admin-container">
+<section class="busqueda-card">
   <!-- botón para volver al panel anterior -->
-  <div class="acciones"><a class="btn btn-limpiar" href="superadmin.php">← Volver</a></div>
+  <div class="acciones">
+    <a class="btn btn-limpiar" href="superadmin.php">← Volver</a>
+  </div>
   <!-- título principal de la página -->
   <h1>Auditoría del sistema</h1>
   <!-- texto que explica para qué sirve la página -->
   <p>Registro de acciones administrativas y operacionales. Solo lectura.</p>
 
   <!-- TÍTULO: FORMULARIO DE BÚSQUEDA -->
+
   <!-- formulario para filtrar los registros por fecha y RUT -->
   <form method="GET" action="auditoria.php" class="busqueda-form auditoria-filtros">
     <!-- grupo del campo de fecha -->
@@ -338,14 +410,28 @@ $textoFiltro = $descFiltro ? implode(' · ', $descFiltro) : 'Sin filtros (todos 
   </form>
   <!-- texto de ayuda con los filtros usados y la cantidad de registros -->
   <p class="ayuda-busqueda">Puedes buscar solo por fecha, solo por RUT o combinar ambos. El RUT se puede escribir con o sin puntos y guion. <strong><?=e($textoFiltro)?></strong> — <?=e($totalFilas)?> registro(s).</p>
-  <?php // si hubo un filtro mal escrito, muestra el aviso ?>
+  <!-- si hubo un filtro mal escrito, muestra el aviso -->
+  <?php ?>
   <?php if ($avisoFiltro !== ''): ?><div class="mensaje-admin error"><?=e($avisoFiltro)?></div><?php endif; ?>
 
   <!-- TÍTULO: TABLA DE REGISTROS -->
+
   <!-- caja que contiene la tabla -->
-  <div class="tabla-contenedor"><table>
+  <div class="tabla-contenedor">
+  <table>
     <!-- títulos de las columnas de la tabla -->
-    <thead><tr><th>Fecha</th><th>Usuario</th><th>RUT cuenta</th><th>Acción</th><th>Tabla</th><th>ID</th><th>Detalle</th><th>IP</th></tr></thead>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Usuario</th>
+        <th>RUT cuenta</th>
+        <th>Acción</th>
+        <th>Tabla</th>
+        <th>ID</th>
+        <th>Detalle</th>
+        <th>IP</th>
+      </tr>
+    </thead>
     <!-- cuerpo de la tabla donde van los registros -->
     <tbody>
     <?php // si no hay registros, muestra un mensaje en la tabla ?>
@@ -353,49 +439,70 @@ $textoFiltro = $descFiltro ? implode(' · ', $descFiltro) : 'Sin filtros (todos 
     <?php // repite una fila por cada registro encontrado ?>
     <?php foreach ($filas as $a): ?>
       <tr>
-        <?php // fecha y hora del registro ?>
+        <!-- fecha y hora del registro -->
+        <?php?>
         <td><?=e($a['fecha_registro'])?></td>
-        <?php // usuario que hizo la acción, o Sistema si fue automática ?>
+        <!-- usuario que hizo la acción, o Sistema si fue automática -->
+        <?php?>
         <td><?=e($a['username'] ?? 'Sistema')?></td>
-        <?php // RUT de la cuenta del usuario ?>
+        <!-- RUT de la cuenta del usuario -->
+        <?php?>
         <td><?=e($a['rut_cuenta'] ?? '')?></td>
-        <?php // acción realizada ?>
+        <!-- acción realizada -->
+        <?php?>
         <td><?=e($a['accion'])?></td>
-        <?php // tabla donde se hizo el cambio ?>
+        <!-- tabla donde se hizo el cambio -->
+        <?php?>
         <td><?=e($a['tabla_afectada'])?></td>
-        <?php // número del registro que cambió ?>
+        <!-- número del registro que cambió -->
+        <?php?>
         <td><?=e($a['registro_id'])?></td>
-        <?php // texto con el detalle de la acción ?>
+        <!-- texto con el detalle de la acción -->
+        <?php?>
         <td><?=e($a['detalle'])?></td>
-        <?php // dirección desde donde se hizo la acción ?>
+        <!-- dirección desde donde se hizo la acción -->
+        <?php?>
         <td><?=e($a['ip'])?></td>
       </tr>
     <?php endforeach; ?>
     </tbody>
-  </table></div>
+  </table>
+  </div>
 
-  <?php // TÍTULO: NAVEGACIÓN ENTRE PÁGINAS ?>
-  <?php // solo se muestra si hay más de una página ?>
+  <!-- TÍTULO: NAVEGACIÓN ENTRE PÁGINAS -->
+
+  <?php?>
+  <!-- solo se muestra si hay más de una página -->
+  <?php?>
   <?php if ($totalPaginas > 1): ?>
   <!-- barra para pasar de una página a otra -->
   <nav class="paginador">
-    <?php // si no está en la primera página, muestra el botón para retroceder ?>
+    <!-- si no está en la primera página, muestra el botón para retroceder -->
+    <?php?>
     <?php if ($pagina > 1): ?><a class="btn btn-limpiar" href="<?=e($urlPagina($pagina - 1))?>">« Anterior</a><?php endif; ?>
     <!-- texto que indica la página actual y el total de registros -->
     <span class="paginador-info">Página <?=$pagina?> de <?=$totalPaginas?> (<?=$totalFilas?> registros)</span>
-    <?php // si no está en la última página, muestra el botón para avanzar ?>
+    <!-- si no está en la última página, muestra el botón para avanzar -->
+    <?php?>
     <?php if ($pagina < $totalPaginas): ?><a class="btn btn-limpiar" href="<?=e($urlPagina($pagina + 1))?>">Siguiente »</a><?php endif; ?>
   </nav>
   <?php endif; ?>
-<!-- cierre de la tarjeta y del contenedor principal -->
-</section></main>
+
+</section>
+</main>
 <?php endif; ?>
-<!-- cierre del cuerpo y de la página -->
-</body></html>
-<?php /* -------------------------------------------------------------------------------------------------------------
+
+</body>
+
+</html>
+<?php?> 
+<?php
+
+
+/* -------------------------------------------------------------------------------------------------------------
    -------------------------------------- FIN Jerez auditoria.php --------------------------------------
-   ------------------------------------------------------------------------------------------------------------- */ ?>
-<?php /*
+   ------------------------------------------------------------------------------------------------------------- */ 
+ /*
 Sitio Web Creado por Jerez.
 Direccion: Miraflorez #1280
 Quintero - Chile

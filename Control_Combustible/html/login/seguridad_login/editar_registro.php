@@ -18,15 +18,18 @@ JJA
 declare(strict_types=1);
 
 // TÍTULO: ARCHIVOS QUE NECESITA ESTA PÁGINA
+
 // Se cargan las herramientas de apoyo: la conexión a la base de datos y la seguridad.
 require_once __DIR__.'/../../../backend/conexion.php';
 require_once __DIR__.'/../../../backend/security.php';
 
 // TÍTULO: SOLO ADMINISTRADORES
+
 // Si la persona no es administradora, no puede estar en esta página.
 requireAdmin();
 
 // TÍTULO: QUÉ REGISTRO SE QUIERE EDITAR
+
 // Se leen desde la dirección web el tipo de registro (cargador u operador) y su número.
 $tipo=(string)($_GET['tipo']??'');
 $id=filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT);
@@ -42,6 +45,7 @@ if(!$id || !isset($tablas[$tipo])){
 $tabla=$tablas[$tipo];
 
 // TÍTULO: BUSCAR EL REGISTRO
+
 // Se busca en la base de datos el registro que se quiere editar (si no fue eliminado).
 $st=$conn->prepare("SELECT * FROM {$tabla} WHERE id=? AND eliminado_at IS NULL LIMIT 1");
 $st->bind_param('i',$id);
@@ -63,6 +67,7 @@ function v($x):string{
 }
 
 // TÍTULO: MENSAJES DE ERROR
+
 // Textos que se muestran cuando algo sale mal al guardar los cambios.
 $mensajesError=[
     'campos' => '✖ Revisa los datos ingresados: hay campos obligatorios vacíos o con un formato inválido (RUT, ubicación GPS o patente).',
@@ -205,6 +210,9 @@ $errorCode=(string)($_GET['error']??'');
 
 </html>
 <?php
+
+
+
 /* -------------------------------------------------------------------------------------------------------------
    ------------------------------------- FIN Jerez editar_registro.php -----------------------------------------
    ------------------------------------------------------------------------------------------------------------- */

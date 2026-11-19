@@ -18,9 +18,12 @@ declare(strict_types=1);
 /* TÍTULO: CARGAR LOS ARCHIVOS NECESARIOS Y PROTEGER LA PÁGINA */
 
 // esta parte carga la conexión, la seguridad y las funciones de consumo
-require_once __DIR__.'/../../../backend/conexion.php'; require_once __DIR__.'/../../../backend/security.php'; require_once __DIR__.'/../../../backend/consumo_helper.php';
+require_once __DIR__.'/../../../backend/conexion.php';
+require_once __DIR__.'/../../../backend/security.php';
+require_once __DIR__.'/../../../backend/consumo_helper.php';
 // solo los administradores pueden entrar, y se crea el dato oculto para proteger los formularios
-requireAdmin(); $csrf=csrfToken();
+requireAdmin();
+$csrf=csrfToken();
 
 /* TÍTULO: REVISAR SI HAY UNA CONTRASEÑA TEMPORAL PARA MOSTRAR */
 
@@ -81,23 +84,37 @@ if($rutBusqueda!==''){
     $like='%'.$rutBusqueda.'%';
     // registros de operador cargador con su usuario
     $st=$conn->prepare("SELECT oc.*,u.username FROM operador_cargador oc LEFT JOIN usuarios u ON oc.usuario_id=u.id WHERE {$whereCargador} AND oc.rut LIKE ? ORDER BY oc.fecha_registro DESC LIMIT ? OFFSET ?");
-    $st->bind_param('sii',$like,$limiteFilas,$offCargador);$st->execute();$cargador=$st->get_result();
+    $st->bind_param('sii',$like,$limiteFilas,$offCargador);
+    $st->execute();
+    $cargador=$st->get_result();
     // total de coincidencias de operador cargador
-    $st=$conn->prepare("SELECT COUNT(*) c FROM operador_cargador WHERE {$whereCargadorSimple} AND rut LIKE ?");$st->bind_param('s',$like);$st->execute();$totalFilasCargador=(int)$st->get_result()->fetch_assoc()['c'];
+    $st=$conn->prepare("SELECT COUNT(*) c FROM operador_cargador WHERE {$whereCargadorSimple} AND rut LIKE ?");
+    $st->bind_param('s',$like);
+    $st->execute();
+    $totalFilasCargador=(int)$st->get_result()->fetch_assoc()['c'];
     // registros de operador con su usuario
     $st=$conn->prepare("SELECT o.*,u.username FROM operador o LEFT JOIN usuarios u ON o.usuario_id=u.id WHERE {$whereOperador} AND o.rut LIKE ? ORDER BY o.fecha_registro DESC LIMIT ? OFFSET ?");
-    $st->bind_param('sii',$like,$limiteFilas,$offOperador);$st->execute();$operador=$st->get_result();
+    $st->bind_param('sii',$like,$limiteFilas,$offOperador);
+    $st->execute();
+    $operador=$st->get_result();
     // total de coincidencias de operador
-    $st=$conn->prepare("SELECT COUNT(*) c FROM operador WHERE {$whereOperadorSimple} AND rut LIKE ?");$st->bind_param('s',$like);$st->execute();$totalFilasOperador=(int)$st->get_result()->fetch_assoc()['c'];
+    $st=$conn->prepare("SELECT COUNT(*) c FROM operador WHERE {$whereOperadorSimple} AND rut LIKE ?");
+    $st->bind_param('s',$like);
+    $st->execute();
+    $totalFilasOperador=(int)$st->get_result()->fetch_assoc()['c'];
 }else{
     // si no hay RUT, registros de operador cargador sin filtro
     $st=$conn->prepare("SELECT oc.*,u.username FROM operador_cargador oc LEFT JOIN usuarios u ON oc.usuario_id=u.id WHERE {$whereCargador} ORDER BY oc.fecha_registro DESC LIMIT ? OFFSET ?");
-    $st->bind_param('ii',$limiteFilas,$offCargador);$st->execute();$cargador=$st->get_result();
+    $st->bind_param('ii',$limiteFilas,$offCargador);
+    $st->execute();
+    $cargador=$st->get_result();
     // total de registros de operador cargador
     $totalFilasCargador=(int)$conn->query("SELECT COUNT(*) c FROM operador_cargador WHERE {$whereCargadorSimple}")->fetch_assoc()['c'];
     // registros de operador sin filtro
     $st=$conn->prepare("SELECT o.*,u.username FROM operador o LEFT JOIN usuarios u ON o.usuario_id=u.id WHERE {$whereOperador} ORDER BY o.fecha_registro DESC LIMIT ? OFFSET ?");
-    $st->bind_param('ii',$limiteFilas,$offOperador);$st->execute();$operador=$st->get_result();
+    $st->bind_param('ii',$limiteFilas,$offOperador);
+    $st->execute();
+    $operador=$st->get_result();
     // total de registros de operador
     $totalFilasOperador=(int)$conn->query("SELECT COUNT(*) c FROM operador WHERE {$whereOperadorSimple}")->fetch_assoc()['c'];
 }
@@ -121,9 +138,22 @@ $armarEnlacePagina = static function(string $param, int $pagina) use ($qsBase): 
     $partes = array_filter([$qsBase, $param.'='.$pagina]);
     return 'superadmin.php?'.implode('&', $partes);
 };
+
 /* TÍTULO: CUERPO PRINCIPAL DE LA PÁGINA */
+
 // desde aquí se muestra el documento HTML; el código PHP intercalado solo lee lo calculado arriba
-?><!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Administrador</title><link rel="stylesheet" href="../../../css/programa/superadmin.css"><script src="../../../js/programa/admin.js" defer></script></head><body>
+?><!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Panel Administrador</title>
+    <link rel="stylesheet" href="../../../css/programa/superadmin.css">
+    <script src="../../../js/programa/admin.js" defer></script>
+</head>
+
+<body>
 <?php
 /* TÍTULO: MENSAJES DE ÉXITO Y ERROR */
 
@@ -144,19 +174,35 @@ $mensajesError = [
 $successCode = (string)($_GET['success'] ?? '');
 $errorCode = (string)($_GET['error'] ?? '');
 ?>
-<?php /* TÍTULO: AVISO DE BASE DE DATOS ANTIGUA */ ?>
-<?php /* esta parte avisa si falta la columna eliminado_at en alguna de las dos tablas */ ?>
+
+<!-- TÍTULO: AVISO DE BASE DE DATOS ANTIGUA -->
+
+<?php?>
+<!-- esta parte avisa si falta la columna eliminado_at en alguna de las dos tablas -->
+<?php?>
 <?php if(!$eliminacionCargador || !$eliminacionOperador): ?>
 <div class="mensaje-admin error">⚠️ La base de datos corresponde a una versión anterior. El panel se muestra en modo compatible, pero debes ejecutar <strong>base_dato/migracion_produccion_100.sql</strong> para habilitar completamente la eliminación lógica, edición y auditoría de registros.</div>
 <?php endif; ?>
-<?php /* TÍTULO: MENSAJE PARA MOSTRAR EL ÉXITO */ ?>
-<?php /* esta parte muestra el mensaje cuando la acción salió bien */ ?>
+
+ <!-- TÍTULO: MENSAJE PARA MOSTRAR EL ÉXITO -->
+
+<?php?>
+<!-- esta parte muestra el mensaje cuando la acción salió bien -->
+<?php?>
 <?php if($successCode!=='' && isset($mensajesExito[$successCode])): ?><div class="mensaje-admin success"><?=e($mensajesExito[$successCode])?></div><?php endif; ?>
-<?php /* TÍTULO: MENSAJE PARA MOSTRAR EL ERROR */ ?>
-<?php /* esta parte muestra el mensaje cuando existe un problema */ ?>
+
+ <!-- TÍTULO: MENSAJE PARA MOSTRAR EL ERROR -->
+
+<?php?>
+<!-- esta parte muestra el mensaje cuando existe un problema -->
+<?php?>
 <?php if($errorCode!=='' && isset($mensajesError[$errorCode])): ?><div class="mensaje-admin error"><?=e($mensajesError[$errorCode])?></div><?php endif; ?>
-<?php /* TÍTULO: CONTRASEÑA TEMPORAL DEL USUARIO */ ?>
-<?php /* esta parte muestra la clave temporal una sola vez, después de resetear una contraseña */ ?>
+
+ <!-- TÍTULO: CONTRASEÑA TEMPORAL DEL USUARIO -->
+
+<?php?>
+<!-- esta parte muestra la clave temporal una sola vez, después de resetear una contraseña -->
+<?php?>
 <?php if($passwordTemporal!==null): ?>
 <div class="mensaje-admin success temp-password-flash">
     🔑 Contraseña temporal para <strong><?=e($passwordTemporalUsuario)?></strong>:
@@ -164,18 +210,145 @@ $errorCode = (string)($_GET['error'] ?? '');
     <br><small>Este mensaje solo se muestra una vez. Compártela por un canal seguro; el usuario deberá cambiarla al iniciar sesión.</small>
 </div>
 <?php endif; ?>
-<?php /*
-TÍTULO: ENCABEZADO, BUSCADOR, TARJETAS Y TABLAS (el siguiente bloque es una sola línea larga)
+<?php?>
 
-- encabezado: botones para crear usuario, ver reportes, auditoría, cambiar mi contraseña y cerrar sesión
-- buscador: permite buscar por RUT; si hay búsqueda, aparecen los botones Limpiar e Imprimir RUT
-- tarjetas: muestran el total de litros de cargador y de operador
-- tabla Usuarios: cada cuenta tiene los botones Resetear clave y Eliminar; la cuenta propia aparece como (Tú)
-- tabla Operador Cargador: botón Exportar CSV y apertura de la tabla de registros
-*/ ?>
-<header class="admin-header"><div><h1>Panel Administrador</h1><p>Consulta completa y segura de registros.</p></div><div class="acciones"><a href="crear_usuario.php" class="btn btn-crear">➕ Crear Usuario</a><a href="reportes.php" class="btn btn-buscar">📊 Reportes</a><a href="auditoria.php" class="btn btn-limpiar">🛡️ Auditoría</a><a href="../../programa/cambiar_password.php" class="btn btn-limpiar">🔑 Cambiar mi contraseña</a><form method="POST" action="../../../backend/logout.php" class="logout-inline"><input type="hidden" name="csrf_token" value="<?=e($csrf)?>"><button class="btn btn-logout" type="submit">🚪 Cerrar sesión</button></form></div></header><section class="busqueda-card"><form method="GET" class="busqueda-form"><label for="rut">Buscar por RUT</label><input type="text" id="rut" name="rut" maxlength="12" value="<?=e($rutBusqueda)?>" placeholder="12.345.678-9"><button type="submit" class="btn btn-buscar">🔎 Buscar</button><?php if($rutBusqueda!==''):?><a href="superadmin.php" class="btn btn-limpiar">Limpiar</a><a target="_blank" rel="noopener noreferrer" href="imprimir_rut.php?rut=<?=urlencode($rutBusqueda)?>" class="btn btn-print">🖨️ Imprimir RUT</a><?php endif;?></form></section><section class="resumen"><div class="resumen-card azul"><span>Total litros cargador</span><strong><?=number_format($totalCargador,2,',','.')?> L</strong></div><div class="resumen-card verde"><span>Total litros operador</span><strong><?=number_format($totalOperador,2,',','.')?> L</strong></div></section><hr><h2>Usuarios</h2><div class="tabla-contenedor"><table><thead><tr><th>ID</th><th>Usuario</th><th>Email</th><th>Rol</th><th>Estado</th><th>Creado</th><th>Acciones</th></tr></thead><tbody><?php while($u=$usuarios->fetch_assoc()):?><tr><td><?=e($u['id'])?></td><td><?=e($u['username'])?></td><td><?=e($u['email'])?></td><td><?=e($u['rol'])?></td><td><?=e($u['estado'])?></td><td><?=e($u['created_at'])?></td><td><?php if((int)$u['id']!==(int)$_SESSION['usuario_id']):?><div class="acciones-registro"><form method="POST" action="resetear_password_usuario.php"><input type="hidden" name="csrf_token" value="<?=e($csrf)?>"><input type="hidden" name="id" value="<?=e($u['id'])?>"><button class="btn-delete-registro btn-reset-password" type="submit" title="Genera una contraseña temporal para este usuario">🔁 Resetear clave</button></form><form method="POST" action="eliminar_usuario.php"><input type="hidden" name="csrf_token" value="<?=e($csrf)?>"><input type="hidden" name="id" value="<?=e($u['id'])?>"><button class="btn-delete" type="submit">❌ Eliminar</button></form></div><?php else:?><span class="tu-usuario">(Tú)</span><?php endif;?></td></tr><?php endwhile;?></tbody></table></div><hr><h2 id="operador-cargador">Operador Cargador <a class="btn btn-print btn-exportar" href="../../../backend/exportar_csv.php?tipo=cargador<?=$rutBusqueda!==''?'&rut='.urlencode($rutBusqueda):''?>">⬇️ Exportar CSV</a></h2><div class="tabla-contenedor"><table class="tabla-registros"><thead><tr><th>Usuario</th><th>Nombres</th><th>Apellidos</th><th>RUT</th><th>Turno</th><th>Código</th><th>Ubicación</th><th>Patente</th><th>Horómetro</th><th>Litros</th><th>Remanente</th><th>Fecha</th><th>Acción</th></tr></thead><tbody><?php while($r=$cargador->fetch_assoc()):?><tr><td><?=e($r['username']??'Sin usuario')?></td><td><?=e($r['nombres'])?></td><td><?=e($r['apellido_paterno'].' '.$r['apellido_materno'])?></td><td><strong><?=e($r['rut'])?></strong></td><td><?=e($r['turno'])?></td><td><?=e($r['codigo'])?></td><td><?=e($r['ubicacion'])?></td><td><?=e($r['patente'])?></td><td><?=e($r['horometro'])?></td><td><?=number_format((float)$r['litros'],2,',','.')?> L</td><td><?=number_format((float)($r['remanente']??0),2,',','.')?> L</td><td><?=e($r['fecha_registro'])?></td><td><div class="acciones-registro">
-<?php /* TÍTULO: BOTONES DE CADA REGISTRO DE OPERADOR CARGADOR */ ?>
-<?php /* esta parte permite imprimir por RUT, editar o eliminar el registro */ ?>
+<!-- TÍTULO: ENCABEZADO DEL PANEL -->
+
+<header class="admin-header">
+    <div>
+        <h1>Panel Administrador</h1>
+        <p>Consulta completa y segura de registros.</p>
+    </div>
+    <div class="acciones">
+        <a href="crear_usuario.php" class="btn btn-crear">➕ Crear Usuario</a>
+        <a href="reportes.php" class="btn btn-buscar">📊 Reportes</a>
+        <a href="auditoria.php" class="btn btn-limpiar">🛡️ Auditoría</a>
+        <a href="../../programa/cambiar_password.php" class="btn btn-limpiar">🔑 Cambiar mi contraseña</a>
+        <form method="POST" action="../../../backend/logout.php" class="logout-inline">
+            <input type="hidden" name="csrf_token" value="<?=e($csrf)?>">
+            <button class="btn btn-logout" type="submit">🚪 Cerrar sesión</button>
+        </form>
+    </div>
+</header>
+
+<!-- TÍTULO: BUSCADOR POR RUT -->
+
+<section class="busqueda-card">
+    <form method="GET" class="busqueda-form">
+        <label for="rut">Buscar por RUT</label>
+        <input type="text" id="rut" name="rut" maxlength="12" value="<?=e($rutBusqueda)?>" placeholder="12.345.678-9">
+        <button type="submit" class="btn btn-buscar">🔎 Buscar</button>
+        <?php if($rutBusqueda!==''):?>
+        <a href="superadmin.php" class="btn btn-limpiar">Limpiar</a>
+        <a target="_blank" rel="noopener noreferrer" href="imprimir_rut.php?rut=<?=urlencode($rutBusqueda)?>" class="btn btn-print">🖨️ Imprimir RUT</a>
+        <?php endif;?>
+    </form>
+</section>
+
+<!-- TÍTULO: TARJETAS DE RESUMEN DE LITROS -->
+
+<section class="resumen">
+    <div class="resumen-card azul"><span>Total litros cargador</span><strong><?=number_format($totalCargador,2,',','.')?> L</strong></div>
+    <div class="resumen-card verde"><span>Total litros operador</span><strong><?=number_format($totalOperador,2,',','.')?> L</strong></div>
+</section>
+
+<hr>
+
+<!-- TÍTULO: TABLA DE USUARIOS -->
+
+<h2>Usuarios</h2>
+<div class="tabla-contenedor">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Creado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while($u=$usuarios->fetch_assoc()):?>
+            <tr>
+                <td><?=e($u['id'])?></td>
+                <td><?=e($u['username'])?></td>
+                <td><?=e($u['email'])?></td>
+                <td><?=e($u['rol'])?></td>
+                <td><?=e($u['estado'])?></td>
+                <td><?=e($u['created_at'])?></td>
+                <td>
+                    <?php if((int)$u['id']!==(int)$_SESSION['usuario_id']):?>
+                    <div class="acciones-registro">
+                        <form method="POST" action="resetear_password_usuario.php">
+                            <input type="hidden" name="csrf_token" value="<?=e($csrf)?>">
+                            <input type="hidden" name="id" value="<?=e($u['id'])?>">
+                            <button class="btn-delete-registro btn-reset-password" type="submit" title="Genera una contraseña temporal para este usuario">🔁 Resetear clave</button>
+                        </form>
+                        <form method="POST" action="eliminar_usuario.php">
+                            <input type="hidden" name="csrf_token" value="<?=e($csrf)?>">
+                            <input type="hidden" name="id" value="<?=e($u['id'])?>">
+                            <button class="btn-delete" type="submit">❌ Eliminar</button>
+                        </form>
+                    </div>
+                    <?php else:?>
+                    <span class="tu-usuario">(Tú)</span>
+                    <?php endif;?>
+                </td>
+            </tr>
+            <?php endwhile;?>
+        </tbody>
+    </table>
+</div>
+
+<hr>
+
+<!-- TÍTULO: TABLA DE OPERADOR CARGADOR -->
+
+<h2 id="operador-cargador">Operador Cargador <a class="btn btn-print btn-exportar" href="../../../backend/exportar_csv.php?tipo=cargador<?=$rutBusqueda!==''?'&rut='.urlencode($rutBusqueda):''?>">⬇️ Exportar CSV</a></h2>
+<div class="tabla-contenedor">
+    <table class="tabla-registros">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>RUT</th>
+                <th>Turno</th>
+                <th>Código</th>
+                <th>Ubicación</th>
+                <th>Patente</th>
+                <th>Horómetro</th>
+                <th>Litros</th>
+                <th>Remanente</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while($r=$cargador->fetch_assoc()):?>
+            <tr>
+                <td><?=e($r['username']??'Sin usuario')?></td>
+                <td><?=e($r['nombres'])?></td>
+                <td><?=e($r['apellido_paterno'].' '.$r['apellido_materno'])?></td>
+                <td><strong><?=e($r['rut'])?></strong></td>
+                <td><?=e($r['turno'])?></td>
+                <td><?=e($r['codigo'])?></td>
+                <td><?=e($r['ubicacion'])?></td>
+                <td><?=e($r['patente'])?></td>
+                <td><?=e($r['horometro'])?></td>
+                <td><?=number_format((float)$r['litros'],2,',','.')?> L</td>
+                <td><?=number_format((float)($r['remanente']??0),2,',','.')?> L</td>
+                <td><?=e($r['fecha_registro'])?></td>
+                <td><div class="acciones-registro">
+
+<!-- TÍTULO: BOTONES DE CADA REGISTRO DE OPERADOR CARGADOR -->
+
+<?php?>
+<!-- esta parte permite imprimir por RUT, editar o eliminar el registro -->
+<?php?>
 <a target="_blank" rel="noopener noreferrer" class="btn-print" href="imprimir_rut.php?rut=<?=urlencode($r['rut'])?>">🖨️ Imprimir</a>
 <a class="btn btn-edit" href="editar_registro.php?tipo=cargador&amp;id=<?=e($r['id'])?>">✏️ Editar</a>
 <form method="POST" action="../../../backend/eliminar_registro.php" class="form-eliminar-registro">
@@ -183,9 +356,18 @@ TÍTULO: ENCABEZADO, BUSCADOR, TARJETAS Y TABLAS (el siguiente bloque es una sol
 <input type="hidden" name="id" value="<?=e($r['id'])?>">
 <input type="hidden" name="tipo" value="cargador">
 <button class="btn-delete-registro" type="submit">🗑️ Eliminar</button>
-</form></div></td></tr><?php endwhile;?></tbody></table></div>
-<?php /* TÍTULO: CAMBIO DE PÁGINA DE OPERADOR CARGADOR */ ?>
-<?php /* esta parte solo aparece si la tabla tiene más de una página */ ?>
+</form></div></td>
+            </tr>
+            <?php endwhile;?>
+        </tbody>
+    </table>
+</div>
+
+<!-- TÍTULO: CAMBIO DE PÁGINA DE OPERADOR CARGADOR -->
+
+<?php?>
+<!-- esta parte solo aparece si la tabla tiene más de una página -->
+<?php?>
 <?php if($totalPagCargador>1): ?>
 <nav class="paginador">
 <?php if($pgCargador>1): ?><a class="btn btn-limpiar" href="<?=e($armarEnlacePagina('pgc',$pgCargador-1))?>#operador-cargador">« Anterior</a><?php endif; ?>
@@ -193,15 +375,59 @@ TÍTULO: ENCABEZADO, BUSCADOR, TARJETAS Y TABLAS (el siguiente bloque es una sol
 <?php if($pgCargador<$totalPagCargador): ?><a class="btn btn-limpiar" href="<?=e($armarEnlacePagina('pgc',$pgCargador+1))?>#operador-cargador">Siguiente »</a><?php endif; ?>
 </nav>
 <?php endif; ?>
-<?php /*
-TÍTULO: TABLA DE OPERADOR (el siguiente bloque es una sola línea larga)
+<?php ?> 
 
-- muestra el título Operador con su botón Exportar CSV
-- muestra la tabla de registros, con la unidad de consumo según cada equipo
-*/ ?>
-<hr><h2 id="operador">Operador <a class="btn btn-print btn-exportar" href="../../../backend/exportar_csv.php?tipo=operador<?=$rutBusqueda!==''?'&rut='.urlencode($rutBusqueda):''?>">⬇️ Exportar CSV</a></h2><div class="tabla-contenedor"><table class="tabla-registros"><thead><tr><th>Usuario</th><th>Nombres</th><th>Apellidos</th><th>RUT</th><th>Turno</th><th>Ubicación</th><th>Código</th><th>Patente</th><th>Equipo</th><th>Horómetro</th><th>Kilómetro</th><th>Litros</th><th>Consumo</th><th>Fecha</th><th>Acción</th></tr></thead><tbody><?php while($r=$operador->fetch_assoc()):?><tr><td><?=e($r['username']??'Sin usuario')?></td><td><?=e($r['nombres'])?></td><td><?=e($r['apellido_paterno'].' '.$r['apellido_materno'])?></td><td><strong><?=e($r['rut'])?></strong></td><td><?=e($r['turno'])?></td><td><?=e($r['ubicacion'])?></td><td><?=e($r['codigo_maquinaria'])?></td><td><?=e($r['patente'])?></td><td><?=e($r['equipo'])?></td><td><?=e($r['horometro'])?></td><td><?=e($r['kilometro'])?></td><td><?=number_format((float)$r['litros'],2,',','.')?> L</td><td><?=number_format((float)($r['consumo']??0),2,',','.')?> <?=e(unidadConsumo($r))?></td><td><?=e($r['fecha_registro'])?></td><td><div class="acciones-registro">
-<?php /* TÍTULO: BOTONES DE CADA REGISTRO DE OPERADOR */ ?>
-<?php /* esta parte permite imprimir por RUT, editar o eliminar el registro */ ?>
+<!-- TÍTULO: TABLA DE OPERADOR
+     muestra el título Operador con su botón Exportar CSV
+     muestra la tabla de registros, con la unidad de consumo según cada equipo -->
+
+<hr>
+<h2 id="operador">Operador <a class="btn btn-print btn-exportar" href="../../../backend/exportar_csv.php?tipo=operador<?=$rutBusqueda!==''?'&rut='.urlencode($rutBusqueda):''?>">⬇️ Exportar CSV</a></h2>
+<div class="tabla-contenedor">
+    <table class="tabla-registros">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>RUT</th>
+                <th>Turno</th>
+                <th>Ubicación</th>
+                <th>Código</th>
+                <th>Patente</th>
+                <th>Equipo</th>
+                <th>Horómetro</th>
+                <th>Kilómetro</th>
+                <th>Litros</th>
+                <th>Consumo</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while($r=$operador->fetch_assoc()):?>
+            <tr>
+                <td><?=e($r['username']??'Sin usuario')?></td>
+                <td><?=e($r['nombres'])?></td>
+                <td><?=e($r['apellido_paterno'].' '.$r['apellido_materno'])?></td>
+                <td><strong><?=e($r['rut'])?></strong></td>
+                <td><?=e($r['turno'])?></td>
+                <td><?=e($r['ubicacion'])?></td>
+                <td><?=e($r['codigo_maquinaria'])?></td>
+                <td><?=e($r['patente'])?></td>
+                <td><?=e($r['equipo'])?></td>
+                <td><?=e($r['horometro'])?></td>
+                <td><?=e($r['kilometro'])?></td>
+                <td><?=number_format((float)$r['litros'],2,',','.')?> L</td>
+                <td><?=number_format((float)($r['consumo']??0),2,',','.')?> <?=e(unidadConsumo($r))?></td>
+                <td><?=e($r['fecha_registro'])?></td>
+                <td><div class="acciones-registro">
+
+<!-- TÍTULO: BOTONES DE CADA REGISTRO DE OPERADOR -->
+
+<?php?>
+<!-- esta parte permite imprimir por RUT, editar o eliminar el registro -->
+<?php?>
 <a target="_blank" rel="noopener noreferrer" class="btn-print" href="imprimir_rut.php?rut=<?=urlencode($r['rut'])?>">🖨️ Imprimir</a>
 <a class="btn btn-edit" href="editar_registro.php?tipo=operador&amp;id=<?=e($r['id'])?>">✏️ Editar</a>
 <form method="POST" action="../../../backend/eliminar_registro.php" class="form-eliminar-registro">
@@ -209,9 +435,18 @@ TÍTULO: TABLA DE OPERADOR (el siguiente bloque es una sola línea larga)
 <input type="hidden" name="id" value="<?=e($r['id'])?>">
 <input type="hidden" name="tipo" value="operador">
 <button class="btn-delete-registro" type="submit">🗑️ Eliminar</button>
-</form></div></td></tr><?php endwhile;?></tbody></table></div>
-<?php /* TÍTULO: CAMBIO DE PÁGINA DE OPERADOR */ ?>
-<?php /* esta parte solo aparece si la tabla tiene más de una página */ ?>
+</form></div></td>
+            </tr>
+            <?php endwhile;?>
+        </tbody>
+    </table>
+</div>
+
+<!-- TÍTULO: CAMBIO DE PÁGINA DE OPERADOR -->
+
+<?php?>
+<!-- esta parte solo aparece si la tabla tiene más de una página -->
+<?php?>
 <?php if($totalPagOperador>1): ?>
 <nav class="paginador">
 <?php if($pgOperador>1): ?><a class="btn btn-limpiar" href="<?=e($armarEnlacePagina('pgo',$pgOperador-1))?>#operador">« Anterior</a><?php endif; ?>
@@ -219,8 +454,13 @@ TÍTULO: TABLA DE OPERADOR (el siguiente bloque es una sola línea larga)
 <?php if($pgOperador<$totalPagOperador): ?><a class="btn btn-limpiar" href="<?=e($armarEnlacePagina('pgo',$pgOperador+1))?>#operador">Siguiente »</a><?php endif; ?>
 </nav>
 <?php endif; ?>
-</body></html>
+</body>
+
+</html>
 <?php
+
+
+
 /* -------------------------------------------------------------------------------------------------------------
    -------------------------------------- FIN Jerez superadmin.php --------------------------------------
    ------------------------------------------------------------------------------------------------------------- */

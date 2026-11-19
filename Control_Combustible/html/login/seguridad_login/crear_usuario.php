@@ -18,21 +18,25 @@ JJA
 declare(strict_types=1);
 
 // TÍTULO: ARCHIVOS QUE NECESITA ESTA PÁGINA
+
 // Se cargan las herramientas de apoyo: la conexión a la base de datos, la seguridad y la revisión del RUT.
 require_once __DIR__.'/../../../backend/conexion.php';
 require_once __DIR__.'/../../../backend/security.php';
 require_once __DIR__.'/../../../backend/rut_helper.php';
 
 // TÍTULO: SOLO ADMINISTRADORES
+
 // Si la persona no es administradora, no puede estar en esta página.
 requireAdmin();
 
 // TÍTULO: MENSAJES PARA LA PERSONA
+
 // Aquí se guardan el aviso de éxito y el aviso de error. Al comienzo están vacíos.
 $mensaje='';
 $error='';
 
 // TÍTULO: CUANDO SE ENVÍA EL FORMULARIO
+
 // Esta parte solo trabaja cuando la persona presionó el botón "Crear Usuario".
 if ($_SERVER['REQUEST_METHOD']==='POST') {
 
@@ -49,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     $currentPassword=(string)($_POST['current_password']??'');
 
     // TÍTULO: REVISIÓN DE LOS DATOS
+
     // Se verifica que el usuario, el correo, la contraseña, el rol y el RUT cumplan con lo pedido.
     if (
         !preg_match('/^[A-Za-z0-9._-]{3,50}$/',$username)
@@ -65,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     else {
 
         // TÍTULO: PERMISO PARA CREAR OTRO ADMINISTRADOR
+
         // Para crear a otro administrador, la persona debe escribir de nuevo su propia contraseña.
         if($rol==='admin'){
             $me=$conn->prepare('SELECT password FROM usuarios WHERE id=? LIMIT 1');
@@ -78,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         }
 
         // TÍTULO: GUARDAR EL NUEVO USUARIO
+
         // Si no hubo ningún problema, se protege la contraseña y se guarda la cuenta nueva.
         if($error==='') {
             $hash=password_hash($password,PASSWORD_DEFAULT);
@@ -192,6 +199,9 @@ $csrf=csrfToken();
 
 </html>
 <?php
+
+
+
 /* -------------------------------------------------------------------------------------------------------------
    -------------------------------------- FIN Jerez crear_usuario.php ------------------------------------------
    ------------------------------------------------------------------------------------------------------------- */

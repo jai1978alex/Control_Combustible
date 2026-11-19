@@ -21,7 +21,9 @@ declare(strict_types=1);
 require_once __DIR__.'/../../../backend/conexion.php';
 require_once __DIR__.'/../../../backend/security.php';
 // solo entra un administrador, por método POST y con el dato oculto de seguridad válido
-requireAdmin(); requirePost(); verifyCsrf();
+requireAdmin();
+requirePost();
+verifyCsrf();
 
 /* TÍTULO: REVISAR EL USUARIO QUE LLEGA DEL FORMULARIO */
 
@@ -29,7 +31,8 @@ requireAdmin(); requirePost(); verifyCsrf();
 $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 // si el id falta, no es válido o es el del propio administrador, se vuelve al panel con error
 if (!$id || $id === (int)$_SESSION['usuario_id']) {
-    header('Location: superadmin.php?error=reset_password'); exit;
+    header('Location: superadmin.php?error=reset_password');
+    exit;
 }
 
 /* TÍTULO: BUSCAR EL USUARIO EN LA BASE DE DATOS */
@@ -42,7 +45,8 @@ $u = $stmt->get_result()->fetch_assoc();
 
 // si el usuario no existe, se vuelve al panel con error
 if (!$u) {
-    header('Location: superadmin.php?error=reset_password'); exit;
+    header('Location: superadmin.php?error=reset_password');
+    exit;
 }
 
 /* TÍTULO: CREAR Y GUARDAR LA CONTRASEÑA TEMPORAL */
@@ -57,7 +61,8 @@ $upd->bind_param('si', $hash, $id);
 
 // si no se pudo guardar, se vuelve al panel con error
 if (!$upd->execute()) {
-    header('Location: superadmin.php?error=reset_password'); exit;
+    header('Location: superadmin.php?error=reset_password');
+    exit;
 }
 
 /* TÍTULO: REGISTRAR LA ACCIÓN EN AUDITORÍA */
@@ -80,6 +85,8 @@ $_SESSION['flash_temp_password_user'] = $u['username'];
 // esta parte vuelve al panel con el mensaje de éxito, donde se muestra la clave una sola vez
 header('Location: superadmin.php?success=password_reseteada');
 exit;
+
+
 
 /* -------------------------------------------------------------------------------------------------------------
    -------------------------------------- FIN Jerez resetear_password_usuario.php --------------------------------------
