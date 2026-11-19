@@ -1,0 +1,147 @@
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez reportes_imprimir.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+/* TÍTULO: DISEÑO E IMPRESIÓN DEL REPORTE DE COMBUSTIBLE
+   Descripción: Define la apariencia de la hoja del reporte (gráficos y tablas)
+   y los botones de imprimir. Se carga solo en la versión para imprimir. */
+
+
+/* CONFIGURACIÓN DE LA HOJA PARA IMPRIMIR */
+    @page {
+        size: A4 portrait;                  /* Establece el tamaño de papel A4 vertical */
+        margin: 10mm;                       /* Deja un espacio de 10 milímetros en los bordes */
+    }
+
+
+/* DISEÑO GENERAL DE LA PÁGINA */
+    body.reporte-impreso {
+        background: #fff;                   /* Coloca un fondo blanco */
+        color: #0f172a;                     /* Establece el color principal de los textos */
+        font-family: Arial, Helvetica, sans-serif; /* Define el tipo de letra */
+        margin: 0;                          /* Elimina los espacios exteriores de la página */
+        padding: 16px;                      /* Deja espacio entre el contenido y los bordes */
+        -webkit-print-color-adjust: exact;  /* Mantiene los colores de los gráficos al imprimir */
+        print-color-adjust: exact;          /* Igual que la línea anterior, para otros navegadores */
+    }
+
+
+/* ENCABEZADO DEL REPORTE */
+    .cabecera-reporte {
+        display: flex;                      /* Organiza los elementos del encabezado en una misma fila */
+        justify-content: space-between;     /* Separa los elementos hacia ambos lados */
+        gap: 16px;                          /* Deja espacio entre los elementos del encabezado */
+        border-bottom: 2px solid #2563eb;   /* Agrega una línea azul debajo del encabezado */
+        padding-bottom: 10px;               /* Deja espacio debajo del contenido del encabezado */
+        margin-bottom: 12px;                /* Separa el encabezado del resto del reporte */
+    }
+
+    .cabecera-reporte h1 {
+        margin: 0 0 4px;                    /* Ajusta el espacio alrededor del título */
+        font-size: 20px;                    /* Define el tamaño de las letras del título */
+    }
+
+    .cabecera-reporte p {
+        margin: 0;                          /* Elimina los espacios adicionales del párrafo */
+        color: #475569;                     /* Utiliza un color gris para el texto */
+    }
+
+
+/* INFORMACIÓN ADICIONAL DEL REPORTE (fecha y persona) */
+    .meta-reporte {
+        text-align: right;                  /* Alinea la información hacia la derecha */
+        font-size: 13px;                    /* Define el tamaño de las letras */
+        line-height: 1.5;                   /* Deja espacio entre las líneas de texto */
+    }
+
+
+/* SECCIONES SIN SOMBRA NI FONDO (ahorra tinta) */
+    .reporte-impreso .rep-seccion {
+        box-shadow: none;                   /* Quita la sombra de cada sección */
+        padding: 0;                         /* Quita el espacio interior de la sección */
+        margin: 18px 0;                     /* Separa una sección de otra */
+    }
+
+    .reporte-impreso .rep-seccion h2 {
+        break-after: avoid;                 /* Evita que el título quede solo al final de una hoja */
+    }
+
+
+/* GRÁFICOS Y TABLAS: NO SE PARTEN ENTRE DOS HOJAS */
+    .reporte-impreso .rep-grafico {
+        break-inside: avoid;                /* Mantiene el gráfico completo en una sola hoja */
+    }
+
+    .reporte-impreso table.tabla-registros {
+        font-size: 11px;                    /* Define el tamaño de las letras de las tablas */
+    }
+
+    .reporte-impreso table.tabla-registros thead {
+        display: table-header-group;        /* Repite los títulos de la tabla en cada hoja */
+    }
+
+    .reporte-impreso table.tabla-registros tr {
+        break-inside: avoid;                /* Mantiene cada fila junta al imprimir */
+    }
+
+
+/* BOTONES DE LAS OPCIONES DE IMPRESIÓN */
+    .acciones-impresion {
+        display: flex;                      /* Coloca los botones en una misma fila */
+        justify-content: center;            /* Centra los botones en la página */
+        gap: 12px;                          /* Deja espacio entre los botones */
+        margin: 12px 0 20px;                /* Separa los botones del contenido */
+    }
+
+    .acciones-impresion button {
+        border: 0;                          /* Quita los bordes de los botones */
+        border-radius: 10px;                /* Redondea las esquinas de los botones */
+        padding: 12px 20px;                 /* Ajusta el espacio interior de los botones */
+        cursor: pointer;                    /* Muestra que los botones se pueden presionar */
+        background: #2563eb;                /* Coloca un fondo azul */
+        color: #fff;                        /* Coloca las letras en color blanco */
+        font-weight: 700;                   /* Hace que el texto aparezca en negrita */
+    }
+
+    .acciones-impresion .secundario {
+        background: #64748b;                /* Coloca un fondo gris en el botón secundario */
+    }
+
+
+/* AJUSTES ESPECIALES PARA IMPRIMIR */
+    @media print {
+        body.reporte-impreso {
+            padding: 0;                     /* Elimina el espacio exterior al momento de imprimir */
+        }
+
+        .acciones-impresion {
+            display: none;                  /* Oculta los botones para que no aparezcan en el papel */
+        }
+    }
+
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- FIN Jerez reportes_imprimir.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/
