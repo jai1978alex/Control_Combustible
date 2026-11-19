@@ -67,6 +67,9 @@ $patente=strtoupper(trim((string)($_POST['patente']??'')));
 $horometro=trim((string)($_POST['horometro']??''));
 // Toma los litros de combustible cargados
 $litros=trim((string)($_POST['litros']??''));
+// Toma el combustible remanente (opcional; si viene vacío se guarda 0)
+$remanente=trim((string)($_POST['remanente']??''));
+if($remanente===''){ $remanente='0'; }
 // Toma cualquier comentario o nota adicional
 $observacion=trim((string)($_POST['observacion']??''));
 // Anota la fecha y hora exacta de este momento como fecha del registro
@@ -97,6 +100,8 @@ if (
     !validDecimal($horometro,0,100000000)||
     // Los litros deben ser un número mayor a 0 y hasta 1.000.000
     !validDecimal($litros,0.01,1000000)||
+    // El remanente debe ser un número entre 0 y 1.000.000
+    !validDecimal($remanente,0,1000000)||
     // La observación no puede pasar de 2000 letras
     mb_strlen($observacion)>2000||
     // El RUT debe estar escrito con la forma correcta
@@ -122,11 +127,11 @@ $conn->begin_transaction();
 // Intenta guardar los datos
 try {
     // Prepara la orden para insertar el nuevo registro del cargador (con espacios "?" que se llenan después, para que nadie pueda colar órdenes dañinas)
-    $stmt=$conn->prepare('INSERT INTO operador_cargador (nombres,apellido_paterno,apellido_materno,rut,turno,codigo,ubicacion,patente,horometro,litros,observacion,usuario_id,fecha_registro) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+    $stmt=$conn->prepare('INSERT INTO operador_cargador (nombres,apellido_paterno,apellido_materno,rut,turno,codigo,ubicacion,patente,horometro,litros,remanente,observacion,usuario_id,fecha_registro) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
     // Rellena los espacios vacíos con los datos recibidos, ejecuta la orden y guarda el número del registro recién creado
-    $stmt->bind_param('ssssssssddsis',$nombres,$ap,$am,$rut,$turno,$codigo,$ubicacion,$patente,$horometro,$litros,$observacion,$usuarioId,$fechaRegistro); $stmt->execute(); $id=$stmt->insert_id;
+    $stmt->bind_param('ssssssssdddsis',$nombres,$ap,$am,$rut,$turno,$codigo,$ubicacion,$patente,$horometro,$litros,$remanente,$observacion,$usuarioId,$fechaRegistro); $stmt->execute(); $id=$stmt->insert_id;
     // Anota en la bitácora quién guardó el registro, confirma el guardado definitivo, devuelve a la persona al panel con aviso de éxito y detiene todo
-    audit($conn,$usuarioId,'REGISTRO_CARGADOR','operador_cargador',(int)$id,'RUT '.$rut.'; litros '.$litros); $conn->commit(); header('Location: ../html/programa/panel.php?success=1'); exit;
+    audit($conn,$usuarioId,'REGISTRO_CARGADOR','operador_cargador',(int)$id,'RUT '.$rut.'; litros '.$litros.'; remanente '.$remanente); $conn->commit(); header('Location: ../html/programa/panel.php?success=1'); exit;
 // Si algo falló al guardar...
 } catch(Throwable $e){
     // ...deshace todo lo que se alcanzó a guardar, anota el problema en el registro interno del servidor, devuelve a la persona al panel con aviso de error y detiene todo

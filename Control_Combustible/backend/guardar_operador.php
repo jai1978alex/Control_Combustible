@@ -24,6 +24,8 @@ require_once __DIR__.'/conexion.php';
 require_once __DIR__.'/security.php';
 // Trae las herramientas para revisar y arreglar el RUT (el número de identificación chileno)
 require_once __DIR__.'/rut_helper.php';
+// Trae la función que calcula el consumo (rendimiento) de la carga
+require_once __DIR__.'/consumo_helper.php';
 
 
 // TÍTULO: REVISAR QUE LA PERSONA TENGA PERMISO
@@ -128,12 +130,12 @@ if (
 $conn->begin_transaction();
 // Intenta guardar los datos
 try {
-    // Deja el consumo en cero y prepara la orden para insertar el nuevo registro del operador (con espacios "?" que se llenan después, para que nadie pueda colar órdenes dañinas)
-    $consumo=0.0; $stmt=$conn->prepare('INSERT INTO operador (nombres,apellido_paterno,apellido_materno,rut,turno,ubicacion,codigo_maquinaria,patente,equipo,horometro,kilometro,litros,consumo,observacion,usuario_id,fecha_registro) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+    // Calcula el consumo (L/h o L/100 km) comparando con la carga anterior de la misma máquina y prepara la orden para insertar el nuevo registro del operador (con espacios "?" que se llenan después, para que nadie pueda colar órdenes dañinas)
+    $consumo=calcularConsumoOperador($conn,$codigo,(float)$horometro,(float)$kilometro,(float)$litros,$fechaRegistro); $stmt=$conn->prepare('INSERT INTO operador (nombres,apellido_paterno,apellido_materno,rut,turno,ubicacion,codigo_maquinaria,patente,equipo,horometro,kilometro,litros,consumo,observacion,usuario_id,fecha_registro) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
     // Rellena los espacios vacíos con los datos recibidos, ejecuta la orden y guarda el número del registro recién creado
     $stmt->bind_param('sssssssssddddsis',$nombres,$ap,$am,$rut,$turno,$ubicacion,$codigo,$patente,$equipo,$horometro,$kilometro,$litros,$consumo,$observacion,$usuarioId,$fechaRegistro); $stmt->execute(); $id=$stmt->insert_id;
     // Anota en la bitácora quién guardó el registro, confirma el guardado definitivo, devuelve a la persona al panel con aviso de éxito y detiene todo
-    audit($conn,$usuarioId,'REGISTRO_OPERADOR','operador',(int)$id,'RUT '.$rut.'; litros '.$litros); $conn->commit(); header('Location: ../html/programa/panel.php?success=1'); exit;
+    audit($conn,$usuarioId,'REGISTRO_OPERADOR','operador',(int)$id,'RUT '.$rut.'; litros '.$litros.'; consumo '.number_format($consumo,2,'.',''));  $conn->commit(); header('Location: ../html/programa/panel.php?success=1'); exit;
 // Si algo falló al guardar
 } catch(Throwable $e){
     // deshace todo lo que se alcanzó a guardar, anota el problema en el registro interno del servidor, devuelve a la persona al panel con aviso de error y detiene todo

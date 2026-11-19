@@ -1,0 +1,19 @@
+LIBRERIA LOCAL DEL ESCANER QR (html5-qrcode 2.3.8, licencia Apache-2.0)
+=======================================================================
+
+Coloca en esta carpeta el archivo:
+
+    html5-qrcode.min.js      (version 2.3.8)
+
+Asi el escaner funciona sin internet. Formas de obtenerlo (una sola vez, con conexion):
+
+  a) Navegador: abre https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js
+     y guarda el contenido como  html5-qrcode.min.js  en esta carpeta.
+
+  b) Terminal:
+     curl -L -o html5-qrcode.min.js https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js
+
+  c) npm:  npm pack html5-qrcode@2.3.8   y copia  package/html5-qrcode.min.js  aqui.
+
+Comprobacion: el archivo pesa ~ 100 KB y define window.Html5Qrcode.
+Si el archivo no existe, el sistema intenta cargarlo desde internet (CDN) como respaldo.

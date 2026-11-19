@@ -80,7 +80,7 @@ if ($tipo === 'cargador') {
                    u.username, o.fecha_registro
             FROM operador o LEFT JOIN usuarios u ON o.usuario_id = u.id WHERE o.eliminado_at IS NULL';
 
-    $encabezado = ['Nombres','Apellido Paterno','Apellido Materno','RUT','Turno','Código Maquinaria','Ubicación','Patente','Equipo','Horómetro','Kilómetro','Litros','Consumo','Observación','Usuario','Fecha registro'];
+    $encabezado = ['Nombres','Apellido Paterno','Apellido Materno','RUT','Turno','Código Maquinaria','Ubicación','Patente','Equipo','Horómetro','Kilómetro','Litros','Consumo (L/h o L/100 km)','Observación','Usuario','Fecha registro'];
 }
 
 

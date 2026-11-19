@@ -411,6 +411,24 @@ JJA
                             required>
                         </input>    
                     </div>
+
+                    <!-- Inicia un bloque de contenido. -->
+                    <div class="form-group">
+                        <!-- Muestra el nombre del campo. -->
+                        <label class="form-label">
+                            Remanente (L)
+                        </label>
+
+                        <!-- Combustible que queda sin usar; si no hay, se guarda 0. -->
+                        <input
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            name="remanente"
+                            value="0"
+                            class="form-input">
+                        </input>
+                    </div>
                 </div>
 
 
@@ -843,9 +861,9 @@ JJA
         <!-- Carga un archivo JavaScript. -->
         <script src="../../js/programa/toast.js"></script>
         <!-- Carga un archivo JavaScript. -->
-        <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+        <script src="../../js/vendor/html5-qrcode/html5-qrcode.min.js"></script>
         <!-- Carga un archivo JavaScript. -->
-        <script src="../../js/programa/qr-scanner.js?v=6"></script>
+        <script src="../../js/programa/qr-scanner.js?v=7"></script>
         <!-- Carga un archivo JavaScript. -->
         <script src="../../js/programa/validador_rut.js"></script>
         <!-- Carga un archivo JavaScript. -->

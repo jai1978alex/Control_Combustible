@@ -39,6 +39,9 @@ require_once __DIR__ . '/security.php';
 // Carga las funciones que revisan y ordenan el RUT
 require_once __DIR__ . '/rut_helper.php';
 
+// Función que calcula el consumo de un registro de operador
+require_once __DIR__ . '/consumo_helper.php';
+
 
 // TITULO REVISAR SEGURIDAD
 
@@ -217,7 +220,7 @@ try {
     // Se obtiene el RUT y los litros que tenía antes de realizar el cambio
 
     $st = $conn->prepare(
-        "SELECT rut,litros
+        "SELECT rut,litros,fecha_registro
           FROM {$tabla}
           WHERE id=?
           AND eliminado_at IS NULL
@@ -325,6 +328,7 @@ try {
                   horometro=?,
                   kilometro=?,
                   litros=?,
+                  consumo=?,
                   observacion=?
               WHERE id=?
               AND eliminado_at IS NULL'
@@ -336,11 +340,14 @@ try {
 
         $l = (float) $litros;
 
+        // Recalcula el consumo con los datos corregidos (respecto a la carga anterior de la misma máquina)
+        $consumo = calcularConsumoOperador($conn, $codigoMaquinaria, $h, $km, $l, (string) $actual['fecha_registro'], $id);
+
 
         // TITULO ENVIAR LOS DATOS A LA BASE DE DATOS
 
         $stmt->bind_param(
-            'sssssssssdddsi',
+            'sssssssssddddsi',
             $nombres,
             $ap,
             $am,
@@ -353,6 +360,7 @@ try {
             $h,
             $km,
             $l,
+            $consumo,
             $observacion,
             $id
         );

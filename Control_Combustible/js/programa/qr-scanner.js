@@ -117,8 +117,8 @@
 
         // TITULO CARGAR LA LIBRERIA (loadLibraryFallback)
 
-        // Si la librería html5-qrcode no está cargada, la descarga
-        // desde internet. Devuelve una promesa true/false.
+        // Si la librería html5-qrcode no está cargada, la carga
+        // desde js/vendor (local) o, si falta, desde internet. Devuelve una promesa true/false.
 
         // Define loadLibraryFallback
         loadLibraryFallback() {
@@ -127,21 +127,26 @@
             // Si ya hay una descarga en curso, devuelve esa misma
             if (this._libraryPromise) return this._libraryPromise;
 
-            // Crea la promesa de descarga
-            this._libraryPromise = new Promise((resolve) => {
+            // Carga un script y resuelve true si la librería quedó disponible
+            const cargar = (src) => new Promise((resolve) => {
                 // Crea una etiqueta script
                 const script = document.createElement('script');
                 // Define la dirección de la librería
-                script.src = 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';
+                script.src = src;
                 // Pide cargarla sin bloquear la página
                 script.async = true;
                 // Al cargar, resuelve con true si la librería quedó disponible
                 script.onload = () => resolve(typeof window.Html5Qrcode === 'function');
                 // Si falla la descarga, resuelve con false
                 script.onerror = () => resolve(false);
-                // Agrega el script a la página para iniciar la descarga
+                // Agrega el script a la página para iniciar la carga
                 document.head.appendChild(script);
             });
+
+            // Primero intenta la copia local del proyecto (funciona sin internet);
+            // solo si no existe, prueba el CDN como último recurso.
+            this._libraryPromise = cargar('../../js/vendor/html5-qrcode/html5-qrcode.min.js')
+                .then((ok) => ok ? true : cargar('https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js'));
 
             // Devuelve la promesa
             return this._libraryPromise;
@@ -346,7 +351,7 @@
                 // Si el navegador no tiene BarcodeDetector
                 if (!('BarcodeDetector' in window)) {
                     // Lanza un error indicando que no hay lector disponible
-                    throw new Error('El lector QR no está disponible. Comprueba que exista conexión a Internet para cargar el módulo html5-qrcode.');
+                    throw new Error('El lector QR no está disponible. Falta el archivo js/vendor/html5-qrcode/html5-qrcode.min.js en el servidor.');
                 }
                 // Obtiene los formatos de código que soporta el navegador
                 const formats = await BarcodeDetector.getSupportedFormats();
