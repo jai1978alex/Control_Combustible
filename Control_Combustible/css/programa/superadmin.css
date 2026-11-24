@@ -126,7 +126,7 @@ JJA
     .btn-print { 
         background: #0f766e;                /* coloca el fondo de color verde oscuro */
         color: white;                       /* coloca el texto en color blanco */
-        padding: 8px 10px;                    /* deja espacio dentro del botón */
+        padding: 11px 18px;                    /* deja espacio dentro del botón */
         border-radius: 8px;                   /* redondea las esquinas */
         font-weight: 700;                     /* hace que el texto se vea más grueso */
         white-space: nowrap;                  /* evita que el texto se divida en varias líneas */
@@ -293,6 +293,8 @@ JJA
     .btn-delete { 
         color: #dc2626;                       /* coloca el texto en color rojo */
         font-weight: 600;                       /* hace que el texto se vea más grueso */
+        padding: 11px 18px;                     /* deja espacio dentro del botón */
+        border-radius: 8px;                     /* redondea las esquinas */
     }
 
     /* cambia el color del nombre del usuario actual */
@@ -405,7 +407,7 @@ JJA
         border:0;                               /* quita el borde */
         background:#dc2626;                   /* coloca fondo rojo */
         color:#fff;                           /* coloca texto blanco */
-        padding:8px 10px;                       /* deja espacio dentro del botón */
+        padding:11px 18px;                       /* deja espacio dentro del botón */
         border-radius:8px;                      /* redondea las esquinas */
         font-weight:700;                        /* hace que el texto se vea grueso */
         cursor:pointer;                         /* muestra la manito al pasar el mouse */

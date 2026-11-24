@@ -573,7 +573,6 @@ JJA
                             class="form-input"
                             placeholder="12.345.678-9"
                             maxlength="12"
-                            <?php if ($rutBloqueado): ?>value="<?= e($rutCuenta) ?>" readonly title="RUT asignado a tu cuenta"<?php endif; ?>
                             required>
                         </input>
                         <!-- Define esta parte de la página. -->

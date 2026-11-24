@@ -197,6 +197,8 @@ $csrf = $_SESSION['instalador_csrf'];
 $error = '';
 // Aquí se guardarán los datos de la instalación exitosa (por ahora vacío = aún no se instala)
 $éxito = null;
+// Indica si el instalador logró borrarse solo al terminar (por ahora no)
+$instaladorBorrado = false;
 
 
 // TÍTULO: BLOQUEO SI EL SISTEMA YA ESTÁ INSTALADO
@@ -537,6 +539,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         unset($_SESSION['instalador_csrf']);
                         // Anota que todo salió bien, junto con el nombre del administrador creado
                         $éxito = ['username' => $adminUser];
+                        // Por seguridad, el instalador se borra a sí mismo al terminar (PHP ya lo tiene cargado, así que puede seguir mostrando la página)
+                        $instaladorBorrado = @unlink(__FILE__);
                     // Fin del guardado del archivo de configuración
                     }
                 // Fin de la creación del administrador
@@ -600,13 +604,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- recuadro amarillo con una advertencia importante -->
-            <div class="aviso">
-                <!-- pide borrar este archivo del servidor para mayor seguridad -->
-                <strong>Importante — hazlo ahora:</strong> elimina <code>instalar.php</code> del servidor (o al menos
-                renómbralo o restringe su acceso con <code>.htaccess</code>). Este instalador ya quedó bloqueado por el
-                archivo <code>backend/storage/instalado.lock</code>, pero mientras el archivo siga publicado sigue siendo
-                una superficie innecesaria.
+            <?php if (!empty($instaladorBorrado)): ?>
+            <div class="ok">
+                <!-- confirma que el instalador se eliminó solo -->
+                <strong>Seguridad:</strong> <code>instalar.php</code> se eliminó automáticamente del servidor.
             </div>
+            <?php else: ?>
+            <div class="aviso">
+                <!-- pide borrar este archivo del servidor para mayor seguridad (no se pudo borrar solo, normalmente por permisos) -->
+                <strong>Importante — hazlo ahora:</strong> no se pudo borrar <code>instalar.php</code> automáticamente
+                (revisa los permisos de la carpeta). Elimínalo manualmente del servidor. Este instalador ya quedó bloqueado
+                por el archivo <code>backend/storage/instalado.lock</code>, pero mientras el archivo siga publicado sigue
+                siendo una superficie innecesaria.
+            </div>
+            <?php endif; ?>
 
         <?php else: ?>
         <!-- Si todavía no se ha instalado, se muestra el formulario -->
