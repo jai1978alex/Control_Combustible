@@ -1,0 +1,10 @@
+/* Complementa crear_usuario.css para la pantalla de derechos de datos personales */
+.card{max-width:720px;width:100%;}
+.intro{margin:0 0 16px;color:#475569;}
+h2{font-size:1.05rem;margin:24px 0 10px;color:#0f172a;}
+.resumen{width:100%;border-collapse:collapse;margin-bottom:8px;}
+.resumen th,.resumen td{text-align:left;padding:8px 10px;border-bottom:1px solid #e2e8f0;font-size:.95rem;}
+.resumen th{width:55%;color:#334155;font-weight:600;}
+.aviso{background:#fef3c7;border:1px solid #fcd34d;color:#78350f;padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:.92rem;line-height:1.4;}
+button.peligro{background:#b91c1c;}
+button.peligro:hover{background:#991b1b;}

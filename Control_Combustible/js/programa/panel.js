@@ -288,7 +288,32 @@ function parsearDatosQR(texto) {
 
 // ---- Función completarFormularioDesdeQR: rellena el formulario con los datos del QR ----
 // Define la función; recibe el texto leído del QR
-function completarFormularioDesdeQR(texto) {
+async function completarFormularioDesdeQR(texto) {
+    // Si el QR trae un RUT (credencial de persona), el servidor confirma que es el de la cuenta; si no, no se completa nada.
+    // Los QR de maquinaria no traen RUT y se usan igual.
+    const datosPrevios = parsearDatosQR(texto);
+    const traeRut = Object.keys(datosPrevios).some(k => ['rut', 'documento', 'documentoidentidad'].includes(normalizarClaveQR(k)));
+    if (traeRut) try {
+        const tokenInput = document.querySelector('input[name="csrf_token"]');
+        const cuerpo = new URLSearchParams();
+        cuerpo.set('qr', String(texto || ''));
+        cuerpo.set('csrf_token', tokenInput ? tokenInput.value : '');
+        const respuesta = await fetch('../../backend/validar_qr_identidad.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: cuerpo.toString()
+        });
+        const resultado = await respuesta.json().catch(() => ({}));
+        if (!respuesta.ok || !resultado.ok) {
+            if (window.Toast) Toast.error(resultado.mensaje || 'No se pudo validar la identidad del QR.');
+            return;
+        }
+    } catch (_) {
+        if (window.Toast) Toast.error('No se pudo validar la identidad del QR. Revisa tu conexión e intenta de nuevo.');
+        return;
+    }
+
     // Convierte el texto del QR en un objeto de datos
     const datos = parsearDatosQR(texto);
     // Objeto donde se guardarán los datos con nombres normalizados
@@ -502,7 +527,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // Mensaje para el código acceso
             acceso: "Acceso no autorizado",
             // Mensaje para el código demasiados_intentos
-            demasiados_intentos: "Demasiados registros guardados en poco tiempo. Espera unos minutos e intenta de nuevo."
+            demasiados_intentos: "Demasiados registros guardados en poco tiempo. Espera unos minutos e intenta de nuevo.",
+            // Mensaje cuando el RUT no es el de la cuenta
+            identidad: "El RUT no corresponde a tu cuenta. Solo puedes registrar con tu propio RUT.",
+            // Mensaje cuando la cuenta no tiene RUT asignado
+            sin_rut: "Tu cuenta no tiene un RUT asignado. Pide al administrador que lo asigne."
         };
 
         // Lee el código de error de la URL

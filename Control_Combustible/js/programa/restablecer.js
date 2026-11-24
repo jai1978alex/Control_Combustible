@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded',()=> {
             // Convierte la respuesta a objeto (d) y muestra el mensaje del servidor
             const d=await r.json();m.textContent=d.message;
             // Si el servidor respondió ok: limpia el formulario y, a los 2 segundos, redirige al inicio
-            if(d.ok){f.reset();setTimeout(()=>location.href='/control_combustible/index.php',2000)}
+            if(d.ok){f.reset();setTimeout(()=>location.href='../../index.php',2000)}
         // Si falla la conexión, muestra un mensaje genérico de error
         }catch(_){m.textContent='No fue posible completar la operación.'}
     });

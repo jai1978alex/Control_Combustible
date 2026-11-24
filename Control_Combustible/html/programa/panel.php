@@ -23,6 +23,11 @@ JJA
     $csrf = csrfToken();
     // Carga el archivo que necesita esta página.
     require_once("../../backend/conexion.php");
+    // Carga las funciones del RUT.
+    require_once("../../backend/rut_helper.php");
+    // Los operadores solo pueden registrar con el RUT asignado a su cuenta: se precarga y se bloquea.
+    $rutCuenta = (($_SESSION['rol'] ?? '') === 'admin') ? null : rutAsignadoACuenta($conn, (int)$_SESSION['usuario_id']);
+    $rutBloqueado = $rutCuenta !== null;
     // Prepara el total de litros del cargador.
     $totalLitrosCargador = 0.00;
     // Prepara el total de litros del operador.
@@ -260,6 +265,7 @@ JJA
                             class="form-input"
                             placeholder="12.345.678-9"
                             maxlength="12"
+                            <?php if ($rutBloqueado): ?>value="<?= e($rutCuenta) ?>" readonly title="RUT asignado a tu cuenta"<?php endif; ?>
                             required>
                         </input>    
 
@@ -567,6 +573,7 @@ JJA
                             class="form-input"
                             placeholder="12.345.678-9"
                             maxlength="12"
+                            <?php if ($rutBloqueado): ?>value="<?= e($rutCuenta) ?>" readonly title="RUT asignado a tu cuenta"<?php endif; ?>
                             required>
                         </input>
                         <!-- Define esta parte de la página. -->

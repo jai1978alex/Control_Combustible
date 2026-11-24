@@ -223,6 +223,7 @@ $errorCode = (string)($_GET['error'] ?? '');
         <a href="crear_usuario.php" class="btn btn-crear">➕ Crear Usuario</a>
         <a href="reportes.php" class="btn btn-buscar">📊 Reportes</a>
         <a href="auditoria.php" class="btn btn-limpiar">🛡️ Auditoría</a>
+        <a href="derechos_datos.php" class="btn btn-limpiar">🔒 Derechos de datos</a>
         <a href="../../programa/cambiar_password.php" class="btn btn-limpiar">🔑 Cambiar mi contraseña</a>
         <form method="POST" action="../../../backend/logout.php" class="logout-inline">
             <input type="hidden" name="csrf_token" value="<?=e($csrf)?>">

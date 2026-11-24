@@ -30,7 +30,7 @@ Cada cuenta de trabajador debe tener asignado su RUT real en `usuarios.rut`. Al 
 UPDATE usuarios SET rut = '12345678-5' WHERE username = 'usuario_operador';
 ```
 
-Reemplaza los valores por los datos reales. El RUT es único por cuenta. Los operadores sin RUT asignado no podrán validar un QR ni registrar operaciones con un RUT distinto al suyo.
+Reemplaza los valores por los datos reales. El RUT es único por cuenta. Los operadores sin RUT asignado no podrán validar un QR ni registrar operaciones con un RUT distinto al suyo. Esta regla se aplica en el servidor (`validar_qr_identidad.php`, `guardar_cargador.php` y `guardar_operador.php`); los intentos rechazados quedan en auditoría (`RUT_NO_COINCIDE`, `QR_IDENTIDAD_RECHAZADA`). Las cuentas con rol administrador quedan exentas. Los QR de maquinaria que no traen RUT se siguen leyendo con normalidad.
 
 ## Seguridad
 

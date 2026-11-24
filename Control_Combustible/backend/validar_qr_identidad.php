@@ -113,6 +113,14 @@ if ($rutQR === '' || !validarFormatoRut($rutQR) || !validarRut($rutQR)) {
 
 // Guarda el número del usuario que leyó el QR
 $usuarioId = (int)$_SESSION['usuario_id'];
+
+// El RUT leido en el QR debe ser el de la cuenta (los administradores quedan exentos)
+$identidad = verificarRutDeCuenta($conn, $usuarioId, $rutQR);
+if (!$identidad['ok']) {
+    audit($conn, $usuarioId, 'QR_IDENTIDAD_RECHAZADA', 'usuarios', $usuarioId, 'Motivo: ' . $identidad['codigo'] . '; RUT del QR ' . $rutQR);
+    responderQR(403, ['ok' => false, 'codigo' => $identidad['codigo'], 'mensaje' => $identidad['mensaje']]);
+}
+
 // Anota en la bitácora que esta persona leyó un QR con un RUT válido
 audit($conn, $usuarioId, 'QR_IDENTIDAD_VALIDADA', 'usuarios', $usuarioId, 'QR con RUT válido leído: ' . $rutQR);
 // Responde con el código 200 (todo bien), el aviso de éxito y el RUT validado

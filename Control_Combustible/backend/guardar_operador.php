@@ -127,6 +127,14 @@ if (
 // TÍTULO: GUARDAR EL REGISTRO EN LA BASE DE DATOS
 
 // Inicia un "todo o nada": o se guarda todo bien, o no se guarda nada
+// TITULO IDENTIDAD: EL RUT DEBE SER EL DE LA CUENTA (los operadores no pueden registrar a nombre de otro)
+$identidad = verificarRutDeCuenta($conn, $usuarioId, $rut);
+if (!$identidad['ok']) {
+    audit($conn, $usuarioId, 'RUT_NO_COINCIDE', 'operador', null, 'Motivo: '.$identidad['codigo'].'; RUT ingresado '.$rut);
+    header('Location: ../html/programa/panel.php?error='.$identidad['codigo']);
+    exit;
+}
+
 $conn->begin_transaction();
 // Intenta guardar los datos
 try {

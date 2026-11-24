@@ -1,7 +1,12 @@
 LIBRERIA LOCAL DEL ESCANER QR (html5-qrcode 2.3.8, licencia Apache-2.0)
 =======================================================================
 
-Coloca en esta carpeta el archivo:
+OPCION RAPIDA (recomendada): con internet, ejecuta una sola vez
+    php backend/descargar_libreria_qr.php
+(en Windows/XAMPP: doble clic en instalar_libreria_qr.bat, en la carpeta raiz del proyecto).
+El script descarga el archivo, comprueba que sea valido y lo deja en esta carpeta.
+
+OPCION MANUAL: coloca en esta carpeta el archivo:
 
     html5-qrcode.min.js      (version 2.3.8)
 

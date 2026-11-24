@@ -90,3 +90,20 @@ CONFIGURACION SEGURA - CONTROL DE COMBUSTIBLE
     para agregar de forma segura la tabla de auditoría, la eliminación
     lógica y la columna debe_cambiar_password si actualiza una instalación
     previa a esta versión.
+
+
+11) LIBRERIA DEL ESCANER QR (una sola vez, con internet)
+    Ejecute:  php backend/descargar_libreria_qr.php
+    (en Windows/XAMPP: doble clic en instalar_libreria_qr.bat).
+    Deja js/vendor/html5-qrcode/html5-qrcode.min.js para que el escaner
+    funcione sin internet. Verifique que el archivo exista antes de entregar.
+
+12) DERECHOS DE DATOS PERSONALES (Ley 19.628 / Ley 21.719)
+    Panel de administrador -> "Derechos de datos" (derechos_datos.php).
+    - Descargar datos (JSON): acceso y portabilidad, por RUT.
+    - Anonimizar datos: supresion; reemplaza nombre, RUT, ubicacion y
+      observaciones por "ANONIMIZADO", desactiva la cuenta y limpia IP,
+      navegador y RUT de la bitacora. No se puede deshacer; pide escribir
+      ANONIMIZAR y la contrasena del administrador.
+    Cada accion queda en auditoria (DERECHOS_EXPORTAR / DERECHOS_ANONIMIZAR)
+    con el RUT enmascarado.

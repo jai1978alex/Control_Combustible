@@ -81,6 +81,59 @@ function validarRut($rut) {
 
 
 
+// TITULO IDENTIDAD: COMPARAR EL RUT CON EL DE LA CUENTA
+
+// Deja un RUT en forma canonica (solo numeros y digito verificador en mayuscula,
+// sin puntos ni guion) para compararlo sin importar como fue escrito.
+function rutCanonico($rut) {
+    return strtoupper(preg_replace('/[^0-9kK]/', '', (string)$rut));
+}
+
+// Indica si dos RUT corresponden a la misma persona (ignora puntos, guion y mayusculas)
+function rutsCoinciden($a, $b) {
+    $a = rutCanonico($a);
+    $b = rutCanonico($b);
+    return $a !== '' && $b !== '' && hash_equals($a, $b);
+}
+
+// Revisa si el RUT ingresado puede usarse con la cuenta que tiene la sesion abierta.
+// Reglas:
+//  - Los administradores quedan exentos (pueden registrar por terceros y la accion queda en auditoria).
+//  - Los operadores solo pueden usar el RUT que tienen asignado en usuarios.rut.
+//  - Un operador sin RUT asignado no puede validar un QR ni registrar operaciones.
+// Devuelve ['ok' => true] o ['ok' => false, 'codigo' => 'sin_rut'|'identidad', 'mensaje' => '...'].
+function verificarRutDeCuenta(mysqli $conn, int $usuarioId, string $rutIngresado): array {
+    $st = $conn->prepare('SELECT rol, rut FROM usuarios WHERE id = ? LIMIT 1');
+    $st->bind_param('i', $usuarioId);
+    $st->execute();
+    $cuenta = $st->get_result()->fetch_assoc();
+
+    if (!$cuenta) {
+        return ['ok' => false, 'codigo' => 'identidad', 'mensaje' => 'No se pudo verificar tu identidad.'];
+    }
+    if ($cuenta['rol'] === 'admin') {
+        return ['ok' => true];
+    }
+    if (rutCanonico((string)($cuenta['rut'] ?? '')) === '') {
+        return ['ok' => false, 'codigo' => 'sin_rut', 'mensaje' => 'Tu cuenta no tiene un RUT asignado. Pide al administrador que lo asigne.'];
+    }
+    if (!rutsCoinciden((string)$cuenta['rut'], $rutIngresado)) {
+        return ['ok' => false, 'codigo' => 'identidad', 'mensaje' => 'El RUT no corresponde a tu cuenta.'];
+    }
+    return ['ok' => true];
+}
+
+// Devuelve el RUT asignado a la cuenta (formato guardado) o null si no tiene
+function rutAsignadoACuenta(mysqli $conn, int $usuarioId): ?string {
+    $st = $conn->prepare('SELECT rut FROM usuarios WHERE id = ? LIMIT 1');
+    $st->bind_param('i', $usuarioId);
+    $st->execute();
+    $fila = $st->get_result()->fetch_assoc();
+    $rut = trim((string)($fila['rut'] ?? ''));
+    return $rut !== '' ? $rut : null;
+}
+
+
 /* -------------------------------------------------------------------------------------------------------------
    -------------------------------------- FIN Jerez rut_helper.php ------------------------------------------
    ------------------------------------------------------------------------------------------------------------- */
