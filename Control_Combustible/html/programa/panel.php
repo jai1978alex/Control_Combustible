@@ -28,6 +28,9 @@ JJA
     // Los operadores solo pueden registrar con el RUT asignado a su cuenta: se precarga y se bloquea.
     $rutCuenta = (($_SESSION['rol'] ?? '') === 'admin') ? null : rutAsignadoACuenta($conn, (int)$_SESSION['usuario_id']);
     $rutBloqueado = $rutCuenta !== null;
+    // Nombre registrado para ese RUT (se precarga y se bloquea solo en el formulario de Operador Cargador).
+    $nombreCuenta = ($rutBloqueado ? nombreRegistradoDeRut($conn, $rutCuenta) : ['tiene_nombre' => false]);
+    $nombreBloqueado = $rutBloqueado && !empty($nombreCuenta['tiene_nombre']);
     // Prepara el total de litros del cargador.
     $totalLitrosCargador = 0.00;
     // Prepara el total de litros del operador.
@@ -213,6 +216,7 @@ JJA
                             type="text"
                             name="nombres"
                             class="form-input"
+                            <?php if ($nombreBloqueado): ?>value="<?= e($nombreCuenta['nombres']) ?>" readonly title="Nombre registrado para tu RUT"<?php endif; ?>
                             required>
                         </input>    
                     </div>
@@ -226,6 +230,7 @@ JJA
                             type="text"
                             name="apellidoPaterno"
                             class="form-input"
+                            <?php if ($nombreBloqueado): ?>value="<?= e($nombreCuenta['apellido_paterno']) ?>" readonly title="Nombre registrado para tu RUT"<?php endif; ?>
                             required>
                         </input>    
                     </div>
@@ -239,6 +244,7 @@ JJA
                             type="text"
                             name="apellidoMaterno"
                             class="form-input"
+                            <?php if ($nombreBloqueado): ?>value="<?= e($nombreCuenta['apellido_materno']) ?>" readonly title="Nombre registrado para tu RUT"<?php endif; ?>
                             required>
                         </input>    
                     </div>
@@ -265,7 +271,7 @@ JJA
                             class="form-input"
                             placeholder="12.345.678-9"
                             maxlength="12"
-                            <?php if ($rutBloqueado): ?>value="<?= e($rutCuenta) ?>" readonly title="RUT asignado a tu cuenta"<?php endif; ?>
+                            autocomplete="off"
                             required>
                         </input>    
 

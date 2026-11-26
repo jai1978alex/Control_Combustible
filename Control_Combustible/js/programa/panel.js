@@ -522,6 +522,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const mensajesError = {
             // Mensaje para el código campos
             campos: "Completa todos los campos obligatorios",
+            horometro_menor: "El horómetro no puede ser menor que la última lectura registrada para esta maquinaria.",
             // Mensaje para el código rut
             rut: "El RUT ingresado no es válido",
             // Mensaje para el código acceso
@@ -531,7 +532,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // Mensaje cuando el RUT no es el de la cuenta
             identidad: "El RUT no corresponde a tu cuenta. Solo puedes registrar con tu propio RUT.",
             // Mensaje cuando la cuenta no tiene RUT asignado
-            sin_rut: "Tu cuenta no tiene un RUT asignado. Pide al administrador que lo asigne."
+            sin_rut: "Tu cuenta no tiene un RUT asignado. Pide al administrador que lo asigne.",
+            // Mensaje cuando el nombre no es el registrado para ese RUT
+            nombre: "El nombre no coincide con el registrado para este RUT.",
+            // Mensaje cuando la cuenta no tiene nombre registrado
+            sin_nombre: "Tu cuenta no tiene nombre registrado. Pide al administrador que lo asigne."
         };
 
         // Lee el código de error de la URL

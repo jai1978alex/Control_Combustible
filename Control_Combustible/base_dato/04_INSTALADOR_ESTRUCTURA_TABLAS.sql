@@ -24,10 +24,14 @@ CREATE TABLE IF NOT EXISTS usuarios (
   email VARCHAR(100) UNIQUE,
   -- RUT de la persona (puede quedar vacío)
   rut VARCHAR(12) DEFAULT NULL,
+  -- Nombres y apellidos registrados del titular del RUT (se usan para validar los formularios)
+  nombres VARCHAR(100) DEFAULT NULL,
+  apellido_paterno VARCHAR(100) DEFAULT NULL,
+  apellido_materno VARCHAR(100) DEFAULT NULL,
   -- Contraseña guardada de forma protegida (obligatoria)
   password VARCHAR(255) NOT NULL,
   -- Tipo de usuario: administrador u operador (si no se indica, es operador)
-  rol ENUM('admin','operador') NOT NULL DEFAULT 'operador',
+  rol ENUM('admin','supervisor','operador') NOT NULL DEFAULT 'operador',
   -- Fecha y hora en que se creó el usuario (se anota sola)
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   -- Fecha y hora del último cambio (se actualiza sola)
@@ -308,6 +312,38 @@ LEFT JOIN `v_cargas_vigentes` c ON c.`usuario_id` = u.`id`
 GROUP BY u.`id`,u.`username`,u.`rol`,u.`estado`;
 
 -- ---------------------------------------------
+
+-- TÍTULO: TABLA ESTANQUE_MOVIMIENTOS (ENTRADAS Y MEDICIONES DEL ESTANQUE PARA SALDO Y CONCILIACIÓN)
+
+CREATE TABLE IF NOT EXISTS estanque_movimientos (
+  -- Número de identificación único; sube solo de 1 en 1
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  -- Tipo: ENTRADA = combustible que ingresa al estanque; MEDICION = lectura real del estanque
+  tipo ENUM('ENTRADA','MEDICION') NOT NULL,
+  -- Fecha y hora del ingreso o de la medición
+  fecha DATETIME NOT NULL,
+  -- Litros ingresados (ENTRADA) o litros medidos en el estanque (MEDICION)
+  litros DECIMAL(12,2) NOT NULL,
+  -- Guía, factura o nota de referencia (opcional)
+  referencia VARCHAR(60) NULL,
+  -- Comentario libre (opcional)
+  observacion VARCHAR(255) NULL,
+  -- Usuario que hizo el registro
+  usuario_id INT NULL,
+  -- Fecha y hora en que se eliminó el registro (vacío si sigue vigente)
+  eliminado_at DATETIME NULL,
+  -- Quién lo eliminó (vacío si sigue vigente)
+  eliminado_por INT NULL,
+  -- Fecha y hora en que se anotó
+  creado_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  -- Índice: búsqueda rápida de movimientos vigentes por tipo y fecha
+  INDEX idx_estanque_tipo_fecha(eliminado_at,tipo,fecha),
+  -- Enlaza con el usuario; si se borra, el movimiento se conserva
+  CONSTRAINT fk_estanque_usuario FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL,
+  CONSTRAINT fk_estanque_eliminado_por FOREIGN KEY(eliminado_por) REFERENCES usuarios(id) ON DELETE SET NULL,
+  -- Regla: una entrada debe ser mayor que cero y una medición no puede ser negativa
+  CONSTRAINT chk_estanque_litros CHECK ((tipo='ENTRADA' AND litros > 0) OR (tipo='MEDICION' AND litros >= 0))
+) ENGINE=InnoDB;
 
 -- -------------------------------------------------------------------------------------------------------
 ---------------------------- FIN 04_INSTALADOR_ESTRUCTURA_TABLAS.sql -------------------------------------

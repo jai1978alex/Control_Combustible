@@ -100,10 +100,5 @@ CONFIGURACION SEGURA - CONTROL DE COMBUSTIBLE
 
 12) DERECHOS DE DATOS PERSONALES (Ley 19.628 / Ley 21.719)
     Panel de administrador -> "Derechos de datos" (derechos_datos.php).
-    - Descargar datos (JSON): acceso y portabilidad, por RUT.
-    - Anonimizar datos: supresion; reemplaza nombre, RUT, ubicacion y
-      observaciones por "ANONIMIZADO", desactiva la cuenta y limpia IP,
-      navegador y RUT de la bitacora. No se puede deshacer; pide escribir
-      ANONIMIZAR y la contrasena del administrador.
-    Cada accion queda en auditoria (DERECHOS_EXPORTAR / DERECHOS_ANONIMIZAR)
-    con el RUT enmascarado.
+    - Descargar datos (PDF): acceso y portabilidad, por RUT.
+    La accion queda en auditoria (DERECHOS_EXPORTAR) con el RUT enmascarado.

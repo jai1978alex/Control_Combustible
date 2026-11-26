@@ -20,7 +20,12 @@ require_once __DIR__ . '/backend/security.php';
 
 // Si ya está logueado, redirige al panel
 if (isset($_SESSION['usuario_id'])) {
-    header("Location: html/programa/panel.php");
+    $destino = match ($_SESSION['rol'] ?? '') {
+        'admin' => 'html/login/seguridad_login/superadmin.php',
+        'supervisor' => 'html/login/seguridad_login/supervisor.php',
+        default => 'html/programa/panel.php',
+    };
+    header('Location: ' . $destino);
     exit();
 }
 ?>

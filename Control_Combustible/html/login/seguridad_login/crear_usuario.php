@@ -47,6 +47,10 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     $username=trim((string)($_POST['username']??''));
     $email=trim((string)($_POST['email']??''));
     $rut=normalizeRut((string)($_POST['rut']??''));
+    // nombres y apellidos del titular del RUT (quedan registrados en la cuenta)
+    $nombres=trim((string)($_POST['nombres']??''));
+    $apellidoPaterno=trim((string)($_POST['apellido_paterno']??''));
+    $apellidoMaterno=trim((string)($_POST['apellido_materno']??''));
     $password=(string)($_POST['password']??'');
     $passwordConfirm=(string)($_POST['password_confirm']??'');
     $rol=(string)($_POST['rol']??'operador');
@@ -55,17 +59,28 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     // TÍTULO: REVISIÓN DE LOS DATOS
 
     // Se verifica que el usuario, el correo, la contraseña, el rol y el RUT cumplan con lo pedido.
-    if (
-        !preg_match('/^[A-Za-z0-9._-]{3,50}$/',$username)
-        ||($email!==''&&!filter_var($email,FILTER_VALIDATE_EMAIL))
-        ||!validPassword($password)
-        ||!in_array($rol,['operador','admin'],true)
-        ||!validarFormatoRut($rut)
-        ||!validarRut($rut)
-    ) $error='Usuario, correo, rol o contraseña no cumplen los requisitos de seguridad.';
-
-    // Se verifica que la contraseña y su repetición sean iguales.
-    elseif($password!==$passwordConfirm) $error='La confirmación de contraseña no coincide.';
+    // Validaciones separadas para informar exactamente qué campo está fallando.
+    if (!preg_match('/^[A-Za-z0-9._-]{3,50}$/',$username)) {
+        $error='El usuario debe tener entre 3 y 50 caracteres y solo usar letras, números, punto, guion o guion bajo.';
+    } elseif ($email!=='' && !filter_var($email,FILTER_VALIDATE_EMAIL)) {
+        $error='El correo electrónico no tiene un formato válido.';
+    } elseif (!validPassword($password)) {
+        $error='La contraseña debe tener mínimo 12 caracteres, una mayúscula, una minúscula, un número y un símbolo.';
+    } elseif (!in_array($rol,['operador','supervisor','admin'],true)) {
+        $error='El rol seleccionado no es válido.';
+    } elseif (!validarFormatoRut($rut)) {
+        $error='El RUT no tiene un formato válido. Usa 12.345.678-9.';
+    } elseif (!validarRut($rut)) {
+        $error='El dígito verificador del RUT no es válido.';
+    } elseif (!validText($nombres,100)) {
+        $error='Los nombres están vacíos, son demasiado largos o contienen caracteres no permitidos.';
+    } elseif (!validText($apellidoPaterno,100)) {
+        $error='El apellido paterno está vacío, es demasiado largo o contiene caracteres no permitidos.';
+    } elseif (!validText($apellidoMaterno,100)) {
+        $error='El apellido materno está vacío, es demasiado largo o contiene caracteres no permitidos.';
+    } elseif ($password!==$passwordConfirm) {
+        $error='La confirmación de contraseña no coincide.';
+    }
 
     else {
 
@@ -86,11 +101,15 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         // TÍTULO: GUARDAR EL NUEVO USUARIO
 
         // Si no hubo ningún problema, se protege la contraseña y se guarda la cuenta nueva.
+        if($error==='' && !columnaExiste($conn,'usuarios','nombres')) {
+            $error='Falta actualizar la base de datos: ejecuta base_dato/06_MIGRACION_NOMBRE_USUARIOS.sql.';
+        }
+
         if($error==='') {
             $hash=password_hash($password,PASSWORD_DEFAULT);
             try {
-                $stmt=$conn->prepare('INSERT INTO usuarios(username,password,email,rol,rut) VALUES(?,?,?,?,?)');
-                $stmt->bind_param('sssss',$username,$hash,$email,$rol,$rut);
+                $stmt=$conn->prepare('INSERT INTO usuarios(username,password,email,rol,rut,nombres,apellido_paterno,apellido_materno) VALUES(?,?,?,?,?,?,?,?)');
+                $stmt->bind_param('ssssssss',$username,$hash,$email,$rol,$rut,$nombres,$apellidoPaterno,$apellidoMaterno);
                 $stmt->execute();
                 // Se deja una anotación de quién creó la cuenta, para tener un registro.
                 audit($conn,(int)$_SESSION['usuario_id'],'CREAR_USUARIO','usuarios',(int)$stmt->insert_id,'username='.$username.' rol='.$rol);
@@ -147,9 +166,20 @@ $csrf=csrfToken();
                     <label>Usuario</label><input type="text" name="username" maxlength="50" required pattern="[A-Za-z0-9._-]{3,50}">
                 </div>
 
+                <!-- campos: nombre completo del titular (queda asociado al RUT) -->
+                <div class="form-group">
+                    <label>Nombres</label><input type="text" name="nombres" maxlength="100" required>
+                </div>
+                <div class="form-group">
+                    <label>Apellido paterno</label><input type="text" name="apellido_paterno" maxlength="100" required>
+                </div>
+                <div class="form-group">
+                    <label>Apellido materno</label><input type="text" name="apellido_materno" maxlength="100" required>
+                </div>
+
                 <!-- campo: RUT de la persona -->
                 <div class="form-group">
-                    <label>RUT del trabajador</label><input type="text" name="rut" maxlength="12" placeholder="12345678-5" required><small>Debe ser el RUT real del titular. Se usará para validar su identidad mediante QR.</small>
+                    <label>RUT del trabajador</label><input type="text" name="rut" maxlength="12" placeholder="12345678-5" required><small>Debe ser el RUT real del titular y el nombre debe corresponder a ese RUT. Se usará para validar su identidad mediante QR y en los formularios.</small>
                 </div>
 
                 <!-- campo: correo electrónico (es opcional) -->
@@ -176,6 +206,7 @@ $csrf=csrfToken();
                 <div class="form-group">
                     <label>Rol</label><select name="rol">
                         <option value="operador">Operador</option>
+                        <option value="supervisor">Supervisor (solo lectura)</option>
                         <option value="admin">Administrador</option>
                     </select>
                 </div>

@@ -72,6 +72,7 @@ function v($x):string{
 $mensajesError=[
     'campos' => '✖ Revisa los datos ingresados: hay campos obligatorios vacíos o con un formato inválido (RUT, ubicación GPS o patente).',
     'guardar' => '✖ No fue posible guardar los cambios. Intenta nuevamente.',
+    'horometro_menor' => '✖ El horómetro no puede ser menor que la última lectura registrada para esta maquinaria.',
 ];
 
 // Se revisa si la dirección web trae algún código de error.

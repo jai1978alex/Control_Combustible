@@ -41,6 +41,7 @@ require_once __DIR__ . '/rut_helper.php';
 
 // Función que calcula el consumo de un registro de operador
 require_once __DIR__ . '/consumo_helper.php';
+require_once __DIR__ . '/horometro_helper.php';
 
 
 // TITULO REVISAR SEGURIDAD

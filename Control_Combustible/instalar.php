@@ -406,6 +406,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $conn->query("ALTER TABLE usuarios ADD COLUMN rut VARCHAR(12) DEFAULT NULL");
                 // Fin de la revisión de la columna
                 }
+                // --- Revisión extra: asegurarse de que la tabla usuarios tenga las columnas del nombre registrado ---
+                // Recorre las tres columnas de nombre y agrega las que falten (esto arregla instalaciones antiguas)
+                foreach (['nombres', 'apellido_paterno', 'apellido_materno'] as $columnaNombre) {
+                    // Pregunta a la base si la columna ya existe
+                    $existeNombre = $conn->query("SHOW COLUMNS FROM usuarios LIKE '" . $columnaNombre . "'");
+                    // Si la pregunta se pudo hacer y la columna no existe, la agrega
+                    if ($existeNombre && $existeNombre->num_rows === 0) {
+                        $conn->query("ALTER TABLE usuarios ADD COLUMN " . $columnaNombre . " VARCHAR(100) DEFAULT NULL");
+                    }
+                }
                 // Pregunta a la base si ya existe la regla de "RUT no repetido"
                 $indiceRut = $conn->query("SHOW INDEX FROM usuarios WHERE Key_name = 'uq_usuarios_rut'");
                 // Si la pregunta se pudo hacer y la regla no existe...

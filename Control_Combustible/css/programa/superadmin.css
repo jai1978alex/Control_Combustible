@@ -569,6 +569,12 @@ jaime.jerez1978@gmail.com
 https://www.
 Creado, Programado y Diseñado por Jerez.
 JJA
-*/ 
+*/
 
-
+/* Nombre registrado del usuario (tabla Usuarios del panel de administrador) */
+.sin-nombre { color: #b45309; font-style: italic; }
+.editar-nombre { margin-top: 4px; }
+.editar-nombre summary { cursor: pointer; font-size: 0.85em; color: #2563eb; }
+.editar-nombre form { display: grid; gap: 4px; margin-top: 6px; min-width: 180px; }
+.editar-nombre input { padding: 4px 6px; font-size: 0.9em; }
+.editar-nombre button { padding: 4px 8px; cursor: pointer; }

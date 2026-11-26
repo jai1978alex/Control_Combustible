@@ -28,8 +28,11 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `username` VARCHAR(50) NOT NULL,
   `email` VARCHAR(100) DEFAULT NULL,
   `rut` VARCHAR(12) DEFAULT NULL COMMENT 'RUT maestro asociado a la cuenta para validar identidad mediante QR',
+  `nombres` VARCHAR(100) DEFAULT NULL COMMENT 'Nombres registrados del titular del RUT',
+  `apellido_paterno` VARCHAR(100) DEFAULT NULL COMMENT 'Apellido paterno registrado del titular',
+  `apellido_materno` VARCHAR(100) DEFAULT NULL COMMENT 'Apellido materno registrado del titular',
   `password` VARCHAR(255) NOT NULL,
-  `rol` ENUM('admin','operador') NOT NULL DEFAULT 'operador',
+  `rol` ENUM('admin','supervisor','operador') NOT NULL DEFAULT 'operador',
   `estado` ENUM('activo','inactivo') NOT NULL DEFAULT 'activo',
   `debe_cambiar_password` TINYINT(1) NOT NULL DEFAULT 0,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -292,6 +295,37 @@ ORDER BY TABLE_NAME, CONSTRAINT_NAME;
 -- ---------------------------------------------
 
 -- ---------------------------------------------
+
+-- TABLA ESTANQUE_MOVIMIENTOS (entradas y mediciones para Saldo y conciliación)
+CREATE TABLE IF NOT EXISTS `estanque_movimientos` (
+  -- Número de identificación único; sube solo de 1 en 1
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  -- Tipo: ENTRADA = combustible que ingresa al estanque; MEDICION = lectura real del estanque
+  tipo ENUM('ENTRADA','MEDICION') NOT NULL,
+  -- Fecha y hora del ingreso o de la medición
+  fecha DATETIME NOT NULL,
+  -- Litros ingresados (ENTRADA) o litros medidos en el estanque (MEDICION)
+  litros DECIMAL(12,2) NOT NULL,
+  -- Guía, factura o nota de referencia (opcional)
+  referencia VARCHAR(60) NULL,
+  -- Comentario libre (opcional)
+  observacion VARCHAR(255) NULL,
+  -- Usuario que hizo el registro
+  usuario_id INT NULL,
+  -- Fecha y hora en que se eliminó el registro (vacío si sigue vigente)
+  eliminado_at DATETIME NULL,
+  -- Quién lo eliminó (vacío si sigue vigente)
+  eliminado_por INT NULL,
+  -- Fecha y hora en que se anotó
+  creado_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  -- Índice: búsqueda rápida de movimientos vigentes por tipo y fecha
+  INDEX idx_estanque_tipo_fecha(eliminado_at,tipo,fecha),
+  -- Enlaza con el usuario; si se borra, el movimiento se conserva
+  CONSTRAINT fk_estanque_usuario FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL,
+  CONSTRAINT fk_estanque_eliminado_por FOREIGN KEY(eliminado_por) REFERENCES usuarios(id) ON DELETE SET NULL,
+  -- Regla: una entrada debe ser mayor que cero y una medición no puede ser negativa
+  CONSTRAINT chk_estanque_litros CHECK ((tipo='ENTRADA' AND litros > 0) OR (tipo='MEDICION' AND litros >= 0))
+) ENGINE=InnoDB;
 
 -- FIN 01_BASE_DATOS.sql
 -- ---------------------------------------------

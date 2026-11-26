@@ -156,9 +156,12 @@ if (!empty($_SESSION['debe_cambiar_password'])) {
 }
 
 // Si es administrador la envía al panel de administración; si no, la envía al panel normal del programa
-header('Location: ' . appBasePath() . ($user['rol'] === 'admin'
-    ? '/html/login/seguridad_login/superadmin.php'
-    : '/html/programa/panel.php'));
+$destino = match ($user['rol']) {
+    'admin' => '/html/login/seguridad_login/superadmin.php',
+    'supervisor' => '/html/login/seguridad_login/supervisor.php',
+    default => '/html/programa/panel.php',
+};
+header('Location: ' . appBasePath() . $destino);
 exit;
 
 

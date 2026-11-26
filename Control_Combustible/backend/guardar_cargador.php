@@ -24,6 +24,7 @@ require_once __DIR__.'/conexion.php';
 require_once __DIR__.'/security.php';
 // Trae las herramientas para revisar y arreglar el RUT (el número de identificación chileno)
 require_once __DIR__.'/rut_helper.php';
+require_once __DIR__.'/horometro_helper.php';
 
 
 // TÍTULO: REVISAR QUE LA PERSONA TENGA PERMISO
@@ -120,6 +121,12 @@ if (
 }
 
 
+// No permite guardar una lectura inferior a la última registrada para esta maquinaria.
+if (!horometroNoRetrocede($conn, $codigo, (float)$horometro)) {
+    header('Location: ../html/programa/panel.php?error=horometro_menor');
+    exit;
+}
+
 // TÍTULO: GUARDAR EL REGISTRO EN LA BASE DE DATOS
 
 // Inicia un "todo o nada": o se guarda todo bien, o no se guarda nada
@@ -128,6 +135,16 @@ $identidad = verificarRutDeCuenta($conn, $usuarioId, $rut);
 if (!$identidad['ok']) {
     audit($conn, $usuarioId, 'RUT_NO_COINCIDE', 'operador_cargador', null, 'Motivo: '.$identidad['codigo'].'; RUT ingresado '.$rut);
     header('Location: ../html/programa/panel.php?error='.$identidad['codigo']);
+    exit;
+}
+
+// TITULO NOMBRE: EL NOMBRE DEBE SER EL REGISTRADO PARA ESE RUT (si el RUT tiene un nombre registrado, no se acepta otro)
+// Los operadores deben tener nombre registrado en su cuenta; los administradores (que pueden registrar por terceros) solo se comparan si el RUT pertenece a una cuenta.
+$exigirNombre = (($_SESSION['rol'] ?? '') !== 'admin');
+$nombreOk = verificarNombreDeRut($conn, $rut, $nombres, $ap, $am, $exigirNombre);
+if (!$nombreOk['ok']) {
+    audit($conn, $usuarioId, 'NOMBRE_NO_COINCIDE', 'operador_cargador', null, 'Motivo: '.$nombreOk['codigo'].'; RUT ingresado '.$rut);
+    header('Location: ../html/programa/panel.php?error='.$nombreOk['codigo']);
     exit;
 }
 

@@ -26,6 +26,7 @@ require_once __DIR__.'/security.php';
 require_once __DIR__.'/rut_helper.php';
 // Trae la función que calcula el consumo (rendimiento) de la carga
 require_once __DIR__.'/consumo_helper.php';
+require_once __DIR__.'/horometro_helper.php';
 
 
 // TÍTULO: REVISAR QUE LA PERSONA TENGA PERMISO
@@ -124,10 +125,27 @@ if (
 }
 
 
+// No permite guardar una lectura inferior a la última registrada para esta maquinaria.
+if (!horometroNoRetrocede($conn, $codigo, (float)$horometro)) {
+    header('Location: ../html/programa/panel.php?error=horometro_menor');
+    exit;
+}
+
 // TÍTULO: GUARDAR EL REGISTRO EN LA BASE DE DATOS
 
+// TITULO NOMBRE: EL RUT DEL OPERADOR ES EL DE LA PERSONA QUE RECIBE EL COMBUSTIBLE (puede ser distinto al de la cuenta que registra)
+// Si ese RUT pertenece a una cuenta con nombre registrado, el nombre ingresado debe ser ese; no se acepta otro nombre con el mismo RUT.
+$nombreOk = verificarNombreDeRut($conn, $rut, $nombres, $ap, $am);
+// Si el nombre no coincide con el registrado para ese RUT...
+if (!$nombreOk['ok']) {
+    // ...deja el intento anotado en la bitácora
+    audit($conn, $usuarioId, 'NOMBRE_NO_COINCIDE', 'operador', null, 'Motivo: '.$nombreOk['codigo'].'; RUT ingresado '.$rut);
+    // ...devuelve a la persona al panel con el aviso correspondiente Y detiene todo
+    header('Location: ../html/programa/panel.php?error='.$nombreOk['codigo']);
+    exit;
+}
+
 // Inicia un "todo o nada": o se guarda todo bien, o no se guarda nada
-// El RUT de este formulario es el del operador de la máquina: puede ser distinto al de la cuenta (la cuenta cargadora solo queda atada a su RUT en guardar_cargador.php)
 $conn->begin_transaction();
 // Intenta guardar los datos
 try {

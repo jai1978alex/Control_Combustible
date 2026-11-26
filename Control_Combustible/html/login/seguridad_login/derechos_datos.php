@@ -3,10 +3,8 @@
 Derechos de los titulares de datos personales (Ley 19.628 y Ley 21.719).
 
 Pantalla solo para administradores. Permite, a partir del RUT de una persona:
-  - Acceso / portabilidad: descargar todos sus datos en un archivo JSON.
-  - Cancelación / supresión: anonimizar sus datos personales (los registros de combustible se
-    conservan como estadística, pero ya no se pueden asociar a la persona).
-Cada acción queda en la auditoría (sin guardar el RUT completo).
+  - Acceso / portabilidad: descargar todos sus datos en un documento PDF.
+La acción queda en la auditoría (sin guardar el RUT completo).
 */
 
 declare(strict_types=1);
@@ -14,6 +12,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../../../backend/conexion.php';
 require_once __DIR__ . '/../../../backend/security.php';
 require_once __DIR__ . '/../../../backend/rut_helper.php';
+require_once __DIR__ . '/../../../backend/pdf_simple.php';
 
 requireAdmin();
 
@@ -59,102 +58,109 @@ function resumenTitular(mysqli $conn, string $rutCan): array {
     return $r;
 }
 
-// Entrega todos los datos del titular como archivo JSON (derecho de acceso y portabilidad)
-function exportarTitular(mysqli $conn, string $rutCan, array $resumen, int $adminId): never {
-    $datos = ['generado_en' => date('c'), 'rut' => $rutCan, 'cuenta' => null,
-              'registros_operador' => [], 'registros_cargador' => [], 'auditoria' => []];
+// Entrega todos los datos del titular como documento PDF (derecho de acceso y portabilidad)
+// Da formato 12.345.678-5 a un RUT canónico (solo números y dígito verificador)
+function rutConFormato(string $rutCan): string {
+    $dv = substr($rutCan, -1);
+    $cuerpo = substr($rutCan, 0, -1);
+    return number_format((int)$cuerpo, 0, '', '.') . '-' . $dv;
+}
 
-    foreach (['registros_operador' => 'operador', 'registros_cargador' => 'operador_cargador'] as $clave => $tabla) {
+// Convierte un valor de la base de datos en texto legible para el PDF
+function valorPdf($valor): string {
+    if ($valor === null || $valor === '') return '-';
+    return (string)$valor;
+}
+
+// Convierte el nombre de una columna (por ejemplo "apellido_paterno") en una etiqueta legible ("Apellido paterno")
+function etiquetaColumna(string $columna): string {
+    $siglas = ['id' => 'ID', 'rut' => 'RUT', 'ip' => 'IP', 'usuario_id' => 'ID de usuario', 'registro_id' => 'ID de registro'];
+    return $siglas[$columna] ?? ucfirst(str_replace('_', ' ', $columna));
+}
+
+function exportarTitular(mysqli $conn, string $rutCan, array $resumen, int $adminId): never {
+    $registros = ['operador' => [], 'cargador' => []];
+
+    foreach (['operador' => 'operador', 'cargador' => 'operador_cargador'] as $clave => $tabla) {
         $st = $conn->prepare('SELECT * FROM `' . $tabla . '` WHERE ' . SQL_RUT_CANONICO . ' = ? ORDER BY fecha_registro');
         $st->bind_param('s', $rutCan);
         $st->execute();
-        $datos[$clave] = $st->get_result()->fetch_all(MYSQLI_ASSOC);
+        $registros[$clave] = $st->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    $cuenta = null;
+    $auditoria = [];
     if ($resumen['cuenta']) {
         $uid = (int)$resumen['cuenta']['id'];
-        // Nunca se incluye el hash de la contraseña
-        $st = $conn->prepare('SELECT id, username, email, rut, rol, estado, created_at, updated_at FROM usuarios WHERE id = ?');
+        $columnasNombre = columnaExiste($conn, 'usuarios', 'nombres') ? 'nombres, apellido_paterno, apellido_materno, ' : '';
+        $st = $conn->prepare('SELECT id, username, ' . $columnasNombre . 'email, rut, rol, estado, created_at, updated_at FROM usuarios WHERE id = ?');
         $st->bind_param('i', $uid);
         $st->execute();
-        $datos['cuenta'] = $st->get_result()->fetch_assoc();
+        $cuenta = $st->get_result()->fetch_assoc();
 
         $st = $conn->prepare('SELECT accion, tabla_afectada, registro_id, detalle, ip, user_agent, fecha_registro FROM auditoria WHERE usuario_id = ? ORDER BY fecha_registro');
         $st->bind_param('i', $uid);
         $st->execute();
-        $datos['auditoria'] = $st->get_result()->fetch_all(MYSQLI_ASSOC);
+        $auditoria = $st->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
     audit($conn, $adminId, 'DERECHOS_EXPORTAR', 'usuarios', null,
         'RUT ' . rutEnmascarado($rutCan) . '; operador=' . $resumen['operador'] . '; cargador=' . $resumen['cargador']);
 
-    header('Content-Type: application/json; charset=utf-8');
-    header('Content-Disposition: attachment; filename="datos_titular_' . date('Ymd_His') . '.json"');
-    echo json_encode($datos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+    // Arma el documento PDF con todos los datos del titular
+    $pdf = new PdfSimple('Datos personales del titular');
+    $pdf->titulo('Datos personales del titular');
+    $pdf->parrafo('Documento entregado en ejercicio de los derechos de acceso y portabilidad (Ley 19.628 y Ley 21.719).');
+    $pdf->campo('RUT', rutConFormato($rutCan));
+    $pdf->campo('Generado el', date('d-m-Y H:i:s'));
+    $pdf->campo('Registros en Operador', (string)count($registros['operador']));
+    $pdf->campo('Registros en Operador Cargador', (string)count($registros['cargador']));
+
+    $pdf->seccion('Cuenta de acceso');
+    if ($cuenta) {
+        foreach ($cuenta as $columna => $valor) {
+            $pdf->campo(etiquetaColumna((string)$columna), valorPdf($valor));
+        }
+    } else {
+        $pdf->parrafo('Este RUT no tiene una cuenta de acceso asociada.');
+    }
+
+    foreach (['operador' => 'Registros como Operador', 'cargador' => 'Registros como Operador Cargador'] as $clave => $titulo) {
+        $pdf->seccion($titulo . ' (' . count($registros[$clave]) . ')');
+        if (!$registros[$clave]) {
+            $pdf->parrafo('Sin registros.');
+        }
+        foreach ($registros[$clave] as $fila) {
+            $pdf->subtitulo('Registro N° ' . valorPdf($fila['id'] ?? '') . ' - ' . valorPdf($fila['fecha_registro'] ?? ''));
+            foreach ($fila as $columna => $valor) {
+                if ($columna === 'id') continue;
+                $pdf->campo(etiquetaColumna((string)$columna), valorPdf($valor));
+            }
+            $pdf->espacioVertical(4);
+        }
+    }
+
+    $pdf->seccion('Eventos de auditoría de su cuenta (' . count($auditoria) . ')');
+    if (!$auditoria) {
+        $pdf->parrafo('Sin eventos.');
+    }
+    foreach ($auditoria as $fila) {
+        $pdf->subtitulo(valorPdf($fila['fecha_registro']) . ' - ' . valorPdf($fila['accion']));
+        foreach (['tabla_afectada', 'registro_id', 'detalle', 'ip', 'user_agent'] as $columna) {
+            $pdf->campo(etiquetaColumna($columna), valorPdf($fila[$columna] ?? null));
+        }
+        $pdf->espacioVertical(4);
+    }
+
+    $contenido = $pdf->generar();
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename="datos_titular_' . date('Ymd_His') . '.pdf"');
+    header('Content-Length: ' . strlen($contenido));
+    header('X-Content-Type-Options: nosniff');
+    echo $contenido;
     exit;
 }
 
-// Anonimiza los datos personales del titular (derecho de cancelación / supresión)
-function anonimizarTitular(mysqli $conn, string $rutCan, array $resumen, int $adminId): void {
-    $variantes = [$rutCan, substr($rutCan, 0, -1) . '-' . substr($rutCan, -1)];
-    $cuerpo = substr($rutCan, 0, -1);
-    $variantes[] = number_format((int)$cuerpo, 0, '', '.') . '-' . substr($rutCan, -1);
-
-    $conn->begin_transaction();
-    try {
-        foreach (['operador', 'operador_cargador'] as $tabla) {
-            $st = $conn->prepare(
-                'UPDATE `' . $tabla . "` SET nombres='ANONIMIZADO', apellido_paterno='ANONIMIZADO', apellido_materno='ANONIMIZADO',
-                    rut='ANONIMIZADO', ubicacion='ANONIMIZADO', observacion=NULL WHERE " . SQL_RUT_CANONICO . ' = ?'
-            );
-            $st->bind_param('s', $rutCan);
-            $st->execute();
-        }
-
-        if ($resumen['cuenta']) {
-            $uid = (int)$resumen['cuenta']['id'];
-            $username = (string)$resumen['cuenta']['username'];
-
-            // La bitácora conserva qué se hizo, pero sin IP, navegador, RUT ni usuario de la persona
-            $st = $conn->prepare("UPDATE auditoria SET ip='0.0.0.0', user_agent=NULL WHERE usuario_id = ?");
-            $st->bind_param('i', $uid);
-            $st->execute();
-
-            $st = $conn->prepare("UPDATE auditoria SET detalle = REPLACE(detalle, ?, 'anonimizado') WHERE usuario_id = ? AND detalle LIKE ?");
-            $like = '%' . $username . '%';
-            $st->bind_param('sis', $username, $uid, $like);
-            $st->execute();
-
-            // La cuenta queda inactiva, sin RUT ni correo y con una clave inutilizable
-            $nuevoNombre = 'anonimizado_' . $uid;
-            $claveInutil = password_hash(bin2hex(random_bytes(24)), PASSWORD_DEFAULT);
-            $st = $conn->prepare("UPDATE usuarios SET username=?, email=NULL, rut=NULL, password=?, estado='inactivo', debe_cambiar_password=0 WHERE id = ?");
-            $st->bind_param('ssi', $nuevoNombre, $claveInutil, $uid);
-            $st->execute();
-
-            $st = $conn->prepare('DELETE FROM recuperacion_password WHERE usuario_id = ?');
-            $st->bind_param('i', $uid);
-            $st->execute();
-        }
-
-        // Cualquier mención del RUT en el detalle de la bitácora (cargas, QR, intentos rechazados)
-        foreach (array_unique($variantes) as $v) {
-            $st = $conn->prepare("UPDATE auditoria SET detalle = REPLACE(detalle, ?, 'RUT anonimizado') WHERE detalle LIKE ?");
-            $like = '%' . $v . '%';
-            $st->bind_param('ss', $v, $like);
-            $st->execute();
-        }
-
-        audit($conn, $adminId, 'DERECHOS_ANONIMIZAR', 'usuarios', $resumen['cuenta'] ? (int)$resumen['cuenta']['id'] : null,
-            'RUT ' . rutEnmascarado($rutCan) . '; operador=' . $resumen['operador'] . '; cargador=' . $resumen['cargador'] . '; cuenta=' . ($resumen['cuenta'] ? 'si' : 'no'));
-        $conn->commit();
-    } catch (Throwable $e) {
-        $conn->rollback();
-        throw $e;
-    }
-}
-
-// ---- Procesa la búsqueda o la acción pedida ----
 $origen = $_SERVER['REQUEST_METHOD'] === 'POST' ? $_POST : $_GET;
 $rutInput = normalizeRut((string)($origen['rut'] ?? ''));
 
@@ -172,34 +178,6 @@ if ($rutInput !== '') {
 
         if ($accion === 'exportar') {
             exportarTitular($conn, $rutCan, $resumen, $adminId);
-        }
-
-        if ($accion === 'anonimizar') {
-            $confirmacion = trim((string)($_POST['confirmacion'] ?? ''));
-            $clave = (string)($_POST['current_password'] ?? '');
-            $yo = $conn->prepare('SELECT password FROM usuarios WHERE id = ? LIMIT 1');
-            $yo->bind_param('i', $adminId);
-            $yo->execute();
-            $miFila = $yo->get_result()->fetch_assoc();
-
-            if ($resumen['operador'] + $resumen['cargador'] === 0 && !$resumen['cuenta']) {
-                $error = 'No hay datos asociados a ese RUT.';
-            } elseif ($resumen['cuenta'] && $resumen['cuenta']['rol'] === 'admin') {
-                $error = 'La cuenta de ese RUT es de administrador. Cámbiale el rol o elimínala primero desde el panel y luego anonimiza.';
-            } elseif ($confirmacion !== 'ANONIMIZAR') {
-                $error = 'Escribe ANONIMIZAR (en mayúsculas) para confirmar.';
-            } elseif (!$miFila || !password_verify($clave, (string)$miFila['password'])) {
-                $error = 'Tu contraseña actual no es correcta.';
-            } else {
-                try {
-                    anonimizarTitular($conn, $rutCan, $resumen, $adminId);
-                    $mensaje = 'Datos anonimizados correctamente.';
-                    $resumen = resumenTitular($conn, $rutCan);
-                } catch (Throwable $e) {
-                    error_log('derechos_datos anonimizar: ' . $e->getMessage());
-                    $error = 'No se pudo anonimizar. No se hizo ningún cambio.';
-                }
-            }
         }
     }
 }
@@ -219,7 +197,7 @@ $csrf = csrfToken();
 <div class="container">
     <div class="card">
         <h1>Derechos de datos personales</h1>
-        <p class="intro">Atiende solicitudes de acceso, portabilidad y supresión de un trabajador a partir de su RUT.</p>
+        <p class="intro">Atiende solicitudes de acceso y portabilidad de un trabajador a partir de su RUT.</p>
 
         <?php if ($mensaje): ?><div class="success"><?= e($mensaje) ?></div><?php endif; ?>
         <?php if ($error): ?><div class="error"><?= e($error) ?></div><?php endif; ?>
@@ -246,26 +224,7 @@ $csrf = csrfToken();
             <input type="hidden" name="csrf_token" value="<?= e($csrf) ?>">
             <input type="hidden" name="rut" value="<?= e($rutInput) ?>">
             <input type="hidden" name="accion" value="exportar">
-            <button type="submit">Descargar datos (JSON)</button>
-        </form>
-
-        <h2>Eliminar sus datos personales (supresión)</h2>
-        <p class="aviso">Reemplaza nombre, apellidos, RUT, ubicación GPS y observaciones por «ANONIMIZADO», desactiva su cuenta y borra su correo, IP y navegador de la bitácora.
-            Los litros y fechas se conservan sin poder asociarlos a la persona. <strong>No se puede deshacer.</strong>
-            Antes de anonimizar, verifica que no exista una obligación legal de conservar esos datos (laboral, tributaria o una investigación en curso).</p>
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="<?= e($csrf) ?>">
-            <input type="hidden" name="rut" value="<?= e($rutInput) ?>">
-            <input type="hidden" name="accion" value="anonimizar">
-            <div class="form-group">
-                <label>Escribe ANONIMIZAR para confirmar</label>
-                <input type="text" name="confirmacion" maxlength="20" autocomplete="off" required>
-            </div>
-            <div class="form-group">
-                <label>Tu contraseña actual</label>
-                <input type="password" name="current_password" maxlength="255" autocomplete="current-password" required>
-            </div>
-            <button type="submit" class="peligro">Anonimizar datos</button>
+            <button type="submit">Descargar datos (PDF)</button>
         </form>
         <?php endif; ?>
 

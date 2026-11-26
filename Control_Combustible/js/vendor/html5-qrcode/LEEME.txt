@@ -1,3 +1,6 @@
+ESTADO: html5-qrcode.min.js (v2.3.8) YA ESTA INCLUIDO en esta carpeta; el escaner funciona sin internet.
+La licencia Apache-2.0 esta en LICENSE.txt. Lo siguiente solo sirve para reinstalarlo o actualizarlo.
+
 LIBRERIA LOCAL DEL ESCANER QR (html5-qrcode 2.3.8, licencia Apache-2.0)
 =======================================================================
 
@@ -20,5 +23,5 @@ Asi el escaner funciona sin internet. Formas de obtenerlo (una sola vez, con con
 
   c) npm:  npm pack html5-qrcode@2.3.8   y copia  package/html5-qrcode.min.js  aqui.
 
-Comprobacion: el archivo pesa ~ 100 KB y define window.Html5Qrcode.
+Comprobacion: el archivo pesa ~ 375 KB y define window.Html5Qrcode.
 Si el archivo no existe, el sistema intenta cargarlo desde internet (CDN) como respaldo.

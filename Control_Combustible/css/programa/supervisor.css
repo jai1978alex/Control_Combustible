@@ -1,0 +1,26 @@
+/* Vista de supervisor: presentación de consulta, sin controles de edición. */
+.supervisor-page{background:#f3f6f8;color:#20313d;min-height:100vh}
+.supervisor-header{background:#022333;color:#fff;padding:22px 4%;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.supervisor-header h1{margin:0 0 6px;font-size:26px}
+.supervisor-header p{margin:0;color:#d7e5ec}
+.supervisor-user{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.supervisor-user form{margin:0}
+.supervisor-user button{border:0;border-radius:7px;background:#d9534f;color:#fff;padding:10px 16px;font-weight:700;cursor:pointer}
+.supervisor-main{width:96%;max-width:1600px;margin:24px auto}
+.resumen-supervisor{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.resumen-supervisor article{background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 9px #102b3b12;display:flex;flex-direction:column;gap:9px}
+.resumen-supervisor article span{font-size:13px;color:#647582}
+.resumen-supervisor article strong{font-size:23px;color:#0a3d62}
+.supervisor-seccion{background:#fff;border-radius:10px;padding:20px;margin:20px 0;box-shadow:0 2px 9px #102b3b12}
+.supervisor-seccion h2{margin:0 0 6px;color:#022333}
+.supervisor-seccion p{color:#657783;margin:0 0 16px}
+.tabla-contenedor{width:100%;overflow:auto;border:1px solid #e2e8ed;border-radius:8px}
+.tabla-contenedor table{border-collapse:collapse;width:100%;min-width:1100px;font-size:13px}
+.tabla-contenedor th,.tabla-contenedor td{padding:10px 12px;text-align:left;border-bottom:1px solid #e7edf1;white-space:nowrap}
+.tabla-contenedor th{background:#0a3d62;color:#fff;position:sticky;top:0}
+.tabla-contenedor tbody tr:nth-child(even){background:#f7fafc}
+.tabla-contenedor td:nth-last-child(2){white-space:normal;min-width:150px;max-width:260px}
+.estado{display:inline-block;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.estado.vigente{background:#e2f5e9;color:#176b37}
+.estado.eliminado{background:#fde8e7;color:#a52b27}
+@media(max-width:650px){.supervisor-header{padding:18px}.supervisor-main{width:94%}.supervisor-seccion{padding:12px}.supervisor-header h1{font-size:22px}}

@@ -63,7 +63,14 @@ $whereOperadorSimple=$eliminacionOperador ? 'eliminado_at IS NULL' : '1=1';
 /* TÍTULO: LISTA DE USUARIOS */
 
 // esta parte trae todas las cuentas, de la más nueva a la más antigua
-$usuarios=$conn->query("SELECT id,username,email,rol,estado,created_at FROM usuarios ORDER BY id DESC");
+// si la base aún no tiene las columnas del nombre (falta la migración 06), se muestran vacías para no romper la página
+$colNombre=columnaExiste($conn,'usuarios','nombres');
+$colRutUsuario=columnaExiste($conn,'usuarios','rut');
+$selectNombre=$colNombre
+    ? "nombres,apellido_paterno,apellido_materno"
+    : "'' AS nombres,'' AS apellido_paterno,'' AS apellido_materno";
+$selectRut=$colRutUsuario ? "rut" : "'' AS rut";
+$usuarios=$conn->query("SELECT id,username,$selectNombre,$selectRut,email,rol,estado,created_at FROM usuarios ORDER BY id DESC");
 
 /* TÍTULO: PÁGINAS DE LAS TABLAS */
 
@@ -163,12 +170,16 @@ $mensajesExito = [
     'usuario' => '✔ Usuario eliminado correctamente.',
     'password_actualizada' => '✔ Contraseña actualizada correctamente.',
     'password_reseteada' => '✔ Contraseña reseteada. Comunica la clave temporal al usuario de forma segura.',
+    'nombre_actualizado' => '✔ Nombre del usuario actualizado correctamente.',
+    'rut_actualizado' => '✔ RUT del usuario actualizado correctamente.',
 ];
 $mensajesError = [
     'eliminar_registro' => '✖ No fue posible eliminar el registro.',
     'eliminar' => '✖ No fue posible eliminar el usuario.',
     'ultimo_admin' => '✖ No puedes eliminar al último administrador activo.',
     'reset_password' => '✖ No fue posible resetear la contraseña del usuario.',
+    'editar_nombre' => '✖ No fue posible actualizar el nombre. Revisa que los tres campos estén completos.',
+    'editar_rut' => '✖ No fue posible actualizar el RUT. Revisa que sea válido y que no esté asignado a otro usuario.',
 ];
 // GUARDAR EL CÓDIGO DEL MENSAJE QUE VIENE EN LA URL
 $successCode = (string)($_GET['success'] ?? '');
@@ -222,6 +233,7 @@ $errorCode = (string)($_GET['error'] ?? '');
     <div class="acciones">
         <a href="crear_usuario.php" class="btn btn-crear">➕ Crear Usuario</a>
         <a href="reportes.php" class="btn btn-buscar">📊 Reportes</a>
+        <a href="conciliacion.php" class="btn btn-buscar">⛽ Saldo y conciliación</a>
         <a href="auditoria.php" class="btn btn-limpiar">🛡️ Auditoría</a>
         <a href="derechos_datos.php" class="btn btn-limpiar">🔒 Derechos de datos</a>
         <a href="../../programa/cambiar_password.php" class="btn btn-limpiar">🔑 Cambiar mi contraseña</a>
@@ -264,6 +276,8 @@ $errorCode = (string)($_GET['error'] ?? '');
             <tr>
                 <th>ID</th>
                 <th>Usuario</th>
+                <th>Nombre</th>
+                <th>RUT</th>
                 <th>Email</th>
                 <th>Rol</th>
                 <th>Estado</th>
@@ -276,6 +290,37 @@ $errorCode = (string)($_GET['error'] ?? '');
             <tr>
                 <td><?=e($u['id'])?></td>
                 <td><?=e($u['username'])?></td>
+                <td>
+                    <?php $nombreCompleto=trim(($u['nombres']??'').' '.($u['apellido_paterno']??'').' '.($u['apellido_materno']??''));?>
+                    <?php if($nombreCompleto!==''):?><?=e($nombreCompleto)?><?php else:?><em class="sin-nombre">Sin nombre</em><?php endif;?>
+                    <?php if($colNombre):?>
+                    <details class="editar-nombre">
+                        <summary>✏️ Editar nombre</summary>
+                        <form method="POST" action="editar_nombre_usuario.php">
+                            <input type="hidden" name="csrf_token" value="<?=e($csrf)?>">
+                            <input type="hidden" name="id" value="<?=e($u['id'])?>">
+                            <input type="text" name="nombres" maxlength="100" placeholder="Nombres" value="<?=e($u['nombres']??'')?>" required>
+                            <input type="text" name="apellido_paterno" maxlength="100" placeholder="Apellido paterno" value="<?=e($u['apellido_paterno']??'')?>" required>
+                            <input type="text" name="apellido_materno" maxlength="100" placeholder="Apellido materno" value="<?=e($u['apellido_materno']??'')?>" required>
+                            <button type="submit">Guardar</button>
+                        </form>
+                    </details>
+                    <?php endif;?>
+                </td>
+                <td>
+                    <?=e($u['rut'] ?? '')?>
+                    <?php if($colRutUsuario):?>
+                    <details class="editar-nombre">
+                        <summary>✏️ Editar RUT</summary>
+                        <form method="POST" action="editar_rut_usuario.php">
+                            <input type="hidden" name="csrf_token" value="<?=e($csrf)?>">
+                            <input type="hidden" name="id" value="<?=e($u['id'])?>">
+                            <input type="text" name="rut" maxlength="12" placeholder="12.345.678-9" value="<?=e($u['rut'] ?? '')?>" required>
+                            <button type="submit">Guardar</button>
+                        </form>
+                    </details>
+                    <?php endif;?>
+                </td>
                 <td><?=e($u['email'])?></td>
                 <td><?=e($u['rol'])?></td>
                 <td><?=e($u['estado'])?></td>
