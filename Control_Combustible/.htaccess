@@ -32,3 +32,11 @@ ErrorDocument 500 errores/500.html
  Require all denied
 </FilesMatch>
 
+# Modo sin conexión (PWA): tipo MIME del manifest y sin caché HTTP para sw.js y el manifest,
+# así el navegador detecta de inmediato cuando se publica una versión nueva.
+AddType application/manifest+json .webmanifest
+<IfModule mod_headers.c>
+ <FilesMatch "^(sw\.js|manifest\.webmanifest)$">
+  Header set Cache-Control "no-cache"
+ </FilesMatch>
+</IfModule>

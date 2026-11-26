@@ -27,6 +27,7 @@ require_once __DIR__.'/rut_helper.php';
 // Trae la función que calcula el consumo (rendimiento) de la carga
 require_once __DIR__.'/consumo_helper.php';
 require_once __DIR__.'/horometro_helper.php';
+require_once __DIR__.'/guardado_helper.php';
 
 
 // TÍTULO: REVISAR QUE LA PERSONA TENGA PERMISO
@@ -37,14 +38,16 @@ requireLogin();
 requirePost();
 // Comprueba la llave secreta del formulario, que demuestra que el envío viene de nuestra propia página
 verifyCsrf();
+// Modo sin conexión: identificador único de la carga (lo genera el equipo). Si ya existe, es un reenvío y se responde "ok" sin duplicar.
+$uuidCliente = uuidCliente();
+if (registroYaGuardado($conn, 'operador', $uuidCliente, (int)$_SESSION['usuario_id'])) { finGuardado('ok', '', ['duplicado' => true]); }
 // Guarda el número del usuario que está registrando este operador
 $usuarioId=(int)$_SESSION['usuario_id'];
 
 // Si esta persona ya guardó demasiados registros en poco tiempo (más de 40 en 5 minutos)...
 if (!rateLimitFile('guardar_operador', (string)$usuarioId, 300, 40)) {
     // ...la devuelve al panel con un aviso de "demasiados intentos Y detiene todo"
-    header('Location: ../html/programa/panel.php?error=demasiados_intentos');
-    exit;
+    finGuardado('error','demasiados_intentos');
 }
 
 
@@ -77,7 +80,7 @@ $litros=trim((string)($_POST['litros']??''));
 // Toma cualquier comentario o nota adicional
 $observacion=trim((string)($_POST['observacion']??''));
 // Anota la fecha y hora exacta de este momento como fecha del registro
-$fechaRegistro=date('Y-m-d H:i:s');
+[$fechaRegistro,$detalleOffline]=fechaRegistroCliente();
 
 
 // TÍTULO: REVISAR QUE TODOS LOS DATOS SEAN CORRECTOS
@@ -120,15 +123,13 @@ if (
     !preg_match('/^[A-Z0-9 .-]{2,10}$/', $patente)
 ) {
     // Devuelve a la persona al panel con el aviso de que hay campos mal llenados Y detiene todo
-    header('Location: ../html/programa/panel.php?error=campos'); 
-    exit;
+    finGuardado('error','campos');
 }
 
 
 // No permite guardar una lectura inferior a la última registrada para esta maquinaria.
 if (!horometroNoRetrocede($conn, $codigo, (float)$horometro)) {
-    header('Location: ../html/programa/panel.php?error=horometro_menor');
-    exit;
+    finGuardado('error','horometro_menor');
 }
 
 // TÍTULO: GUARDAR EL REGISTRO EN LA BASE DE DATOS
@@ -141,8 +142,7 @@ if (!$nombreOk['ok']) {
     // ...deja el intento anotado en la bitácora
     audit($conn, $usuarioId, 'NOMBRE_NO_COINCIDE', 'operador', null, 'Motivo: '.$nombreOk['codigo'].'; RUT ingresado '.$rut);
     // ...devuelve a la persona al panel con el aviso correspondiente Y detiene todo
-    header('Location: ../html/programa/panel.php?error='.$nombreOk['codigo']);
-    exit;
+    finGuardado('error',$nombreOk['codigo']);
 }
 
 // Inicia un "todo o nada": o se guarda todo bien, o no se guarda nada
@@ -150,15 +150,15 @@ $conn->begin_transaction();
 // Intenta guardar los datos
 try {
     // Calcula el consumo (L/h o L/100 km) comparando con la carga anterior de la misma máquina y prepara la orden para insertar el nuevo registro del operador (con espacios "?" que se llenan después, para que nadie pueda colar órdenes dañinas)
-    $consumo=calcularConsumoOperador($conn,$codigo,(float)$horometro,(float)$kilometro,(float)$litros,$fechaRegistro); $stmt=$conn->prepare('INSERT INTO operador (nombres,apellido_paterno,apellido_materno,rut,turno,ubicacion,codigo_maquinaria,patente,equipo,horometro,kilometro,litros,consumo,observacion,usuario_id,fecha_registro) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+    $consumo=calcularConsumoOperador($conn,$codigo,(float)$horometro,(float)$kilometro,(float)$litros,$fechaRegistro); $conUuid=($uuidCliente!=='' && tablaTieneUuid($conn,'operador')); $stmt=$conn->prepare('INSERT INTO operador (nombres,apellido_paterno,apellido_materno,rut,turno,ubicacion,codigo_maquinaria,patente,equipo,horometro,kilometro,litros,consumo,observacion,usuario_id,fecha_registro'.($conUuid?',uuid_cliente':'').') VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?'.($conUuid?',?':'').')');
     // Rellena los espacios vacíos con los datos recibidos, ejecuta la orden y guarda el número del registro recién creado
-    $stmt->bind_param('sssssssssddddsis',$nombres,$ap,$am,$rut,$turno,$ubicacion,$codigo,$patente,$equipo,$horometro,$kilometro,$litros,$consumo,$observacion,$usuarioId,$fechaRegistro); $stmt->execute(); $id=$stmt->insert_id;
+    if($conUuid){ $stmt->bind_param('sssssssssddddsiss',$nombres,$ap,$am,$rut,$turno,$ubicacion,$codigo,$patente,$equipo,$horometro,$kilometro,$litros,$consumo,$observacion,$usuarioId,$fechaRegistro,$uuidCliente); } else { $stmt->bind_param('sssssssssddddsis',$nombres,$ap,$am,$rut,$turno,$ubicacion,$codigo,$patente,$equipo,$horometro,$kilometro,$litros,$consumo,$observacion,$usuarioId,$fechaRegistro); } $stmt->execute(); $id=$stmt->insert_id;
     // Anota en la bitácora quién guardó el registro, confirma el guardado definitivo, devuelve a la persona al panel con aviso de éxito y detiene todo
-    audit($conn,$usuarioId,'REGISTRO_OPERADOR','operador',(int)$id,'RUT '.$rut.'; litros '.$litros.'; consumo '.number_format($consumo,2,'.',''));  $conn->commit(); header('Location: ../html/programa/panel.php?success=1'); exit;
+    audit($conn,$usuarioId,'REGISTRO_OPERADOR','operador',(int)$id,'RUT '.$rut.'; litros '.$litros.'; consumo '.number_format($consumo,2,'.','').$detalleOffline);  $conn->commit(); finGuardado('ok');
 // Si algo falló al guardar
 } catch(Throwable $e){
     // deshace todo lo que se alcanzó a guardar, anota el problema en el registro interno del servidor, devuelve a la persona al panel con aviso de error y detiene todo
-    $conn->rollback(); error_log($e->getMessage()); header('Location: ../html/programa/panel.php?error=guardar'); exit;
+    $conn->rollback(); if (esErrorDuplicado($e)) { finGuardado('ok', '', ['duplicado' => true]); } error_log($e->getMessage()); finGuardado('error','guardar');
 }
 
 

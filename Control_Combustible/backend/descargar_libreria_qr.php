@@ -1,4 +1,22 @@
 <?php
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez descargar_libreria.php ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+
+
+
 /*
 Descarga una sola vez la librería del escáner QR (html5-qrcode 2.3.8, licencia Apache-2.0)
 y la guarda en js/vendor/html5-qrcode/html5-qrcode.min.js para que el escáner funcione sin internet.
@@ -64,3 +82,18 @@ foreach ($fuentes as $url) {
 
 fwrite(STDERR, "No fue posible descargar la librería. Descárgala a mano (ver js/vendor/html5-qrcode/LEEME.txt).\n");
 exit(1);
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- FIN Jerez descarga_libreria.php --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/

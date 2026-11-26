@@ -71,11 +71,19 @@ JJA
 <head>
     <meta charset="UTF-8">    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Combustible <?= e(appName()) ?></title>    
+    <title>Control de Combustible <?= e(appName()) ?></title>
+    <meta name="emex-usuario" content="<?= (int)$_SESSION['usuario_id'] ?>">
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="../../manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../icons/icon-192.png">
+    <link rel="apple-touch-icon" href="../../icons/apple-touch-icon.png">    
     <link rel="stylesheet" href="../../css/programa/style.css">    
     <link rel="stylesheet" href="../../css/programa/panel.css">    
     <link rel="stylesheet" href="../../css/programa/formulario.css">    
     <link rel="stylesheet" href="../../css/programa/modal.css">
+    <link rel="stylesheet" href="../../css/programa/offline.css?v=1">
 </head>
 
 <!-- Inicia el contenido visible de la página. -->
@@ -872,6 +880,8 @@ JJA
         <!-- JavaScript externo: orden de dependencias -->
         <!-- Carga un archivo JavaScript. -->
         <script src="../../js/programa/toast.js"></script>
+        <!-- Modo sin conexión: cola de registros pendientes y service worker. -->
+        <script src="../../js/programa/offline.js?v=1"></script>
         <!-- Carga un archivo JavaScript. -->
         <script src="../../js/vendor/html5-qrcode/html5-qrcode.min.js"></script>
         <!-- Carga un archivo JavaScript. -->

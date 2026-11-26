@@ -7,6 +7,7 @@ Este paquete contiene los archivos SQL incluidos en Control de Combustible EMEX.
 - `01_BASE_DATOS.sql`: esquema completo para una instalación nueva.
 - `02_DIAGNOSTICO_BASE_DATOS.sql`: consultas de comprobación de tablas, índices, vistas y relaciones.
 - `03_MIGRACION_IDENTIDAD_QR.sql`: agrega el RUT maestro a cuentas existentes para habilitar la validación de identidad QR.
+- `09_MIGRACION_MODO_OFFLINE.sql`: agrega `uuid_cliente` a `operador_cargador` y `operador` para que el modo sin conexión (PWA) no duplique cargas al reenviarlas. Obligatoria en bases ya instaladas; en instalaciones nuevas ya viene incluida en `01` y `04`.
 - `07_MIGRACION_SALDO_CONCILIACION.sql`: crea la tabla `estanque_movimientos` para la pantalla Saldo y conciliación (en bases ya instaladas).
 - `05_MIGRACION_VISTAS_REPORTES.sql`: crea las vistas `v_litros_por_mes`, `v_litros_por_maquinaria` y `v_resumen_por_usuario` que usa la pantalla Reportes (útil en bases instaladas sin ellas).
 

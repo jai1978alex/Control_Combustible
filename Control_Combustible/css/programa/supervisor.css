@@ -1,26 +1,249 @@
-/* Vista de supervisor: presentación de consulta, sin controles de edición. */
-.supervisor-page{background:#f3f6f8;color:#20313d;min-height:100vh}
-.supervisor-header{background:#022333;color:#fff;padding:22px 4%;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-.supervisor-header h1{margin:0 0 6px;font-size:26px}
-.supervisor-header p{margin:0;color:#d7e5ec}
-.supervisor-user{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.supervisor-user form{margin:0}
-.supervisor-user button{border:0;border-radius:7px;background:#d9534f;color:#fff;padding:10px 16px;font-weight:700;cursor:pointer}
-.supervisor-main{width:96%;max-width:1600px;margin:24px auto}
-.resumen-supervisor{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
-.resumen-supervisor article{background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 9px #102b3b12;display:flex;flex-direction:column;gap:9px}
-.resumen-supervisor article span{font-size:13px;color:#647582}
-.resumen-supervisor article strong{font-size:23px;color:#0a3d62}
-.supervisor-seccion{background:#fff;border-radius:10px;padding:20px;margin:20px 0;box-shadow:0 2px 9px #102b3b12}
-.supervisor-seccion h2{margin:0 0 6px;color:#022333}
-.supervisor-seccion p{color:#657783;margin:0 0 16px}
-.tabla-contenedor{width:100%;overflow:auto;border:1px solid #e2e8ed;border-radius:8px}
-.tabla-contenedor table{border-collapse:collapse;width:100%;min-width:1100px;font-size:13px}
-.tabla-contenedor th,.tabla-contenedor td{padding:10px 12px;text-align:left;border-bottom:1px solid #e7edf1;white-space:nowrap}
-.tabla-contenedor th{background:#0a3d62;color:#fff;position:sticky;top:0}
-.tabla-contenedor tbody tr:nth-child(even){background:#f7fafc}
-.tabla-contenedor td:nth-last-child(2){white-space:normal;min-width:150px;max-width:260px}
-.estado{display:inline-block;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:700}
-.estado.vigente{background:#e2f5e9;color:#176b37}
-.estado.eliminado{background:#fde8e7;color:#a52b27}
-@media(max-width:650px){.supervisor-header{padding:18px}.supervisor-main{width:94%}.supervisor-seccion{padding:12px}.supervisor-header h1{font-size:22px}}
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez supervisor.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+/* TÍTULO: PÁGINA DEL SUPERVISOR */
+
+    /* Estilo para toda la página del supervisor */
+    .supervisor-page { 
+        background: #f3f6f8;                 /* Color de fondo: gris muy clarito */
+        color: #20313d;                      /* Color del texto: azul grisáceo oscuro */
+        min-height: 100vh;                   /* Hace que la página ocupe como mínimo toda la altura de la pantalla */
+    }
+
+/* TÍTULO: ENCABEZADO */
+
+    /* Estilo de la franja oscura de arriba (donde va el título y el usuario) */
+    .supervisor-header { 
+        background: #022333;                 /* Color de fondo: azul muy oscuro */
+        color: #fff;                         /* Color del texto: blanco */
+        padding: 22px 4%;                    /* Espacio interno: arriba y abajo 22 píxeles, a los lados 4% del ancho */
+        display: flex;                       /* Acomoda lo de adentro en fila, uno al lado del otro */
+        justify-content: space-between;      /* Manda un grupo a la izquierda y el otro a la derecha */
+        align-items: center;                 /* Alinea todo al centro en vertical */
+        gap: 20px;                           /* Deja espacio entre los grupos */
+        flex-wrap: wrap;                     /* Si no caben en una línea, el segundo grupo baja a la línea de abajo */
+    }
+
+    /* Estilo del título principal del encabezado */
+    .supervisor-header h1 { 
+        margin: 0 0 6px;                     /* Sin espacio arriba ni a los lados, y un poquito debajo */
+        font-size: 26px;                     /* Tamaño de la letra del título */
+    }
+
+    /* Estilo del texto pequeño que va bajo el título */
+    .supervisor-header p { 
+        margin: 0;                           /* Quita el espacio alrededor del texto */
+        color: #d7e5ec;                      /* Color del texto: gris azulado muy claro */
+    }
+
+/* TÍTULO: USUARIO Y BOTÓN DE SALIR */
+
+    /* Estilo del grupo del usuario (nombre y botón de cerrar sesión) */
+    .supervisor-user { 
+        display: flex;                       /* Acomoda lo de adentro en fila */
+        align-items: center;                 /* Alinea todo al centro en vertical */
+        gap: 16px;                           /* Deja espacio entre el nombre y el botón */
+        flex-wrap: wrap;                     /* Si no caben, bajan a la línea siguiente */
+    }
+
+    /* Estilo del formulario del botón de salir */
+    .supervisor-user form { 
+        margin: 0;                           /* Quita el espacio alrededor del formulario */
+    }
+
+    /* Estilo del botón rojo para salir */
+    .supervisor-user button { 
+        border: 0;                           /* Quita el borde del botón */
+        border-radius: 7px;                  /* Redondea las esquinas del botón */
+        background: #d9534f;                 /* Color de fondo: rojo suave */
+        color: #fff;                         /* Color del texto: blanco */
+        padding: 10px 16px;                  /* Espacio interno para que el botón no se vea apretado */
+        font-weight: 700;                    /* Letra en negrita */
+        cursor: pointer;                     /* Cambia el cursor a una manito al pasar por encima */
+    }
+
+/* TÍTULO: CONTENIDO PRINCIPAL */
+
+    /* Estilo de la zona central donde va todo el contenido */
+    .supervisor-main { 
+        width: 96%;                          /* Ocupa casi todo el ancho de la pantalla */
+        max-width: 1600px;                   /* Pero nunca crece más de 1600 píxeles, para que no se vea gigante */
+        margin: 24px auto;                   /* Deja espacio arriba y abajo, y lo centra de izquierda a derecha */
+    }
+
+/* TÍTULO: TARJETAS DE RESUMEN */
+
+    /* Estilo de la fila de tarjetas con los números resumen */
+    .resumen-supervisor { 
+        display: grid;                       /* Acomoda las tarjetas en forma de cuadrícula */
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Pone tantas tarjetas por fila como quepan, cada una de al menos 180 píxeles */
+        gap: 14px;                           /* Deja espacio entre una tarjeta y otra */
+        margin-bottom: 24px;                 /* Deja espacio debajo de todas las tarjetas */
+    }
+
+    /* Estilo de cada tarjeta blanca de resumen */
+    .resumen-supervisor article { 
+        background: #fff;                    /* Color de fondo blanco */
+        border-radius: 10px;                 /* Redondea las esquinas de la tarjeta */
+        padding: 18px;                       /* Espacio interno entre el borde y el contenido */
+        box-shadow: 0 2px 9px #102b3b12;     /* Sombra muy suave para dar sensación de relieve */
+        display: flex;                       /* Acomoda lo de adentro de forma ordenada */
+        flex-direction: column;              /* Pone el texto arriba y el número abajo, uno bajo el otro */
+        gap: 9px;                            /* Deja espacio entre el texto y el número */
+    }
+
+    /* Estilo del texto pequeño que explica qué muestra la tarjeta */
+    .resumen-supervisor article span { 
+        font-size: 13px;                     /* Tamaño de la letra: chico */
+        color: #647582;                      /* Color del texto: gris azulado */
+    }
+
+    /* Estilo del número grande de la tarjeta */
+    .resumen-supervisor article strong { 
+        font-size: 23px;                     /* Tamaño de la letra: grande, para que resalte */
+        color: #0a3d62;                      /* Color del número: azul oscuro */
+    }
+
+/* TÍTULO: SECCIONES */
+
+    /* Estilo de la caja blanca que envuelve cada sección */
+    .supervisor-seccion { 
+        background: #fff;                    /* Color de fondo blanco */
+        border-radius: 10px;                 /* Redondea las esquinas de la caja */
+        padding: 20px;                       /* Espacio interno entre el borde y el contenido */
+        margin: 20px 0;                      /* Deja espacio arriba y abajo para separar una sección de otra */
+        box-shadow: 0 2px 9px #102b3b12;     /* Sombra muy suave para dar sensación de relieve */
+    }
+
+    /* Estilo del título de cada sección */
+    .supervisor-seccion h2 { 
+        margin: 0 0 6px;                     /* Sin espacio arriba ni a los lados, y un poquito debajo */
+        color: #022333;                      /* Color del título: azul muy oscuro */
+    }
+
+    /* Estilo del texto explicativo de cada sección */
+    .supervisor-seccion p { 
+        color: #657783;                      /* Color del texto: gris azulado */
+        margin: 0 0 16px;                    /* Sin espacio arriba ni a los lados, y espacio debajo antes de lo que sigue */
+    }
+
+/* TÍTULO: TABLA */
+
+    /* Estilo de la caja que envuelve la tabla (permite deslizarla si no cabe en pantalla) */
+    .tabla-contenedor { 
+        width: 100%;                         /* Ocupa todo el ancho disponible */
+        overflow: auto;                      /* Si la tabla es muy grande, aparecen barras para deslizarla */
+        border: 1px solid #e2e8ed;           /* Borde fino de color gris claro */
+        border-radius: 8px;                  /* Redondea las esquinas */
+    }
+
+    /* Estilo de la tabla en sí */
+    .tabla-contenedor table { 
+        border-collapse: collapse;           /* Junta los bordes de las celdas para que no queden separados */
+        width: 100%;                         /* La tabla ocupa todo el ancho disponible */
+        min-width: 1100px;                   /* Nunca se achica de 1100 píxeles, para que las columnas no se aprieten */
+        font-size: 13px;                     /* Tamaño de la letra de la tabla */
+    }
+
+    /* Estilo de las celdas y de los títulos de columna */
+    .tabla-contenedor th,
+    .tabla-contenedor td { 
+        padding: 10px 12px;                  /* Espacio interno de cada celda */
+        text-align: left;                    /* Alinea el texto a la izquierda */
+        border-bottom: 1px solid #e7edf1;    /* Línea fina debajo de cada fila */
+        white-space: nowrap;                 /* Evita que el texto se parta en varias líneas */
+    }
+
+    /* Estilo de los títulos de columna (la fila de arriba de la tabla) */
+    .tabla-contenedor th { 
+        background: #0a3d62;                 /* Color de fondo: azul oscuro */
+        color: #fff;                         /* Color del texto: blanco */
+        position: sticky;                    /* Hace que el título se quede pegado arriba mientras se baja por la tabla */
+        top: 0;                              /* Lo pega en el borde superior */
+    }
+
+    /* Estilo de las filas pares (la 2, 4, 6...) para que se lea mejor */
+    .tabla-contenedor tbody tr:nth-child(even) { 
+        background: #f7fafc;                 /* Color de fondo: gris casi blanco, alternando con las demás filas */
+    }
+
+    /* Estilo de la penúltima columna (normalmente la de observaciones o textos largos) */
+    .tabla-contenedor td:nth-last-child(2) { 
+        white-space: normal;                 /* Permite que el texto largo baje a otra línea */
+        min-width: 150px;                    /* Ancho mínimo de la columna */
+        max-width: 260px;                    /* Ancho máximo de la columna */
+    }
+
+/* TÍTULO: ESTADO (ETIQUETAS DE COLOR) */
+
+    /* Estilo base de la etiqueta de estado */
+    .estado { 
+        display: inline-block;               /* Permite darle tamaño a la etiqueta sin salirse de la línea del texto */
+        padding: 4px 8px;                    /* Espacio interno de la etiqueta */
+        border-radius: 20px;                 /* Esquinas muy redondeadas, como una pastillita */
+        font-size: 11px;                     /* Tamaño de la letra: pequeño */
+        font-weight: 700;                    /* Letra en negrita */
+    }
+
+    /* Etiqueta verde para un registro vigente (activo) */
+    .estado.vigente { 
+        background: #e2f5e9;                 /* Color de fondo: verde muy claro */
+        color: #176b37;                      /* Color del texto: verde oscuro */
+    }
+
+    /* Etiqueta roja para un registro eliminado */
+    .estado.eliminado { 
+        background: #fde8e7;                 /* Color de fondo: rojo muy claro */
+        color: #a52b27;                      /* Color del texto: rojo oscuro */
+    }
+
+/* TÍTULO: PANTALLAS PEQUEÑAS (CELULAR) */
+
+    /* Estos cambios se aplican solo cuando la pantalla mide 650 píxeles de ancho o menos */
+    @media (max-width: 650px) { 
+
+        .supervisor-header { 
+            padding: 18px;                   /* Reduce el espacio interno del encabezado */
+        }
+
+        .supervisor-main { 
+            width: 94%;                      /* El contenido ocupa un poco menos de ancho */
+        }
+
+        .supervisor-seccion { 
+            padding: 12px;                   /* Reduce el espacio interno de las secciones */
+        }
+
+        .supervisor-header h1 { 
+            font-size: 22px;                 /* Achica un poco el título para que quepa mejor */
+        }
+
+    }
+
+
+
+   /* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez supervisor.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/ 

@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS operador_cargador (
   eliminado_por INT NULL,
   -- Usuario que hizo el registro
   usuario_id INT NULL,
+  uuid_cliente CHAR(36) NULL,
   -- Fecha y hora del registro (se anota sola)
   fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   -- Índice: búsqueda rápida por RUT y fecha
@@ -93,6 +94,7 @@ CREATE TABLE IF NOT EXISTS operador_cargador (
   -- Índice: búsqueda rápida de registros vigentes por litros
   INDEX idx_cargador_vigente_litros(eliminado_at,litros),
   -- Índice: búsqueda rápida por usuario y fecha
+  UNIQUE KEY uq_cargador_uuid_cliente(uuid_cliente),
   INDEX idx_cargador_usuario_fecha(usuario_id,fecha_registro),
   -- Índice: búsqueda rápida por patente y fecha
   INDEX idx_cargador_patente_fecha(patente,fecha_registro),
@@ -151,6 +153,7 @@ CREATE TABLE IF NOT EXISTS operador (
   eliminado_por INT NULL,
   -- Usuario que hizo el registro
   usuario_id INT NULL,
+  uuid_cliente CHAR(36) NULL,
   -- Fecha y hora del registro (se anota sola)
   fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   -- Índice: búsqueda rápida por RUT y fecha
@@ -160,6 +163,7 @@ CREATE TABLE IF NOT EXISTS operador (
   -- Índice: búsqueda rápida de registros vigentes por litros
   INDEX idx_operador_vigente_litros(eliminado_at,litros),
   -- Índice: búsqueda rápida por usuario y fecha
+  UNIQUE KEY uq_operador_uuid_cliente(uuid_cliente),
   INDEX idx_operador_usuario_fecha(usuario_id,fecha_registro),
   -- Índice: búsqueda rápida por patente y fecha
   INDEX idx_operador_patente_fecha(patente,fecha_registro),

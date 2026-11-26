@@ -1,0 +1,37 @@
+MODO SIN CONEXIÓN (PWA) - Control de Combustible
+=================================================
+
+QUÉ HACE
+- El panel (html/programa/panel.php) abre aunque no haya señal y se puede instalar en el celular como app.
+- Si al confirmar un registro no hay señal, queda guardado en el celular y se envía solo cuando vuelve la conexión.
+- Cada registro lleva un identificador único: si el celular reenvía uno cuya respuesta se perdió, el servidor
+  lo reconoce y NO lo duplica.
+- Si el servidor rechaza un registro al sincronizar (p. ej. horómetro menor que la última lectura), no se borra:
+  queda en "Revisar" con el motivo, para corregirlo o descartarlo.
+- Una barra bajo el encabezado muestra: sin conexión / registros pendientes / rechazados / sesión expirada.
+
+PUESTA EN MARCHA (en este orden)
+1. Base de datos ya instalada: respaldar y ejecutar base_dato/09_MIGRACION_MODO_OFFLINE.sql (se puede repetir sin problema).
+   Instalación nueva: 01_BASE_DATOS.sql y 04_INSTALADOR_ESTRUCTURA_TABLAS.sql ya incluyen la columna.
+   (Sin la migración el sistema funciona igual, pero sin la protección anti-duplicados.)
+2. Subir todos los archivos (incluye sw.js y manifest.webmanifest en la RAÍZ, y la carpeta icons/).
+3. Requiere HTTPS (el .htaccess ya redirige) o localhost. Con http:// el modo sin conexión no se activa.
+4. Cada operador debe, UNA vez y con señal: iniciar sesión y abrir el panel. Desde ahí el celular guarda el panel.
+   Luego puede usar "Agregar a pantalla de inicio" / "Instalar app".
+
+AL PUBLICAR CAMBIOS
+- Si modificas css/js del panel, sube el número VERSION en sw.js (ej. 'v2') y los ?v= de panel.php.
+
+LÍMITES CONOCIDOS
+- Solo el panel del operador funciona sin conexión (no supervisor, admin ni reportes).
+- Escanear un QR que trae RUT necesita conexión (valida la identidad en el servidor).
+- La validación de horómetro y de RUT/nombre se hace en el servidor: un registro hecho sin señal puede ser
+  rechazado al sincronizar; el operador lo ve en "Revisar".
+- Hora del registro: si se sincroniza con más de 2 minutos de atraso y hasta 14 días, se guarda la hora real
+  de captura del celular; la auditoría registra además la hora de recepción. Fuera de ese rango se usa la hora del servidor.
+- Los pendientes se guardan sin cifrar en el celular (incluyen RUT y nombre) hasta que se envían.
+  Al cerrar sesión se borra la copia del panel; los pendientes se conservan y se envían al volver a entrar con la MISMA cuenta.
+- Los totales de litros del panel no incluyen los registros pendientes.
+- iPhone/Safari: si la app no está instalada en la pantalla de inicio, el sistema puede borrar datos del sitio tras
+  una semana sin usarlo. Recomendar instalarla.
+- Los íconos (carpeta icons/) son provisorios: reemplazar por el logo real manteniendo nombres y tamaños.

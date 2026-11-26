@@ -163,6 +163,31 @@ function sessionBindingMatches(): bool {
     // Responde "sí" si no hay huella guardada, o si la guardada es igual a la actual
     return empty($_SESSION['binding']) || hash_equals((string)$_SESSION['binding'], $fingerprint);
 }
+// TÍTULO: AYUDAS PARA PETICIONES DEL MODO SIN CONEXIÓN (PWA)
+
+// Indica si quien llama pide una respuesta JSON (la cola offline envía "Accept: application/json").
+function wantsJson(): bool {
+    return str_contains(strtolower((string)($_SERVER['HTTP_ACCEPT'] ?? '')), 'application/json');
+}
+
+// Responde en JSON con el código HTTP indicado y detiene todo.
+function jsonExit(int $http, array $data): never {
+    http_response_code($http);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+// Envía a la ruta indicada (comportamiento de siempre) o, si la petición pide JSON, responde 401/403 sin redirigir.
+function redirigirODenegar(string $ruta): never {
+    if (wantsJson()) {
+        $cambiarPass = str_contains($ruta, 'cambiar_password');
+        jsonExit($cambiarPass ? 403 : 401, ['ok' => false, 'codigo' => $cambiarPass ? 'cambiar_password' : 'sesion']);
+    }
+    header('Location: ' . appBasePath() . $ruta);
+    exit;
+}
+
 
 
 // TÍTULO: FUNCIÓN QUE EXIGE HABER INICIADO SESIÓN
@@ -172,8 +197,7 @@ function requireLogin(): void {
     // Si falta alguno de los datos básicos de la persona (número, nombre o tipo de usuario)...
     if (empty($_SESSION['usuario_id']) || empty($_SESSION['username']) || empty($_SESSION['rol'])) {
         // ...la envía a la página de inicio con el aviso de acceso no permitido Y detiene todo
-        header('Location: ' . appBasePath() . '/index.php?error=acceso');
-        exit;
+        redirigirODenegar('/index.php?error=acceso');
     }
 
     // Si la sesión la está usando un navegador distinto al que la abrió...
@@ -181,8 +205,7 @@ function requireLogin(): void {
         // ...cierra la sesión por seguridad
         destroyCurrentSession();
         // La envía a la página de inicio con el aviso de sesión no válida Y detiene todo
-        header('Location: ' . appBasePath() . '/index.php?error=sesion'); 
-        exit;
+        redirigirODenegar('/index.php?error=sesion');
     }
 
     // Si pasó demasiado tiempo desde su última actividad...
@@ -190,8 +213,7 @@ function requireLogin(): void {
         // ...cierra la sesión por inactividad
         destroyCurrentSession();
         // La envía a la página de inicio con el aviso de sesión vencida Y detiene todo
-        header('Location: ' . appBasePath() . '/index.php?error=sesion');
-        exit;
+        redirigirODenegar('/index.php?error=sesion');
     }
 
     // Usa la conexión a la base de datos que ya está abierta
@@ -214,8 +236,7 @@ function requireLogin(): void {
         // ...cierra la sesión
         destroyCurrentSession();
         // La envía a la página de inicio con el aviso de acceso no permitido Y detiene todo
-        header('Location: ' . appBasePath() . '/index.php?error=acceso');
-        exit;
+        redirigirODenegar('/index.php?error=acceso');
     }
 
     // Toma la fecha de última modificación que se guardó al iniciar sesión
@@ -225,8 +246,7 @@ function requireLogin(): void {
         // ...cierra la sesión por seguridad
         destroyCurrentSession();
         // La envía a la página de inicio con el aviso de sesión no válida Y detiene todo
-        header('Location: ' . appBasePath() . '/index.php?error=sesion');
-        exit;
+        redirigirODenegar('/index.php?error=sesion');
     }
 
     // Anota la hora de este momento como su última actividad
@@ -245,8 +265,7 @@ function requireLogin(): void {
     // Si está obligado a cambiar su contraseña y quiere abrir otra página que no esté en esa lista...
     if (!empty($_SESSION['debe_cambiar_password']) && !in_array($script, $permitidasConCambioPendiente, true)) {
         // ...la envía a la página para cambiar la contraseña Y detiene todo
-        header('Location: ' . appBasePath() . '/html/programa/cambiar_password.php');
-        exit;
+        redirigirODenegar('/html/programa/cambiar_password.php');
     }
 
 }
@@ -314,6 +333,8 @@ function verifyCsrf(): void {
     $token = (string)($_POST['csrf_token'] ?? '');
     // Si la llave está vacía, o no hay una guardada, o no son iguales...
     if ($token === '' || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
+        // Si la petición viene de la cola sin conexión, responde JSON en vez de texto plano
+        if (wantsJson()) { jsonExit(403, ['ok' => false, 'codigo' => 'csrf']); }
         // ...avisa con el código 403, que significa "acceso prohibido"
         http_response_code(403);
         // Muestra el mensaje de solicitud no válida y detiene todo

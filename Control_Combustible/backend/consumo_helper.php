@@ -1,13 +1,17 @@
 <?php
-/*
+/* 
 Sitio Web Creado por Jerez.
 Direccion: Miraflorez #1280
 Quintero - Chile
 jaime.jerez1978@gmail.com
 https://www.
 Creado, Programado y Diseñado por Jerez.
-JJA
+JJA 
 */
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez consumo_helper.php ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
 
 declare(strict_types=1);
 
@@ -68,3 +72,18 @@ function calcularConsumoOperador(mysqli $conn, string $codigo, float $horometro,
 function unidadConsumo(array $registro): string {
     return ((float)($registro['horometro'] ?? 0)) > 0 ? 'L/h' : 'L/100 km';
 }
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- FIN Jerez consumo_helper.php --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/

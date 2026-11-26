@@ -132,7 +132,13 @@ if (btnEditar) btnEditar.addEventListener("click", () => {
 if (btnConfirmar) btnConfirmar.addEventListener("click", () => {
 
     // Envía el formulario activo al servidor
-    formularioActivo.submit();
+    // Con modo sin conexión: intenta enviar y, si no hay señal, guarda el registro en el equipo.
+    // Si offline.js no cargó, se envía el formulario como siempre.
+    if (window.OfflineQueue && typeof window.OfflineQueue.enviar === "function") {
+        window.OfflineQueue.enviar(formularioActivo);
+    } else {
+        formularioActivo.submit();
+    }
 
 });
 

@@ -1,4 +1,22 @@
 <?php
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez horometro_helper.php ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+
+
+
 declare(strict_types=1);
 
 /**
@@ -46,3 +64,19 @@ function horometroNoRetrocede(mysqli $conn, string $codigo, float $nuevo, string
     $ultimo = obtenerUltimoHorometro($conn, $codigo, $tablaActual, $idExcluir);
     return $ultimo === null || $nuevo >= $ultimo;
 }
+
+
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- FIN Jerez horometro_helper.php --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/

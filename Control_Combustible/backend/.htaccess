@@ -1,4 +1,4 @@
-<FilesMatch "^(conexion|security|rut_helper|check_user|mailer|pdf_simple|env_loader|config\.local)\.php$">
+<FilesMatch "^(conexion|security|rut_helper|check_user|guardado_helper|mailer|pdf_simple|env_loader|config\.local)\.php$">
  Require all denied
 </FilesMatch>
 <FilesMatch "^\.(env|git)">

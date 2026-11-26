@@ -1,15 +1,143 @@
-/* Reportes del administrador: complementa superadmin.css */
-.rep-seccion{background:#fff;border-radius:12px;padding:20px;margin:20px 0;box-shadow:0 2px 8px rgba(15,23,42,.08)}
-.rep-seccion h2{font-size:1.15rem;margin-bottom:4px}
-.rep-seccion p.rep-nota{color:#64748b;font-size:.9rem;margin-bottom:14px}
-.rep-grafico{width:100%;height:auto;display:block;margin:8px 0 16px}
-.rep-grafico text{font-family:inherit;fill:#475569;font-size:12px}
-.rep-grafico .rep-eje{stroke:#cbd5e1;stroke-width:1}
-.rep-grafico .rep-valor{fill:#1e293b;font-weight:600}
-.rep-leyenda{display:flex;gap:18px;font-size:.9rem;margin-bottom:6px}
-.rep-leyenda i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.rep-azul{background:#2563eb}.rep-verde{background:#16a34a}
-.rep-vacio{color:#64748b;padding:18px 0}
-.rep-tabla-wrap{overflow-x:auto}
-.rep-tabla-wrap td.num,.rep-tabla-wrap th.num{text-align:right;white-space:nowrap}
-.rep-tabla-wrap table.tabla-registros{min-width:0;width:100%}
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA 
+*/
+
+/* -------------------------------------------------------------------------------------------------------------
+   ------------------------------------- INICIO Jerez reportes.CSS ------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+
+/* TÍTULO: SECCIÓN (LA CAJA BLANCA DE CADA REPORTE) */
+
+    /* Estilo de la caja blanca que envuelve cada reporte */
+    .rep-seccion { 
+        background: #fff;                    /* Color de fondo blanco */
+        border-radius: 12px;                 /* Redondea las esquinas de la caja */
+        padding: 20px;                       /* Deja espacio interno entre el borde de la caja y su contenido */
+        margin: 20px 0;                      /* Deja espacio arriba y abajo para separar una caja de otra */
+        box-shadow: 0 2px 8px rgba(15,23,42,.08); /* Agrega una sombra muy suave para dar sensación de relieve */
+    }
+
+    /* Estilo del título que va dentro de la caja del reporte */
+    .rep-seccion h2 { 
+        font-size: 1.15rem;                  /* Tamaño de la letra del título */
+        margin-bottom: 4px;                  /* Deja un espacio pequeño debajo del título */
+    }
+
+    /* Estilo de la nota explicativa que va bajo el título */
+    .rep-seccion p.rep-nota { 
+        color: #64748b;                      /* Color del texto: gris azulado, para que se vea secundario */
+        font-size: .9rem;                    /* Tamaño de letra un poco más chico que el normal */
+        margin-bottom: 14px;                 /* Deja espacio debajo de la nota, antes de lo que sigue */
+    }
+
+/* TÍTULO: GRÁFICO */
+
+    /* Estilo del dibujo del gráfico */
+    .rep-grafico { 
+        width: 100%;                         /* Ocupa todo el ancho disponible */
+        height: auto;                        /* El alto se ajusta solo para que el dibujo no se deforme */
+        display: block;                      /* Hace que el gráfico se comporte como un bloque propio, sin huecos raros alrededor */
+        margin: 8px 0 16px;                  /* Deja espacio arriba (pequeño) y abajo (más grande) */
+    }
+
+    /* Estilo de los textos que aparecen dentro del gráfico */
+    .rep-grafico text { 
+        font-family: inherit;                /* Usa el mismo tipo de letra del resto de la página */
+        fill: #475569;                       /* Color del texto: gris oscuro */
+        font-size: 12px;                     /* Tamaño de la letra */
+    }
+
+    /* Estilo de las líneas de los ejes (las líneas guía del gráfico) */
+    .rep-grafico .rep-eje { 
+        stroke: #cbd5e1;                     /* Color de la línea: gris claro */
+        stroke-width: 1;                     /* Grosor de la línea: muy delgada */
+    }
+
+    /* Estilo de los números que muestran el valor de cada barra */
+    .rep-grafico .rep-valor { 
+        fill: #1e293b;                       /* Color del número: casi negro, para que resalte */
+        font-weight: 600;                    /* Letra semi-negrita */
+    }
+
+/* TÍTULO: LEYENDA (EXPLICACIÓN DE COLORES) */
+
+    /* Estilo de la fila que explica qué significa cada color */
+    .rep-leyenda { 
+        display: flex;                       /* Acomoda los elementos uno al lado del otro en una fila */
+        gap: 18px;                           /* Deja espacio entre un elemento y el siguiente */
+        font-size: .9rem;                    /* Tamaño de la letra, un poco más chica que lo normal */
+        margin-bottom: 6px;                  /* Deja un poco de espacio debajo de la leyenda */
+    }
+
+    /* Estilo del cuadradito de color que acompaña a cada texto de la leyenda */
+    .rep-leyenda i { 
+        display: inline-block;               /* Permite darle tamaño al cuadradito sin salirse de la línea del texto */
+        width: 12px;                         /* Ancho del cuadradito */
+        height: 12px;                        /* Alto del cuadradito */
+        border-radius: 3px;                  /* Redondea apenas las esquinas */
+        margin-right: 6px;                   /* Deja espacio entre el cuadradito y el texto */
+        vertical-align: -1px;                /* Lo baja un poquito para que quede alineado con el texto */
+    }
+
+/* TÍTULO: COLORES */
+
+    /* Color azul para marcar un tipo de dato */
+    .rep-azul { 
+        background: #2563eb;                 /* Color de fondo azul */
+    }
+
+    /* Color verde para marcar otro tipo de dato */
+    .rep-verde { 
+        background: #16a34a;                 /* Color de fondo verde */
+    }
+
+/* TÍTULO: MENSAJE SIN DATOS */
+
+    /* Estilo del mensaje que se muestra cuando no hay información que mostrar */
+    .rep-vacio { 
+        color: #64748b;                      /* Color del texto: gris azulado suave */
+        padding: 18px 0;                     /* Deja espacio arriba y abajo del mensaje */
+    }
+
+/* TÍTULO: TABLA */
+
+    /* Estilo de la envoltura de la tabla (permite mover la tabla de lado si no cabe en pantalla) */
+    .rep-tabla-wrap { 
+        overflow-x: auto;                    /* Si la tabla es muy ancha, aparece una barra para deslizarla de izquierda a derecha */
+    }
+
+    /* Estilo de las celdas y títulos de columna que contienen números */
+    .rep-tabla-wrap td.num,
+    .rep-tabla-wrap th.num { 
+        text-align: right;                   /* Alinea los números a la derecha */
+        white-space: nowrap;                 /* Evita que un número se parta en dos líneas */
+    }
+
+    /* Estilo de la tabla de registros dentro de la envoltura */
+    .rep-tabla-wrap table.tabla-registros { 
+        min-width: 0;                        /* Quita el ancho mínimo, así la tabla puede achicarse en pantallas chicas */
+        width: 100%;                         /* La tabla ocupa todo el ancho disponible */
+    }
+
+
+
+   /* -------------------------------------------------------------------------------------------------------------
+   -------------------------------------- FIN Jerez reportes.CSS --------------------------------------
+   ------------------------------------------------------------------------------------------------------------- */
+
+/* 
+Sitio Web Creado por Jerez.
+Direccion: Miraflorez #1280
+Quintero - Chile
+jaime.jerez1978@gmail.com
+https://www.
+Creado, Programado y Diseñado por Jerez.
+JJA
+*/ 
